@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer Account — 3promisesThailand</title>
+  <style>
+    :root {
+      --ink: #1c1915;
+      --muted: #5c564c;
+      --paper: #f6f1e8;
+      --card: #fffdf9;
+      --line: #e4d9c8;
+      --deep: #1f3d36;
+      --gold: #a67c45;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 16px/1.55 Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+    }
+    .wrap { width: min(560px, calc(100% - 32px)); margin: 0 auto; }
+    .back, label, input, button, #msg, .note {
+      font-family: system-ui, sans-serif;
+    }
+    .back { color: var(--deep); }
+    .kicker {
+      color: var(--gold);
+      font: 12px system-ui, sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .card {
+      margin-top: 18px;
+      padding: 22px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+    label { display: block; margin-top: 14px; font-size: 14px; }
+    input {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    button {
+      margin: 14px 8px 0 0;
+      padding: 12px 18px;
+      border: 1px solid var(--deep);
+      border-radius: 999px;
+      color: #f8f4ec;
+      background: var(--deep);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button.secondary { color: var(--deep); background: transparent; }
+    #msg, .note { color: var(--muted); font-size: 14px; }
+    #dash-box { display: none; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="back" href="/">← Back to homepage</a>
+    <p class="kicker">3promisesThailand · Test account</p>
+    <h1>Customer account</h1>
+    <p class="note">Test only. Do not enter real personal details or documents. No payment is collected here.</p>
+
+    <section class="card" id="auth-box">
+      <h2>Sign up or log in</h2>
+      <label for="email">Email address</label>
+      <input id="email" type="email" autocomplete="email" required>
+
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" minlength="8" required>
+
+      <button id="signup" type="button">Create test account</button>
+      <button id="signin" class="secondary" type="button">Log in</button>
+      <p id="msg" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card" id="dash-box">
+      <h2>Private dashboard</h2>
+      <p>Signed in as: <strong id="who"></strong></p>
+      <p>This dashboard is intentionally empty for this test. No plan or documents are stored here.</p>
+      <button id="signout" class="secondary" type="button">Log out</button>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://pmjrzfnyxlfqktrlhzws.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_50HjUXiy0fz0F3lZOAcVug_MJmrzpcd";
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const msg = document.getElementById("msg");
+
+    function showSession(session) {
+      const user = session?.user;
+      document.getElementById("auth-box").style.display = user ? "none" : "block";
+      document.getElementById("dash-box").style.display = user ? "block" : "none";
+      document.getElementById("who").textContent = user?.email || "";
+    }
+
+    async function refresh() {
+      const { data, error } = await sb.auth.getSession();
+      if (error) {
+        msg.textContent = error.message;
+        return;
+      }
+      showSession(data.session);
+    }
+
+    sb.auth.onAuthStateChange((_event, session) => showSession(session));
+
+    document.getElementById("signup").onclick = async () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        msg.textContent = "Enter your email and password.";
+        return;
+      }
+      if (password.length < 8) {
+        msg.textContent = "Use a password with at least 8 characters.";
+        return;
+      }
+
+      msg.textContent = "Creating account…";
+      const { data, error } = await sb.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: "https://3promisesthailand.com/account.html"
+        }
+      });
+
+      if (error) {
+        msg.textContent = error.message;
+      } else if (data.session) {
+        msg.textContent = "Account created and signed in.";
+        showSession(data.session);
+      } else {
+        msg.textContent = "Check your email and click the confirmation link, then return here and log in.";
+      }
+    };
+
+    document.getElementById("signin").onclick = async () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        msg.textContent = "Enter your email and password.";
+        return;
+      }
+
+      msg.textContent = "Logging in…";
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        msg.textContent = error.message;
+      } else {
+        msg.textContent = "Logged in.";
+        showSession(data.session);
+      }
+    };
+
+    document.getElementById("signout").onclick = async () => {
+      const { error } = await sb.auth.signOut();
+      if (error) {
+        msg.textContent = error.message;
+        return;
+      }
+      msg.textContent = "You are logged out.";
+      showSession(null);
+    };
+
+    refresh();
+  </script>
+</body>
+</html>
