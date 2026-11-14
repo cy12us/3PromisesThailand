@@ -113,6 +113,35 @@
       margin: 3px 0 0;
       flex: 0 0 auto;
     }
+    .belonging-item {
+      margin: 18px 0 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+    .belonging-photos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .belonging-photo {
+      width: min(190px, 100%);
+      overflow-wrap: anywhere;
+    }
+    .belonging-photo img {
+      display: block;
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .belonging-hint {
+      color: var(--muted);
+      font: 13px/1.45 system-ui, sans-serif;
+    }
   </style>
 </head>
 <body>
@@ -202,6 +231,37 @@
         </form>
       </section>
 
+      <section aria-labelledby="personal-belongings-heading">
+        <h2 id="personal-belongings-heading">Step One — Personal Belongings</h2>
+        <p class="note">Record each item, its designated recipient and handling instructions. For this test, use fictional details and sample images only.</p>
+
+        <form id="personal-belongings-form">
+          <label for="belonging-name">Item name</label>
+          <input id="belonging-name" name="item_name" type="text" required>
+
+          <label for="belonging-description">Item details</label>
+          <textarea id="belonging-description" name="item_description"></textarea>
+
+          <label for="belonging-recipient">Designated recipient</label>
+          <input id="belonging-recipient" name="recipient" type="text">
+
+          <label for="belonging-recipient-contact">Recipient contact information</label>
+          <input id="belonging-recipient-contact" name="recipient_contact" type="text">
+
+          <label for="belonging-handling">Handling instructions</label>
+          <textarea id="belonging-handling" name="handling_instructions"></textarea>
+
+          <label for="belonging-photos">Photos (up to five per item)</label>
+          <input id="belonging-photos" name="photos" type="file" accept="image/*" multiple>
+          <p class="belonging-hint">Each sample image must be 10 MB or smaller. Do not upload personal or sensitive images.</p>
+
+          <button id="save-belonging" type="submit">Save belongings item</button>
+          <p id="personal-belongings-status" class="status" role="status" aria-live="polite">Personal belongings have not been loaded yet.</p>
+        </form>
+
+        <div id="personal-belongings-list" aria-live="polite"></div>
+      </section>
+
       <section aria-label="Profile row test">
         <h3>Profile row test</h3>
         <p id="profile-status" class="status">Profile: not checked yet.</p>
@@ -225,13 +285,16 @@
     const emergencyContactsStatus = document.getElementById("emergency-contacts-status");
     const authorizedRepresentativesStatus = document.getElementById("authorized-representatives-status");
     const documentRecipientsStatus = document.getElementById("document-recipients-status");
+    const personalBelongingsStatus = document.getElementById("personal-belongings-status");
     const personalInfoForm = document.getElementById("personal-info-form");
     const emergencyContactsForm = document.getElementById("emergency-contacts-form");
     const authorizedRepresentativesForm = document.getElementById("authorized-representatives-form");
     const documentRecipientsForm = document.getElementById("document-recipients-form");
+    const personalBelongingsForm = document.getElementById("personal-belongings-form");
     const emergencyContactList = document.getElementById("emergency-contact-list");
     const authorizedRepresentativeList = document.getElementById("authorized-representative-list");
     const documentRecipientList = document.getElementById("document-recipient-list");
+    const personalBelongingsList = document.getElementById("personal-belongings-list");
 
     const personalInfoFields = {
       full_name: "full-name",
@@ -263,8 +326,13 @@
       { key: "other_official_documentation", label: "Other official documentation" }
     ];
 
+    const belongingsBucket = "belongings-test";
+    const maxBelongingPhotos = 5;
+    const maxBelongingPhotoBytes = 10 * 1024 * 1024;
+
     let personalInfoLoadPromise = null;
     let loadedPersonalInfoUserId = null;
+    let personalBelongings = [];
 
     function setFormDisabled(form, disabled) {
       form.querySelectorAll("input, textarea, button").forEach((element) => {
@@ -429,6 +497,83 @@
       renderContactList(documentRecipientList, recipients, documentRecipientOptions);
     }
 
+    function renderPersonalBelongings(items) {
+      personalBelongingsList.replaceChildren();
+
+      if (!items.length) {
+        const message = document.createElement("p");
+        message.className = "note";
+        message.textContent = "No personal belongings saved yet.";
+        personalBelongingsList.appendChild(message);
+        return;
+      }
+
+      for (const item of items) {
+        const card = document.createElement("article");
+        card.className = "belonging-item";
+
+        const heading = document.createElement("h3");
+        heading.textContent = item.item_name || "Belongings item";
+        card.appendChild(heading);
+
+        const details = [
+          ["Item details", item.item_description],
+          ["Designated recipient", item.recipient],
+          ["Recipient contact information", item.recipient_contact],
+          ["Handling instructions", item.handling_instructions]
+        ];
+
+        for (const [labelText, value] of details) {
+          if (!value) continue;
+          const paragraph = document.createElement("p");
+          const label = document.createElement("strong");
+          label.textContent = labelText + ": ";
+          paragraph.append(label, document.createTextNode(value));
+          card.appendChild(paragraph);
+        }
+
+        const photos = Array.isArray(item.photos) ? item.photos : [];
+        if (photos.length) {
+          const photoGroup = document.createElement("div");
+          photoGroup.className = "belonging-photos";
+
+          for (const photo of photos) {
+            const photoCard = document.createElement("div");
+            photoCard.className = "belonging-photo";
+
+            const image = document.createElement("img");
+            image.alt = photo.name || "Belongings test photo";
+            image.loading = "lazy";
+            photoCard.appendChild(image);
+
+            const filename = document.createElement("p");
+            filename.textContent = photo.name || "Sample photo";
+            photoCard.appendChild(filename);
+            photoGroup.appendChild(photoCard);
+
+            sb.storage
+              .from(belongingsBucket)
+              .createSignedUrl(photo.path, 3600)
+              .then(({ data, error }) => {
+                if (error) throw error;
+                image.src = data.signedUrl;
+              })
+              .catch((error) => {
+                image.remove();
+                const unavailable = document.createElement("p");
+                unavailable.textContent = "Photo could not be displayed: " +
+                  (error instanceof Error ? error.message : String(error));
+                photoCard.prepend(unavailable);
+              });
+          }
+
+          card.appendChild(photoGroup);
+        }
+
+        personalBelongingsList.appendChild(card);
+      }
+    }
+
     function clearEmergencyContacts() {
       renderEmergencyContacts([]);
     }
@@ -492,11 +637,14 @@
         clearEmergencyContacts();
         clearAuthorizedRepresentatives();
         clearDocumentRecipients();
+        personalBelongings = [];
+        renderPersonalBelongings(personalBelongings);
         loadedPersonalInfoUserId = null;
         personalInfoStatus.textContent = "Personal information has not been loaded yet.";
         emergencyContactsStatus.textContent = "Emergency contacts have not been loaded yet.";
         authorizedRepresentativesStatus.textContent = "Authorized representatives have not been loaded yet.";
         documentRecipientsStatus.textContent = "Document recipients have not been loaded yet.";
+        personalBelongingsStatus.textContent = "Personal belongings have not been loaded yet.";
       } else {
         const emailField = document.getElementById(personalInfoFields.email);
         if (!emailField.value) emailField.value = user.email || "";
@@ -512,6 +660,7 @@
         emergencyContactsStatus.textContent = message;
         authorizedRepresentativesStatus.textContent = message;
         documentRecipientsStatus.textContent = message;
+        personalBelongingsStatus.textContent = message;
         return;
       }
 
@@ -521,6 +670,7 @@
         emergencyContactsStatus.textContent = "Log in to load emergency contacts.";
         authorizedRepresentativesStatus.textContent = "Log in to load authorized representatives.";
         documentRecipientsStatus.textContent = "Log in to load document recipients.";
+        personalBelongingsStatus.textContent = "Log in to load personal belongings.";
         return;
       }
 
@@ -547,10 +697,12 @@
         setFormDisabled(emergencyContactsForm, true);
         setFormDisabled(authorizedRepresentativesForm, true);
         setFormDisabled(documentRecipientsForm, true);
+        setFormDisabled(personalBelongingsForm, true);
         personalInfoStatus.textContent = "Loading personal information…";
         emergencyContactsStatus.textContent = "Loading emergency contacts…";
         authorizedRepresentativesStatus.textContent = "Loading authorized representatives…";
         documentRecipientsStatus.textContent = "Loading document recipients…";
+        personalBelongingsStatus.textContent = "Loading personal belongings…";
 
         try {
           const { data, error } = await sb
@@ -565,6 +717,7 @@
             emergencyContactsStatus.textContent = message;
             authorizedRepresentativesStatus.textContent = message;
             documentRecipientsStatus.textContent = message;
+            personalBelongingsStatus.textContent = message;
             return;
           }
 
@@ -575,6 +728,7 @@
             emergencyContactsStatus.textContent = message;
             authorizedRepresentativesStatus.textContent = message;
             documentRecipientsStatus.textContent = message;
+            personalBelongingsStatus.textContent = message;
             return;
           }
 
@@ -610,6 +764,13 @@
             : [];
           renderDocumentRecipients(savedDocumentRecipients);
 
+          const savedBelongings = Array.isArray(info.personal_belongings)
+            ? info.personal_belongings.filter((item) =>
+                item && typeof item === "object" && !Array.isArray(item))
+            : [];
+          personalBelongings = savedBelongings;
+          renderPersonalBelongings(personalBelongings);
+
           const emailField = document.getElementById(personalInfoFields.email);
           if (!emailField.value) emailField.value = user.email || "";
 
@@ -626,17 +787,22 @@
           documentRecipientsStatus.textContent = savedDocumentRecipients.length
             ? "Document recipients loaded."
             : "No document recipients saved yet. Add a recipient.";
+          personalBelongingsStatus.textContent = savedBelongings.length
+            ? "Personal belongings loaded."
+            : "No personal belongings saved yet. Add an item.";
         } catch (error) {
           const message = error instanceof Error ? error.message : String(error);
           personalInfoStatus.textContent = "Could not load personal information: " + message;
           emergencyContactsStatus.textContent = "Could not load emergency contacts: " + message;
           authorizedRepresentativesStatus.textContent = "Could not load authorized representatives: " + message;
           documentRecipientsStatus.textContent = "Could not load document recipients: " + message;
+          personalBelongingsStatus.textContent = "Could not load personal belongings: " + message;
         } finally {
           setFormDisabled(personalInfoForm, false);
           setFormDisabled(emergencyContactsForm, false);
           setFormDisabled(authorizedRepresentativesForm, false);
           setFormDisabled(documentRecipientsForm, false);
+          setFormDisabled(personalBelongingsForm, false);
           personalInfoLoadPromise = null;
         }
       })();
@@ -814,6 +980,116 @@
       }
     });
 
+    personalBelongingsForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+      if (sessionError) {
+        personalBelongingsStatus.textContent = "Could not check sign-in: " + sessionError.message;
+        return;
+      }
+
+      const user = sessionData.session?.user;
+      if (!user) {
+        personalBelongingsStatus.textContent = "Log in before saving a belongings item.";
+        return;
+      }
+
+      const itemName = document.getElementById("belonging-name").value.trim();
+      const fileInput = document.getElementById("belonging-photos");
+      const files = Array.from(fileInput.files || []);
+      const saveButton = document.getElementById("save-belonging");
+
+      if (!itemName) {
+        personalBelongingsStatus.textContent = "Enter an item name.";
+        return;
+      }
+      if (files.length > maxBelongingPhotos) {
+        personalBelongingsStatus.textContent = "Choose no more than five photos for this item.";
+        return;
+      }
+      if (files.some((file) => file.size > maxBelongingPhotoBytes)) {
+        personalBelongingsStatus.textContent = "Each photo must be 10 MB or smaller.";
+        return;
+      }
+      if (files.some((file) => !file.type.startsWith("image/"))) {
+        personalBelongingsStatus.textContent = "Select image files only.";
+        return;
+      }
+
+      const itemId = crypto.randomUUID();
+      const uploadedPaths = [];
+      let itemSaved = false;
+      const newItem = {
+        id: itemId,
+        item_name: itemName,
+        item_description: document.getElementById("belonging-description").value.trim(),
+        recipient: document.getElementById("belonging-recipient").value.trim(),
+        recipient_contact: document.getElementById("belonging-recipient-contact").value.trim(),
+        handling_instructions: document.getElementById("belonging-handling").value.trim(),
+        photos: []
+      };
+
+      saveButton.disabled = true;
+      personalBelongingsStatus.textContent = "Uploading sample photos and saving item…";
+
+      try {
+        for (const file of files) {
+          const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+          const path = `${user.id}/${itemId}/${crypto.randomUUID()}-${safeName}`;
+          const { error } = await sb.storage
+            .from(belongingsBucket)
+            .upload(path, file, { upsert: false, contentType: file.type });
+
+          if (error) throw new Error("Photo upload failed: " + error.message);
+
+          uploadedPaths.push(path);
+          newItem.photos.push({
+            path,
+            name: file.name,
+            type: file.type,
+            size: file.size
+          });
+        }
+
+        const latestSession = await sb.auth.getSession();
+        if (latestSession.error) throw latestSession.error;
+        if (latestSession.data.session?.user?.id !== user.id) {
+          throw new Error("The signed-in account changed. Log in again before saving.");
+        }
+
+        const updatedItems = [...personalBelongings, newItem];
+        await mergeAndSavePersonalInfo(user.id, {
+          personal_belongings: updatedItems
+        });
+
+        itemSaved = true;
+        personalBelongings = updatedItems;
+        personalBelongingsForm.reset();
+        personalBelongingsStatus.textContent = "Belongings item saved.";
+        renderPersonalBelongings(personalBelongings);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+
+        if (!itemSaved && uploadedPaths.length) {
+          const { error: cleanupError } = await sb.storage
+            .from(belongingsBucket)
+            .remove(uploadedPaths);
+
+          personalBelongingsStatus.textContent = cleanupError
+            ? "Could not save the item. Temporary uploaded photos could not be removed: " +
+              cleanupError.message
+            : "Could not save the item: " + message;
+        } else {
+          personalBelongingsStatus.textContent = itemSaved
+            ? "The item was saved, but its display could not be refreshed: " + message
+            : "Could not save the item: " + message;
+        }
+      } finally {
+        saveButton.disabled = false;
+      }
+    });
+
     personalInfoForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       personalInfoStatus.textContent = "Saving personal information…";
@@ -918,6 +1194,7 @@
     renderEmergencyContacts([]);
     renderAuthorizedRepresentatives([]);
     renderDocumentRecipients([]);
+    renderPersonalBelongings([]);
     refresh();
   </script>
 </body>
