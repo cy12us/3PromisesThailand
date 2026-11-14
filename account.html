@@ -91,6 +91,28 @@
       margin: 6px 4px 0 0;
       padding: 9px 13px;
     }
+    .authority-options {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .authority-options legend {
+      padding: 0 5px;
+      font: 600 14px system-ui, sans-serif;
+    }
+    .authority-choice {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 10px 0 0;
+      font: 14px/1.45 system-ui, sans-serif;
+    }
+    .authority-choice input {
+      width: auto;
+      margin: 3px 0 0;
+      flex: 0 0 auto;
+    }
   </style>
 </head>
 <body>
@@ -158,6 +180,17 @@
         </form>
       </section>
 
+      <section aria-labelledby="authorized-representatives-heading">
+        <h2 id="authorized-representatives-heading">Step One — Authorized Representatives</h2>
+        <p class="note">Choose who may make decisions, receive information, and communicate with 3promisesThailand, subject to applicable legal authority. These selections record your wishes; they do not themselves grant legal authority.</p>
+        <form id="authorized-representatives-form">
+          <div id="authorized-representative-list"></div>
+          <button id="add-authorized-representative" class="secondary" type="button">Add representative</button>
+          <button type="submit">Save authorized representatives</button>
+          <p id="authorized-representatives-status" class="status" role="status" aria-live="polite">Authorized representatives have not been loaded yet.</p>
+        </form>
+      </section>
+
       <section aria-label="Profile row test">
         <h3>Profile row test</h3>
         <p id="profile-status" class="status">Profile: not checked yet.</p>
@@ -179,9 +212,12 @@
     const profileStatus = document.getElementById("profile-status");
     const personalInfoStatus = document.getElementById("personal-info-status");
     const emergencyContactsStatus = document.getElementById("emergency-contacts-status");
+    const authorizedRepresentativesStatus = document.getElementById("authorized-representatives-status");
     const personalInfoForm = document.getElementById("personal-info-form");
     const emergencyContactsForm = document.getElementById("emergency-contacts-form");
+    const authorizedRepresentativesForm = document.getElementById("authorized-representatives-form");
     const emergencyContactList = document.getElementById("emergency-contact-list");
+    const authorizedRepresentativeList = document.getElementById("authorized-representative-list");
 
     const personalInfoFields = {
       full_name: "full-name",
@@ -193,30 +229,26 @@
       email: "contact-email"
     };
 
-    const emergencyContactFields = [
+    const contactFields = [
       { key: "name", label: "Full name", type: "text", autocomplete: "name" },
       { key: "relationship", label: "Relationship", type: "text" },
       { key: "phone", label: "Phone number", type: "tel", autocomplete: "tel" },
       { key: "email", label: "Email address", type: "email", autocomplete: "email" }
     ];
 
+    const representativePermissions = [
+      { key: "may_make_decisions", label: "May make decisions, subject to applicable legal authority." },
+      { key: "may_receive_information", label: "May receive information." },
+      { key: "may_communicate", label: "May communicate with 3promisesThailand." }
+    ];
+
     let personalInfoLoadPromise = null;
     let loadedPersonalInfoUserId = null;
 
-    function setPersonalInfoFormDisabled(disabled) {
-      personalInfoForm
-        .querySelectorAll("input, textarea, button[type='submit']")
-        .forEach((element) => {
-          element.disabled = disabled;
-        });
-    }
-
-    function setEmergencyContactsFormDisabled(disabled) {
-      emergencyContactsForm
-        .querySelectorAll("input, button")
-        .forEach((element) => {
-          element.disabled = disabled;
-        });
+    function setFormDisabled(form, disabled) {
+      form.querySelectorAll("input, textarea, button").forEach((element) => {
+        element.disabled = disabled;
+      });
     }
 
     function clearPersonalInfo() {
@@ -225,25 +257,30 @@
       }
     }
 
-    function collectEmergencyContacts() {
-      return Array.from(
-        emergencyContactList.querySelectorAll(".contact-card")
-      ).map((card) => {
-        const contact = {};
-        for (const field of emergencyContactFields) {
-          contact[field.key] = card
-            .querySelector(`[data-contact-field="${field.key}"]`)
-            .value.trim();
-        }
-        return contact;
-      }).filter((contact) =>
-        Object.values(contact).some((value) => value !== "")
-      );
+    function collectContactList(container, permissionFields = []) {
+      return Array.from(container.querySelectorAll(".contact-card"))
+        .map((card) => {
+          const contact = {};
+          for (const field of contactFields) {
+            contact[field.key] = card
+              .querySelector(`[data-contact-field="${field.key}"]`)
+              .value.trim();
+          }
+          for (const permission of permissionFields) {
+            contact[permission.key] = card
+              .querySelector(`[data-permission="${permission.key}"]`)
+              .checked;
+          }
+          return contact;
+        })
+        .filter((contact) => Object.entries(contact).some(([key, value]) => {
+          if (permissionFields.some((permission) => permission.key === key)) return value;
+          return value !== "";
+        }));
     }
 
-    function renderEmergencyContacts(contacts) {
-      emergencyContactList.replaceChildren();
-
+    function renderContactList(container, contacts, options) {
+      container.replaceChildren();
       const contactsToRender = contacts.length ? contacts : [{}];
 
       contactsToRender.forEach((contact, index) => {
@@ -251,26 +288,43 @@
         fieldset.className = "contact-card";
 
         const legend = document.createElement("legend");
-        legend.textContent = index === 0
-          ? "Priority 1 — contacted first"
-          : `Priority ${index + 1} — additional contact`;
+        legend.textContent = options.legend(index);
         fieldset.appendChild(legend);
 
-        for (const field of emergencyContactFields) {
+        for (const field of contactFields) {
           const label = document.createElement("label");
           const input = document.createElement("input");
-          const inputId = `emergency-contact-${index}-${field.key}`;
+          const inputId = `${options.idPrefix}-${index}-${field.key}`;
 
           label.htmlFor = inputId;
           label.textContent = field.label;
-
           input.id = inputId;
           input.type = field.type;
           input.dataset.contactField = field.key;
           if (field.autocomplete) input.autocomplete = field.autocomplete;
           input.value = contact[field.key] == null ? "" : String(contact[field.key]);
-
           fieldset.append(label, input);
+        }
+
+        if (options.permissions.length) {
+          const permissionGroup = document.createElement("fieldset");
+          permissionGroup.className = "authority-options";
+
+          const permissionLegend = document.createElement("legend");
+          permissionLegend.textContent = "Permissions you wish to request";
+          permissionGroup.appendChild(permissionLegend);
+
+          for (const permission of options.permissions) {
+            const label = document.createElement("label");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.dataset.permission = permission.key;
+            checkbox.checked = Boolean(contact[permission.key]);
+            label.className = "authority-choice";
+            label.append(checkbox, document.createTextNode(permission.label));
+            permissionGroup.appendChild(label);
+          }
+          fieldset.appendChild(permissionGroup);
         }
 
         const actions = document.createElement("div");
@@ -282,11 +336,10 @@
         moveUp.textContent = "Move up";
         moveUp.disabled = index === 0;
         moveUp.addEventListener("click", () => {
-          const currentContacts = collectEmergencyContacts();
-          if (index < 1 || index >= currentContacts.length) return;
-          [currentContacts[index - 1], currentContacts[index]] =
-            [currentContacts[index], currentContacts[index - 1]];
-          renderEmergencyContacts(currentContacts);
+          const current = collectContactList(container, options.permissions);
+          if (index < 1 || index >= current.length) return;
+          [current[index - 1], current[index]] = [current[index], current[index - 1]];
+          renderContactList(container, current, options);
         });
 
         const moveDown = document.createElement("button");
@@ -295,31 +348,64 @@
         moveDown.textContent = "Move down";
         moveDown.disabled = index === contactsToRender.length - 1;
         moveDown.addEventListener("click", () => {
-          const currentContacts = collectEmergencyContacts();
-          if (index < 0 || index >= currentContacts.length - 1) return;
-          [currentContacts[index], currentContacts[index + 1]] =
-            [currentContacts[index + 1], currentContacts[index]];
-          renderEmergencyContacts(currentContacts);
+          const current = collectContactList(container, options.permissions);
+          if (index < 0 || index >= current.length - 1) return;
+          [current[index], current[index + 1]] = [current[index + 1], current[index]];
+          renderContactList(container, current, options);
         });
 
         const remove = document.createElement("button");
         remove.type = "button";
         remove.className = "secondary";
-        remove.textContent = "Remove contact";
+        remove.textContent = "Remove";
         remove.addEventListener("click", () => {
-          const currentContacts = collectEmergencyContacts();
-          currentContacts.splice(index, 1);
-          renderEmergencyContacts(currentContacts);
+          const current = collectContactList(container, options.permissions);
+          current.splice(index, 1);
+          renderContactList(container, current, options);
         });
 
         actions.append(moveUp, moveDown, remove);
         fieldset.appendChild(actions);
-        emergencyContactList.appendChild(fieldset);
+        container.appendChild(fieldset);
       });
+    }
+
+    const emergencyContactOptions = {
+      idPrefix: "emergency-contact",
+      legend: (index) => index === 0
+        ? "Priority 1 — contacted first"
+        : `Priority ${index + 1} — additional contact`,
+      permissions: []
+    };
+
+    const representativeOptions = {
+      idPrefix: "authorized-representative",
+      legend: (index) => `Representative ${index + 1}`,
+      permissions: representativePermissions
+    };
+
+    function renderEmergencyContacts(contacts) {
+      renderContactList(emergencyContactList, contacts, emergencyContactOptions);
+    }
+
+    function renderAuthorizedRepresentatives(representatives) {
+      renderContactList(authorizedRepresentativeList, representatives, representativeOptions);
     }
 
     function clearEmergencyContacts() {
       renderEmergencyContacts([]);
+    }
+
+    function clearAuthorizedRepresentatives() {
+      renderAuthorizedRepresentatives([]);
+    }
+
+    function collectEmergencyContacts() {
+      return collectContactList(emergencyContactList);
+    }
+
+    function collectAuthorizedRepresentatives() {
+      return collectContactList(authorizedRepresentativeList, representativePermissions);
     }
 
     async function mergeAndSavePersonalInfo(userId, updates) {
@@ -343,10 +429,7 @@
       const { error: saveError } = await sb
         .from("profiles")
         .upsert(
-          {
-            id: userId,
-            personal_info: { ...baseInfo, ...updates }
-          },
+          { id: userId, personal_info: { ...baseInfo, ...updates } },
           { onConflict: "id" }
         );
 
@@ -362,9 +445,11 @@
       if (!user) {
         clearPersonalInfo();
         clearEmergencyContacts();
+        clearAuthorizedRepresentatives();
         loadedPersonalInfoUserId = null;
         personalInfoStatus.textContent = "Personal information has not been loaded yet.";
         emergencyContactsStatus.textContent = "Emergency contacts have not been loaded yet.";
+        authorizedRepresentativesStatus.textContent = "Authorized representatives have not been loaded yet.";
       } else {
         const emailField = document.getElementById(personalInfoFields.email);
         if (!emailField.value) emailField.value = user.email || "";
@@ -375,7 +460,10 @@
       const { data: initialSessionData, error: initialSessionError } = await sb.auth.getSession();
 
       if (initialSessionError) {
-        personalInfoStatus.textContent = "Could not check sign-in: " + initialSessionError.message;
+        const message = "Could not check sign-in: " + initialSessionError.message;
+        personalInfoStatus.textContent = message;
+        emergencyContactsStatus.textContent = message;
+        authorizedRepresentativesStatus.textContent = message;
         return;
       }
 
@@ -383,6 +471,7 @@
       if (!user) {
         personalInfoStatus.textContent = "Log in to load personal information.";
         emergencyContactsStatus.textContent = "Log in to load emergency contacts.";
+        authorizedRepresentativesStatus.textContent = "Log in to load authorized representatives.";
         return;
       }
 
@@ -405,10 +494,12 @@
       }
 
       personalInfoLoadPromise = (async () => {
-        setPersonalInfoFormDisabled(true);
-        setEmergencyContactsFormDisabled(true);
+        setFormDisabled(personalInfoForm, true);
+        setFormDisabled(emergencyContactsForm, true);
+        setFormDisabled(authorizedRepresentativesForm, true);
         personalInfoStatus.textContent = "Loading personal information…";
         emergencyContactsStatus.textContent = "Loading emergency contacts…";
+        authorizedRepresentativesStatus.textContent = "Loading authorized representatives…";
 
         try {
           const { data, error } = await sb
@@ -418,43 +509,47 @@
             .maybeSingle();
 
           if (error) {
-            personalInfoStatus.textContent = "Could not load personal information: " + error.message;
-            emergencyContactsStatus.textContent = "Could not load emergency contacts: " + error.message;
+            const message = "Could not load saved profile: " + error.message;
+            personalInfoStatus.textContent = message;
+            emergencyContactsStatus.textContent = message;
+            authorizedRepresentativesStatus.textContent = message;
             return;
           }
 
           const { data: currentSessionData, error: currentSessionError } = await sb.auth.getSession();
           if (currentSessionError) {
-            personalInfoStatus.textContent = "Could not check sign-in: " + currentSessionError.message;
-            emergencyContactsStatus.textContent = "Could not check sign-in: " + currentSessionError.message;
+            const message = "Could not check sign-in: " + currentSessionError.message;
+            personalInfoStatus.textContent = message;
+            emergencyContactsStatus.textContent = message;
+            authorizedRepresentativesStatus.textContent = message;
             return;
           }
 
           if (currentSessionData.session?.user?.id !== user.id) return;
 
           const savedInfo = data?.personal_info;
-          if (savedInfo && typeof savedInfo === "object" && !Array.isArray(savedInfo)) {
-            for (const [fieldName, fieldId] of Object.entries(personalInfoFields)) {
-              const value = savedInfo[fieldName];
-              document.getElementById(fieldId).value = value == null ? "" : String(value);
-            }
-          } else {
-            clearPersonalInfo();
+          const info = savedInfo &&
+            typeof savedInfo === "object" &&
+            !Array.isArray(savedInfo)
+            ? savedInfo
+            : {};
+
+          for (const [fieldName, fieldId] of Object.entries(personalInfoFields)) {
+            const value = info[fieldName];
+            document.getElementById(fieldId).value = value == null ? "" : String(value);
           }
 
-          const savedContacts = savedInfo &&
-            Array.isArray(savedInfo.emergency_contacts)
-            ? savedInfo.emergency_contacts
-                .filter((contact) => contact && typeof contact === "object" && !Array.isArray(contact))
-                .map((contact) => ({
-                  name: contact.name == null ? "" : String(contact.name),
-                  relationship: contact.relationship == null ? "" : String(contact.relationship),
-                  phone: contact.phone == null ? "" : String(contact.phone),
-                  email: contact.email == null ? "" : String(contact.email)
-                }))
+          const savedEmergencyContacts = Array.isArray(info.emergency_contacts)
+            ? info.emergency_contacts.filter((contact) =>
+                contact && typeof contact === "object" && !Array.isArray(contact))
             : [];
+          renderEmergencyContacts(savedEmergencyContacts);
 
-          renderEmergencyContacts(savedContacts);
+          const savedRepresentatives = Array.isArray(info.authorized_representatives)
+            ? info.authorized_representatives.filter((representative) =>
+                representative && typeof representative === "object" && !Array.isArray(representative))
+            : [];
+          renderAuthorizedRepresentatives(savedRepresentatives);
 
           const emailField = document.getElementById(personalInfoFields.email);
           if (!emailField.value) emailField.value = user.email || "";
@@ -463,16 +558,21 @@
           personalInfoStatus.textContent = data
             ? "Personal information loaded."
             : "No personal information saved yet. Enter fictional test data and save it.";
-          emergencyContactsStatus.textContent = savedContacts.length
+          emergencyContactsStatus.textContent = savedEmergencyContacts.length
             ? "Emergency contacts loaded."
             : "No emergency contacts saved yet. Add the first contact.";
+          authorizedRepresentativesStatus.textContent = savedRepresentatives.length
+            ? "Authorized representatives loaded."
+            : "No authorized representatives saved yet. Add a representative.";
         } catch (error) {
           const message = error instanceof Error ? error.message : String(error);
           personalInfoStatus.textContent = "Could not load personal information: " + message;
           emergencyContactsStatus.textContent = "Could not load emergency contacts: " + message;
+          authorizedRepresentativesStatus.textContent = "Could not load authorized representatives: " + message;
         } finally {
-          setPersonalInfoFormDisabled(false);
-          setEmergencyContactsFormDisabled(false);
+          setFormDisabled(personalInfoForm, false);
+          setFormDisabled(emergencyContactsForm, false);
+          setFormDisabled(authorizedRepresentativesForm, false);
           personalInfoLoadPromise = null;
         }
       })();
@@ -566,15 +666,50 @@
           return;
         }
 
-        const emergencyContacts = collectEmergencyContacts();
         await mergeAndSavePersonalInfo(user.id, {
-          emergency_contacts: emergencyContacts
+          emergency_contacts: collectEmergencyContacts()
         });
 
         loadedPersonalInfoUserId = user.id;
         emergencyContactsStatus.textContent = "Emergency contacts saved.";
       } catch (error) {
         emergencyContactsStatus.textContent = "Could not save emergency contacts: " +
+          (error instanceof Error ? error.message : String(error));
+      }
+    });
+
+    document.getElementById("add-authorized-representative").addEventListener("click", () => {
+      const representatives = collectAuthorizedRepresentatives();
+      representatives.push({});
+      renderAuthorizedRepresentatives(representatives);
+    });
+
+    authorizedRepresentativesForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      authorizedRepresentativesStatus.textContent = "Saving authorized representatives…";
+
+      try {
+        const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+
+        if (sessionError) {
+          authorizedRepresentativesStatus.textContent = "Could not check sign-in: " + sessionError.message;
+          return;
+        }
+
+        const user = sessionData.session?.user;
+        if (!user) {
+          authorizedRepresentativesStatus.textContent = "Log in before saving authorized representatives.";
+          return;
+        }
+
+        await mergeAndSavePersonalInfo(user.id, {
+          authorized_representatives: collectAuthorizedRepresentatives()
+        });
+
+        loadedPersonalInfoUserId = user.id;
+        authorizedRepresentativesStatus.textContent = "Authorized representatives saved.";
+      } catch (error) {
+        authorizedRepresentativesStatus.textContent = "Could not save authorized representatives: " +
           (error instanceof Error ? error.message : String(error));
       }
     });
@@ -680,6 +815,8 @@
       showSession(null);
     };
 
+    renderEmergencyContacts([]);
+    renderAuthorizedRepresentatives([]);
     refresh();
   </script>
 </body>
