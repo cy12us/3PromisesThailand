@@ -1,0 +1,924 @@
+<!-- account.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer Account — 3promisesThailand</title>
+  <style>
+    :root {
+      --ink: #1c1915;
+      --muted: #5c564c;
+      --paper: #f6f1e8;
+      --card: #fffdf9;
+      --line: #e4d9c8;
+      --deep: #1f3d36;
+      --gold: #a67c45;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 16px/1.55 Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+    }
+    .wrap { width: min(560px, calc(100% - 32px)); margin: 0 auto; }
+    .back, label, input, textarea, button, #msg, .note, .status {
+      font-family: system-ui, sans-serif;
+    }
+    .back { color: var(--deep); }
+    .kicker {
+      color: var(--gold);
+      font: 12px system-ui, sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .card {
+      margin-top: 18px;
+      padding: 22px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+    label { display: block; margin-top: 14px; font-size: 14px; }
+    input, textarea {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font: 16px system-ui, sans-serif;
+      background: #fff;
+    }
+    textarea { min-height: 88px; resize: vertical; }
+    button {
+      margin: 14px 8px 0 0;
+      padding: 12px 18px;
+      border: 1px solid var(--deep);
+      border-radius: 999px;
+      color: #f8f4ec;
+      background: var(--deep);
+      font: 14px system-ui, sans-serif;
+      cursor: pointer;
+    }
+    button.secondary { color: var(--deep); background: transparent; }
+    button:disabled, input:disabled, textarea:disabled {
+      cursor: wait;
+      opacity: 0.7;
+    }
+    #msg, .note, .status { color: var(--muted); font-size: 14px; }
+    #dash-box { display: none; }
+    .contact-card {
+      margin: 18px 0 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+    .contact-card legend {
+      padding: 0 6px;
+      color: var(--deep);
+      font: 600 14px system-ui, sans-serif;
+    }
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .contact-actions button {
+      margin: 6px 4px 0 0;
+      padding: 9px 13px;
+    }
+    .authority-options {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .authority-options legend {
+      padding: 0 5px;
+      font: 600 14px system-ui, sans-serif;
+    }
+    .authority-choice {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 10px 0 0;
+      font: 14px/1.45 system-ui, sans-serif;
+    }
+    .authority-choice input {
+      width: auto;
+      margin: 3px 0 0;
+      flex: 0 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="back" href="/">← Back to homepage</a>
+    <p class="kicker">3promisesThailand · Test account</p>
+    <h1>Customer account</h1>
+    <p class="note">Test only. Use fictional information. Do not enter real personal details or documents. No payment is collected here.</p>
+
+    <section class="card" id="auth-box">
+      <h2>Sign up or log in</h2>
+      <label for="email">Email address</label>
+      <input id="email" type="email" autocomplete="email" required>
+
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" minlength="8" required>
+
+      <button id="signup" type="button">Create test account</button>
+      <button id="signin" class="secondary" type="button">Log in</button>
+      <p id="msg" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card" id="dash-box">
+      <h2>Private dashboard</h2>
+      <p>Signed in as: <strong id="who"></strong></p>
+      <p class="note">This test dashboard stores only the fictional information you enter below.</p>
+
+      <section aria-labelledby="personal-info-heading">
+        <h2 id="personal-info-heading">Step One — Personal Information</h2>
+        <form id="personal-info-form">
+          <label for="full-name">Full name</label>
+          <input id="full-name" name="full_name" type="text" autocomplete="name">
+
+          <label for="nationality">Nationality</label>
+          <input id="nationality" name="nationality" type="text" autocomplete="country-name">
+
+          <label for="passport-details">Passport details</label>
+          <textarea id="passport-details" name="passport_details"></textarea>
+
+          <label for="date-of-birth">Date of birth</label>
+          <input id="date-of-birth" name="date_of_birth" type="date" autocomplete="bday">
+
+          <label for="thailand-address">Thailand address</label>
+          <textarea id="thailand-address" name="thailand_address" autocomplete="street-address"></textarea>
+
+          <label for="phone-number">Phone number</label>
+          <input id="phone-number" name="phone_number" type="tel" autocomplete="tel">
+
+          <label for="contact-email">Email address</label>
+          <input id="contact-email" name="email" type="email" autocomplete="email">
+
+          <button type="submit">Save personal information</button>
+          <p id="personal-info-status" class="status" role="status" aria-live="polite">Personal information has not been loaded yet.</p>
+        </form>
+      </section>
+
+      <section aria-labelledby="emergency-contacts-heading">
+        <h2 id="emergency-contacts-heading">Step One — Emergency Contacts</h2>
+        <p class="note">Choose who should be contacted first when something happens, followed by additional contacts. The order below sets the contact priority.</p>
+        <form id="emergency-contacts-form">
+          <div id="emergency-contact-list"></div>
+          <button id="add-emergency-contact" class="secondary" type="button">Add additional contact</button>
+          <button type="submit">Save emergency contacts</button>
+          <p id="emergency-contacts-status" class="status" role="status" aria-live="polite">Emergency contacts have not been loaded yet.</p>
+        </form>
+      </section>
+
+      <section aria-labelledby="authorized-representatives-heading">
+        <h2 id="authorized-representatives-heading">Step One — Authorized Representatives</h2>
+        <p class="note">Choose who may make decisions, receive information, and communicate with 3promisesThailand, subject to applicable legal authority. These selections record your wishes; they do not themselves grant legal authority.</p>
+        <form id="authorized-representatives-form">
+          <div id="authorized-representative-list"></div>
+          <button id="add-authorized-representative" class="secondary" type="button">Add representative</button>
+          <button type="submit">Save authorized representatives</button>
+          <p id="authorized-representatives-status" class="status" role="status" aria-live="polite">Authorized representatives have not been loaded yet.</p>
+        </form>
+      </section>
+
+      <section aria-labelledby="document-recipients-heading">
+        <h2 id="document-recipients-heading">Step One — Document Recipients</h2>
+        <p class="note">Choose who should receive death certificates, available hospital and police reports, and other official documentation.</p>
+        <form id="document-recipients-form">
+          <div id="document-recipient-list"></div>
+          <button id="add-document-recipient" class="secondary" type="button">Add recipient</button>
+          <button type="submit">Save document recipients</button>
+          <p id="document-recipients-status" class="status" role="status" aria-live="polite">Document recipients have not been loaded yet.</p>
+        </form>
+      </section>
+
+      <section aria-label="Profile row test">
+        <h3>Profile row test</h3>
+        <p id="profile-status" class="status">Profile: not checked yet.</p>
+        <button id="create-profile" type="button">Create my profile row</button>
+        <button id="load-profile" class="secondary" type="button">Load my profile row</button>
+      </section>
+
+      <button id="signout" class="secondary" type="button">Log out</button>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://igiotdsfolmftkexbwmx.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_MTZ0EdQ7i1Hrx7sefVdRnQ_CPmjnJOY";
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const msg = document.getElementById("msg");
+    const profileStatus = document.getElementById("profile-status");
+    const personalInfoStatus = document.getElementById("personal-info-status");
+    const emergencyContactsStatus = document.getElementById("emergency-contacts-status");
+    const authorizedRepresentativesStatus = document.getElementById("authorized-representatives-status");
+    const documentRecipientsStatus = document.getElementById("document-recipients-status");
+    const personalInfoForm = document.getElementById("personal-info-form");
+    const emergencyContactsForm = document.getElementById("emergency-contacts-form");
+    const authorizedRepresentativesForm = document.getElementById("authorized-representatives-form");
+    const documentRecipientsForm = document.getElementById("document-recipients-form");
+    const emergencyContactList = document.getElementById("emergency-contact-list");
+    const authorizedRepresentativeList = document.getElementById("authorized-representative-list");
+    const documentRecipientList = document.getElementById("document-recipient-list");
+
+    const personalInfoFields = {
+      full_name: "full-name",
+      nationality: "nationality",
+      passport_details: "passport-details",
+      date_of_birth: "date-of-birth",
+      thailand_address: "thailand-address",
+      phone_number: "phone-number",
+      email: "contact-email"
+    };
+
+    const contactFields = [
+      { key: "name", label: "Full name", type: "text", autocomplete: "name" },
+      { key: "relationship", label: "Relationship", type: "text" },
+      { key: "phone", label: "Phone number", type: "tel", autocomplete: "tel" },
+      { key: "email", label: "Email address", type: "email", autocomplete: "email" }
+    ];
+
+    const representativePermissions = [
+      { key: "may_make_decisions", label: "May make decisions, subject to applicable legal authority." },
+      { key: "may_receive_information", label: "May receive information." },
+      { key: "may_communicate", label: "May communicate with 3promisesThailand." }
+    ];
+
+    const documentTypes = [
+      { key: "death_certificates", label: "Death certificates" },
+      { key: "hospital_reports", label: "Available hospital reports" },
+      { key: "police_reports", label: "Available police reports" },
+      { key: "other_official_documentation", label: "Other official documentation" }
+    ];
+
+    let personalInfoLoadPromise = null;
+    let loadedPersonalInfoUserId = null;
+
+    function setFormDisabled(form, disabled) {
+      form.querySelectorAll("input, textarea, button").forEach((element) => {
+        element.disabled = disabled;
+      });
+    }
+
+    function clearPersonalInfo() {
+      for (const fieldId of Object.values(personalInfoFields)) {
+        document.getElementById(fieldId).value = "";
+      }
+    }
+
+    function collectContactList(container, checkboxFields = []) {
+      return Array.from(container.querySelectorAll(".contact-card"))
+        .map((card) => {
+          const contact = {};
+          for (const field of contactFields) {
+            contact[field.key] = card
+              .querySelector(`[data-contact-field="${field.key}"]`)
+              .value.trim();
+          }
+          for (const checkboxField of checkboxFields) {
+            contact[checkboxField.key] = card
+              .querySelector(`[data-checkbox-field="${checkboxField.key}"]`)
+              .checked;
+          }
+          return contact;
+        })
+        .filter((contact) => Object.entries(contact).some(([key, value]) => {
+          if (checkboxFields.some((checkboxField) => checkboxField.key === key)) return value;
+          return value !== "";
+        }));
+    }
+
+    function renderContactList(container, contacts, options) {
+      container.replaceChildren();
+      const contactsToRender = contacts.length ? contacts : [{}];
+
+      contactsToRender.forEach((contact, index) => {
+        const fieldset = document.createElement("fieldset");
+        fieldset.className = "contact-card";
+
+        const legend = document.createElement("legend");
+        legend.textContent = options.legend(index);
+        fieldset.appendChild(legend);
+
+        for (const field of contactFields) {
+          const label = document.createElement("label");
+          const input = document.createElement("input");
+          const inputId = `${options.idPrefix}-${index}-${field.key}`;
+
+          label.htmlFor = inputId;
+          label.textContent = field.label;
+          input.id = inputId;
+          input.type = field.type;
+          input.dataset.contactField = field.key;
+          if (field.autocomplete) input.autocomplete = field.autocomplete;
+          input.value = contact[field.key] == null ? "" : String(contact[field.key]);
+          fieldset.append(label, input);
+        }
+
+        if (options.checkboxFields.length) {
+          const checkboxGroup = document.createElement("fieldset");
+          checkboxGroup.className = "authority-options";
+
+          const checkboxLegend = document.createElement("legend");
+          checkboxLegend.textContent = options.checkboxLegend;
+          checkboxGroup.appendChild(checkboxLegend);
+
+          for (const checkboxField of options.checkboxFields) {
+            const label = document.createElement("label");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.dataset.checkboxField = checkboxField.key;
+            checkbox.checked = Boolean(contact[checkboxField.key]);
+            label.className = "authority-choice";
+            label.append(checkbox, document.createTextNode(checkboxField.label));
+            checkboxGroup.appendChild(label);
+          }
+          fieldset.appendChild(checkboxGroup);
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "contact-actions";
+
+        const moveUp = document.createElement("button");
+        moveUp.type = "button";
+        moveUp.className = "secondary";
+        moveUp.textContent = "Move up";
+        moveUp.disabled = index === 0;
+        moveUp.addEventListener("click", () => {
+          const current = collectContactList(container, options.checkboxFields);
+          if (index < 1 || index >= current.length) return;
+          [current[index - 1], current[index]] = [current[index], current[index - 1]];
+          renderContactList(container, current, options);
+        });
+
+        const moveDown = document.createElement("button");
+        moveDown.type = "button";
+        moveDown.className = "secondary";
+        moveDown.textContent = "Move down";
+        moveDown.disabled = index === contactsToRender.length - 1;
+        moveDown.addEventListener("click", () => {
+          const current = collectContactList(container, options.checkboxFields);
+          if (index < 0 || index >= current.length - 1) return;
+          [current[index], current[index + 1]] = [current[index + 1], current[index]];
+          renderContactList(container, current, options);
+        });
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "secondary";
+        remove.textContent = options.removeLabel;
+        remove.addEventListener("click", () => {
+          const current = collectContactList(container, options.checkboxFields);
+          current.splice(index, 1);
+          renderContactList(container, current, options);
+        });
+
+        actions.append(moveUp, moveDown, remove);
+        fieldset.appendChild(actions);
+        container.appendChild(fieldset);
+      });
+    }
+
+    const emergencyContactOptions = {
+      idPrefix: "emergency-contact",
+      legend: (index) => index === 0
+        ? "Priority 1 — contacted first"
+        : `Priority ${index + 1} — additional contact`,
+      checkboxFields: [],
+      checkboxLegend: "",
+      removeLabel: "Remove contact"
+    };
+
+    const representativeOptions = {
+      idPrefix: "authorized-representative",
+      legend: (index) => `Representative ${index + 1}`,
+      checkboxFields: representativePermissions,
+      checkboxLegend: "Permissions you wish to request",
+      removeLabel: "Remove representative"
+    };
+
+    const documentRecipientOptions = {
+      idPrefix: "document-recipient",
+      legend: (index) => `Recipient ${index + 1}`,
+      checkboxFields: documentTypes,
+      checkboxLegend: "Documents this person should receive",
+      removeLabel: "Remove recipient"
+    };
+
+    function renderEmergencyContacts(contacts) {
+      renderContactList(emergencyContactList, contacts, emergencyContactOptions);
+    }
+
+    function renderAuthorizedRepresentatives(representatives) {
+      renderContactList(authorizedRepresentativeList, representatives, representativeOptions);
+    }
+
+    function renderDocumentRecipients(recipients) {
+      renderContactList(documentRecipientList, recipients, documentRecipientOptions);
+    }
+
+    function clearEmergencyContacts() {
+      renderEmergencyContacts([]);
+    }
+
+    function clearAuthorizedRepresentatives() {
+      renderAuthorizedRepresentatives([]);
+    }
+
+    function clearDocumentRecipients() {
+      renderDocumentRecipients([]);
+    }
+
+    function collectEmergencyContacts() {
+      return collectContactList(emergencyContactList);
+    }
+
+    function collectAuthorizedRepresentatives() {
+      return collectContactList(authorizedRepresentativeList, representativePermissions);
+    }
+
+    function collectDocumentRecipients() {
+      return collectContactList(documentRecipientList, documentTypes);
+    }
+
+    async function mergeAndSavePersonalInfo(userId, updates) {
+      const { data: row, error: readError } = await sb
+        .from("profiles")
+        .select("personal_info")
+        .eq("id", userId)
+        .maybeSingle();
+
+      if (readError) {
+        throw new Error("Could not read the saved profile: " + readError.message);
+      }
+
+      const existingInfo = row?.personal_info;
+      const baseInfo = existingInfo &&
+        typeof existingInfo === "object" &&
+        !Array.isArray(existingInfo)
+        ? existingInfo
+        : {};
+
+      const { error: saveError } = await sb
+        .from("profiles")
+        .upsert(
+          { id: userId, personal_info: { ...baseInfo, ...updates } },
+          { onConflict: "id" }
+        );
+
+      if (saveError) throw new Error(saveError.message);
+    }
+
+    function showSession(session) {
+      const user = session?.user;
+      document.getElementById("auth-box").style.display = user ? "none" : "block";
+      document.getElementById("dash-box").style.display = user ? "block" : "none";
+      document.getElementById("who").textContent = user?.email || "";
+
+      if (!user) {
+        clearPersonalInfo();
+        clearEmergencyContacts();
+        clearAuthorizedRepresentatives();
+        clearDocumentRecipients();
+        loadedPersonalInfoUserId = null;
+        personalInfoStatus.textContent = "Personal information has not been loaded yet.";
+        emergencyContactsStatus.textContent = "Emergency contacts have not been loaded yet.";
+        authorizedRepresentativesStatus.textContent = "Authorized representatives have not been loaded yet.";
+        documentRecipientsStatus.textContent = "Document recipients have not been loaded yet.";
+      } else {
+        const emailField = document.getElementById(personalInfoFields.email);
+        if (!emailField.value) emailField.value = user.email || "";
+      }
+    }
+
+    async function loadPersonalInfo() {
+      const { data: initialSessionData, error: initialSessionError } = await sb.auth.getSession();
+
+      if (initialSessionError) {
+        const message = "Could not check sign-in: " + initialSessionError.message;
+        personalInfoStatus.textContent = message;
+        emergencyContactsStatus.textContent = message;
+        authorizedRepresentativesStatus.textContent = message;
+        documentRecipientsStatus.textContent = message;
+        return;
+      }
+
+      const user = initialSessionData.session?.user;
+      if (!user) {
+        personalInfoStatus.textContent = "Log in to load personal information.";
+        emergencyContactsStatus.textContent = "Log in to load emergency contacts.";
+        authorizedRepresentativesStatus.textContent = "Log in to load authorized representatives.";
+        documentRecipientsStatus.textContent = "Log in to load document recipients.";
+        return;
+      }
+
+      if (loadedPersonalInfoUserId === user.id) return;
+
+      if (personalInfoLoadPromise) {
+        await personalInfoLoadPromise;
+
+        const { data: latestSessionData, error: latestSessionError } = await sb.auth.getSession();
+        if (latestSessionError) {
+          personalInfoStatus.textContent = "Could not check sign-in: " + latestSessionError.message;
+          return;
+        }
+
+        const latestUser = latestSessionData.session?.user;
+        if (latestUser?.id && loadedPersonalInfoUserId !== latestUser.id) {
+          return loadPersonalInfo();
+        }
+        return;
+      }
+
+      personalInfoLoadPromise = (async () => {
+        setFormDisabled(personalInfoForm, true);
+        setFormDisabled(emergencyContactsForm, true);
+        setFormDisabled(authorizedRepresentativesForm, true);
+        setFormDisabled(documentRecipientsForm, true);
+        personalInfoStatus.textContent = "Loading personal information…";
+        emergencyContactsStatus.textContent = "Loading emergency contacts…";
+        authorizedRepresentativesStatus.textContent = "Loading authorized representatives…";
+        documentRecipientsStatus.textContent = "Loading document recipients…";
+
+        try {
+          const { data, error } = await sb
+            .from("profiles")
+            .select("personal_info")
+            .eq("id", user.id)
+            .maybeSingle();
+
+          if (error) {
+            const message = "Could not load saved profile: " + error.message;
+            personalInfoStatus.textContent = message;
+            emergencyContactsStatus.textContent = message;
+            authorizedRepresentativesStatus.textContent = message;
+            documentRecipientsStatus.textContent = message;
+            return;
+          }
+
+          const { data: currentSessionData, error: currentSessionError } = await sb.auth.getSession();
+          if (currentSessionError) {
+            const message = "Could not check sign-in: " + currentSessionError.message;
+            personalInfoStatus.textContent = message;
+            emergencyContactsStatus.textContent = message;
+            authorizedRepresentativesStatus.textContent = message;
+            documentRecipientsStatus.textContent = message;
+            return;
+          }
+
+          if (currentSessionData.session?.user?.id !== user.id) return;
+
+          const savedInfo = data?.personal_info;
+          const info = savedInfo &&
+            typeof savedInfo === "object" &&
+            !Array.isArray(savedInfo)
+            ? savedInfo
+            : {};
+
+          for (const [fieldName, fieldId] of Object.entries(personalInfoFields)) {
+            const value = info[fieldName];
+            document.getElementById(fieldId).value = value == null ? "" : String(value);
+          }
+
+          const savedEmergencyContacts = Array.isArray(info.emergency_contacts)
+            ? info.emergency_contacts.filter((contact) =>
+                contact && typeof contact === "object" && !Array.isArray(contact))
+            : [];
+          renderEmergencyContacts(savedEmergencyContacts);
+
+          const savedRepresentatives = Array.isArray(info.authorized_representatives)
+            ? info.authorized_representatives.filter((representative) =>
+                representative && typeof representative === "object" && !Array.isArray(representative))
+            : [];
+          renderAuthorizedRepresentatives(savedRepresentatives);
+
+          const savedDocumentRecipients = Array.isArray(info.document_recipients)
+            ? info.document_recipients.filter((recipient) =>
+                recipient && typeof recipient === "object" && !Array.isArray(recipient))
+            : [];
+          renderDocumentRecipients(savedDocumentRecipients);
+
+          const emailField = document.getElementById(personalInfoFields.email);
+          if (!emailField.value) emailField.value = user.email || "";
+
+          loadedPersonalInfoUserId = user.id;
+          personalInfoStatus.textContent = data
+            ? "Personal information loaded."
+            : "No personal information saved yet. Enter fictional test data and save it.";
+          emergencyContactsStatus.textContent = savedEmergencyContacts.length
+            ? "Emergency contacts loaded."
+            : "No emergency contacts saved yet. Add the first contact.";
+          authorizedRepresentativesStatus.textContent = savedRepresentatives.length
+            ? "Authorized representatives loaded."
+            : "No authorized representatives saved yet. Add a representative.";
+          documentRecipientsStatus.textContent = savedDocumentRecipients.length
+            ? "Document recipients loaded."
+            : "No document recipients saved yet. Add a recipient.";
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          personalInfoStatus.textContent = "Could not load personal information: " + message;
+          emergencyContactsStatus.textContent = "Could not load emergency contacts: " + message;
+          authorizedRepresentativesStatus.textContent = "Could not load authorized representatives: " + message;
+          documentRecipientsStatus.textContent = "Could not load document recipients: " + message;
+        } finally {
+          setFormDisabled(personalInfoForm, false);
+          setFormDisabled(emergencyContactsForm, false);
+          setFormDisabled(authorizedRepresentativesForm, false);
+          setFormDisabled(documentRecipientsForm, false);
+          personalInfoLoadPromise = null;
+        }
+      })();
+
+      return personalInfoLoadPromise;
+    }
+
+    async function refresh() {
+      const { data, error } = await sb.auth.getSession();
+
+      if (error) {
+        msg.textContent = error.message;
+        return;
+      }
+
+      showSession(data.session);
+      if (data.session?.user) loadPersonalInfo();
+    }
+
+    sb.auth.onAuthStateChange((_event, session) => {
+      showSession(session);
+      if (session?.user) window.setTimeout(loadPersonalInfo, 0);
+    });
+
+    document.getElementById("create-profile").onclick = async () => {
+      const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+
+      if (sessionError) {
+        profileStatus.textContent = "Profile: " + sessionError.message;
+        return;
+      }
+
+      const user = sessionData.session?.user;
+      if (!user) {
+        profileStatus.textContent = "Profile: log in first.";
+        return;
+      }
+
+      profileStatus.textContent = "Profile: creating…";
+
+      try {
+        const { error } = await sb.from("profiles").insert({ id: user.id });
+        profileStatus.textContent = error
+          ? "Profile: " + error.message
+          : "Profile: created for " + user.email;
+      } catch (error) {
+        profileStatus.textContent = "Profile: " +
+          (error instanceof Error ? error.message : String(error));
+      }
+    };
+
+    document.getElementById("load-profile").onclick = async () => {
+      profileStatus.textContent = "Profile: loading…";
+
+      try {
+        const { data, error } = await sb
+          .from("profiles")
+          .select("id,created_at")
+          .limit(10);
+
+        profileStatus.textContent = error
+          ? "Profile: " + error.message
+          : "Profile: found " + data.length + " row(s) visible to you.";
+      } catch (error) {
+        profileStatus.textContent = "Profile: " +
+          (error instanceof Error ? error.message : String(error));
+      }
+    };
+
+    document.getElementById("add-emergency-contact").addEventListener("click", () => {
+      const contacts = collectEmergencyContacts();
+      contacts.push({});
+      renderEmergencyContacts(contacts);
+    });
+
+    emergencyContactsForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      emergencyContactsStatus.textContent = "Saving emergency contacts…";
+
+      try {
+        const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+
+        if (sessionError) {
+          emergencyContactsStatus.textContent = "Could not check sign-in: " + sessionError.message;
+          return;
+        }
+
+        const user = sessionData.session?.user;
+        if (!user) {
+          emergencyContactsStatus.textContent = "Log in before saving emergency contacts.";
+          return;
+        }
+
+        await mergeAndSavePersonalInfo(user.id, {
+          emergency_contacts: collectEmergencyContacts()
+        });
+
+        loadedPersonalInfoUserId = user.id;
+        emergencyContactsStatus.textContent = "Emergency contacts saved.";
+      } catch (error) {
+        emergencyContactsStatus.textContent = "Could not save emergency contacts: " +
+          (error instanceof Error ? error.message : String(error));
+      }
+    });
+
+    document.getElementById("add-authorized-representative").addEventListener("click", () => {
+      const representatives = collectAuthorizedRepresentatives();
+      representatives.push({});
+      renderAuthorizedRepresentatives(representatives);
+    });
+
+    authorizedRepresentativesForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      authorizedRepresentativesStatus.textContent = "Saving authorized representatives…";
+
+      try {
+        const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+
+        if (sessionError) {
+          authorizedRepresentativesStatus.textContent = "Could not check sign-in: " + sessionError.message;
+          return;
+        }
+
+        const user = sessionData.session?.user;
+        if (!user) {
+          authorizedRepresentativesStatus.textContent = "Log in before saving authorized representatives.";
+          return;
+        }
+
+        await mergeAndSavePersonalInfo(user.id, {
+          authorized_representatives: collectAuthorizedRepresentatives()
+        });
+
+        loadedPersonalInfoUserId = user.id;
+        authorizedRepresentativesStatus.textContent = "Authorized representatives saved.";
+      } catch (error) {
+        authorizedRepresentativesStatus.textContent = "Could not save authorized representatives: " +
+          (error instanceof Error ? error.message : String(error));
+      }
+    });
+
+    document.getElementById("add-document-recipient").addEventListener("click", () => {
+      const recipients = collectDocumentRecipients();
+      recipients.push({});
+      renderDocumentRecipients(recipients);
+    });
+
+    documentRecipientsForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      documentRecipientsStatus.textContent = "Saving document recipients…";
+
+      try {
+        const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+
+        if (sessionError) {
+          documentRecipientsStatus.textContent = "Could not check sign-in: " + sessionError.message;
+          return;
+        }
+
+        const user = sessionData.session?.user;
+        if (!user) {
+          documentRecipientsStatus.textContent = "Log in before saving document recipients.";
+          return;
+        }
+
+        await mergeAndSavePersonalInfo(user.id, {
+          document_recipients: collectDocumentRecipients()
+        });
+
+        loadedPersonalInfoUserId = user.id;
+        documentRecipientsStatus.textContent = "Document recipients saved.";
+      } catch (error) {
+        documentRecipientsStatus.textContent = "Could not save document recipients: " +
+          (error instanceof Error ? error.message : String(error));
+      }
+    });
+
+    personalInfoForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      personalInfoStatus.textContent = "Saving personal information…";
+
+      try {
+        const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+
+        if (sessionError) {
+          personalInfoStatus.textContent = "Could not check sign-in: " + sessionError.message;
+          return;
+        }
+
+        const user = sessionData.session?.user;
+        if (!user) {
+          personalInfoStatus.textContent = "Log in before saving personal information.";
+          return;
+        }
+
+        const personalInfo = {};
+        for (const [fieldName, fieldId] of Object.entries(personalInfoFields)) {
+          personalInfo[fieldName] = document.getElementById(fieldId).value.trim();
+        }
+
+        await mergeAndSavePersonalInfo(user.id, personalInfo);
+
+        loadedPersonalInfoUserId = user.id;
+        personalInfoStatus.textContent = "Personal information saved.";
+        profileStatus.textContent = "Profile: personal information saved for " + user.email;
+      } catch (error) {
+        personalInfoStatus.textContent = "Could not save personal information: " +
+          (error instanceof Error ? error.message : String(error));
+      }
+    });
+
+    document.getElementById("signup").onclick = async () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        msg.textContent = "Enter your email and password.";
+        return;
+      }
+      if (password.length < 8) {
+        msg.textContent = "Use a password with at least 8 characters.";
+        return;
+      }
+
+      msg.textContent = "Creating account…";
+
+      const { data, error } = await sb.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: "https://test.3promisesthailand.com/account.html"
+        }
+      });
+
+      if (error) {
+        msg.textContent = error.message;
+      } else if (data.session) {
+        msg.textContent = "Account created and signed in.";
+        showSession(data.session);
+        loadPersonalInfo();
+      } else {
+        msg.textContent = "Check your email and click the confirmation link, then return here and log in.";
+      }
+    };
+
+    document.getElementById("signin").onclick = async () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        msg.textContent = "Enter your email and password.";
+        return;
+      }
+
+      msg.textContent = "Logging in…";
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        msg.textContent = error.message;
+      } else {
+        msg.textContent = "Logged in.";
+        showSession(data.session);
+        loadPersonalInfo();
+      }
+    };
+
+    document.getElementById("signout").onclick = async () => {
+      const { error } = await sb.auth.signOut();
+
+      if (error) {
+        msg.textContent = error.message;
+        return;
+      }
+
+      msg.textContent = "You are logged out.";
+      showSession(null);
+    };
+
+    renderEmergencyContacts([]);
+    renderAuthorizedRepresentatives([]);
+    renderDocumentRecipients([]);
+    refresh();
+  </script>
+</body>
+</html>
