@@ -63,6 +63,10 @@
       cursor: pointer;
     }
     button.secondary { color: var(--deep); background: transparent; }
+    button:disabled, input:disabled, textarea:disabled {
+      cursor: wait;
+      opacity: 0.7;
+    }
     #msg, .note, .status { color: var(--muted); font-size: 14px; }
     #dash-box { display: none; }
   </style>
@@ -141,6 +145,7 @@
     const msg = document.getElementById("msg");
     const profileStatus = document.getElementById("profile-status");
     const personalInfoStatus = document.getElementById("personal-info-status");
+    const personalInfoForm = document.getElementById("personal-info-form");
 
     const personalInfoFields = {
       full_name: "full-name",
@@ -151,6 +156,17 @@
       phone_number: "phone-number",
       email: "contact-email"
     };
+
+    let personalInfoLoadPromise = null;
+    let loadedPersonalInfoUserId = null;
+
+    function setPersonalInfoFormDisabled(disabled) {
+      personalInfoForm
+        .querySelectorAll("input, textarea, button[type='submit']")
+        .forEach((element) => {
+          element.disabled = disabled;
+        });
+    }
 
     function clearPersonalInfo() {
       for (const fieldId of Object.values(personalInfoFields)) {
@@ -165,7 +181,8 @@
       document.getElementById("who").textContent = user?.email || "";
 
       if (!user) {
-        document.getElementById("personal-info-form").reset();
+        clearPersonalInfo();
+        loadedPersonalInfoUserId = null;
         personalInfoStatus.textContent = "Personal information has not been loaded yet.";
       } else {
         const emailField = document.getElementById(personalInfoFields.email);
@@ -174,56 +191,88 @@
     }
 
     async function loadPersonalInfo() {
-      personalInfoStatus.textContent = "Loading personal information…";
+      const { data: initialSessionData, error: initialSessionError } = await sb.auth.getSession();
 
-      try {
-        const { data: sessionData, error: sessionError } = await sb.auth.getSession();
-
-        if (sessionError) {
-          personalInfoStatus.textContent = "Could not check sign-in: " + sessionError.message;
-          return;
-        }
-
-        const user = sessionData.session?.user;
-        if (!user) {
-          personalInfoStatus.textContent = "Log in to load personal information.";
-          return;
-        }
-
-        const { data, error } = await sb
-          .from("profiles")
-          .select("personal_info")
-          .eq("id", user.id)
-          .maybeSingle();
-
-        if (error) {
-          personalInfoStatus.textContent = "Could not load personal information: " + error.message;
-          return;
-        }
-
-        const { data: currentSessionData, error: currentSessionError } = await sb.auth.getSession();
-        if (currentSessionError || currentSessionData.session?.user?.id !== user.id) return;
-
-        const savedInfo = data?.personal_info;
-        if (savedInfo && typeof savedInfo === "object") {
-          for (const [fieldName, fieldId] of Object.entries(personalInfoFields)) {
-            const value = savedInfo[fieldName];
-            document.getElementById(fieldId).value = value == null ? "" : String(value);
-          }
-        } else {
-          clearPersonalInfo();
-        }
-
-        const emailField = document.getElementById(personalInfoFields.email);
-        if (!emailField.value) emailField.value = user.email || "";
-
-        personalInfoStatus.textContent = data
-          ? "Personal information loaded."
-          : "No personal information saved yet. Enter fictional test data and save it.";
-      } catch (error) {
-        personalInfoStatus.textContent = "Could not load personal information: " +
-          (error instanceof Error ? error.message : String(error));
+      if (initialSessionError) {
+        personalInfoStatus.textContent = "Could not check sign-in: " + initialSessionError.message;
+        return;
       }
+
+      const user = initialSessionData.session?.user;
+      if (!user) {
+        personalInfoStatus.textContent = "Log in to load personal information.";
+        return;
+      }
+
+      if (loadedPersonalInfoUserId === user.id) return;
+
+      if (personalInfoLoadPromise) {
+        await personalInfoLoadPromise;
+
+        const { data: latestSessionData, error: latestSessionError } = await sb.auth.getSession();
+        if (latestSessionError) {
+          personalInfoStatus.textContent = "Could not check sign-in: " + latestSessionError.message;
+          return;
+        }
+
+        const latestUser = latestSessionData.session?.user;
+        if (latestUser?.id && loadedPersonalInfoUserId !== latestUser.id) {
+          return loadPersonalInfo();
+        }
+        return;
+      }
+
+      personalInfoLoadPromise = (async () => {
+        setPersonalInfoFormDisabled(true);
+        personalInfoStatus.textContent = "Loading personal information…";
+
+        try {
+          const { data, error } = await sb
+            .from("profiles")
+            .select("personal_info")
+            .eq("id", user.id)
+            .maybeSingle();
+
+          if (error) {
+            personalInfoStatus.textContent = "Could not load personal information: " + error.message;
+            return;
+          }
+
+          const { data: currentSessionData, error: currentSessionError } = await sb.auth.getSession();
+          if (currentSessionError) {
+            personalInfoStatus.textContent = "Could not check sign-in: " + currentSessionError.message;
+            return;
+          }
+
+          if (currentSessionData.session?.user?.id !== user.id) return;
+
+          const savedInfo = data?.personal_info;
+          if (savedInfo && typeof savedInfo === "object") {
+            for (const [fieldName, fieldId] of Object.entries(personalInfoFields)) {
+              const value = savedInfo[fieldName];
+              document.getElementById(fieldId).value = value == null ? "" : String(value);
+            }
+          } else {
+            clearPersonalInfo();
+          }
+
+          const emailField = document.getElementById(personalInfoFields.email);
+          if (!emailField.value) emailField.value = user.email || "";
+
+          loadedPersonalInfoUserId = user.id;
+          personalInfoStatus.textContent = data
+            ? "Personal information loaded."
+            : "No personal information saved yet. Enter fictional test data and save it.";
+        } catch (error) {
+          personalInfoStatus.textContent = "Could not load personal information: " +
+            (error instanceof Error ? error.message : String(error));
+        } finally {
+          setPersonalInfoFormDisabled(false);
+          personalInfoLoadPromise = null;
+        }
+      })();
+
+      return personalInfoLoadPromise;
     }
 
     async function refresh() {
@@ -288,7 +337,7 @@
       }
     };
 
-    document.getElementById("personal-info-form").addEventListener("submit", async (event) => {
+    personalInfoForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       personalInfoStatus.textContent = "Saving personal information…";
 
@@ -323,6 +372,7 @@
           return;
         }
 
+        loadedPersonalInfoUserId = user.id;
         personalInfoStatus.textContent = "Personal information saved.";
         profileStatus.textContent = "Profile: personal information saved for " + user.email;
       } catch (error) {
@@ -401,4 +451,4 @@
     refresh();
   </script>
 </body>
-</html>
+</html> 
