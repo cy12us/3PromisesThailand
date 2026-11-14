@@ -191,6 +191,17 @@
         </form>
       </section>
 
+      <section aria-labelledby="document-recipients-heading">
+        <h2 id="document-recipients-heading">Step One — Document Recipients</h2>
+        <p class="note">Choose who should receive death certificates, available hospital and police reports, and other official documentation.</p>
+        <form id="document-recipients-form">
+          <div id="document-recipient-list"></div>
+          <button id="add-document-recipient" class="secondary" type="button">Add recipient</button>
+          <button type="submit">Save document recipients</button>
+          <p id="document-recipients-status" class="status" role="status" aria-live="polite">Document recipients have not been loaded yet.</p>
+        </form>
+      </section>
+
       <section aria-label="Profile row test">
         <h3>Profile row test</h3>
         <p id="profile-status" class="status">Profile: not checked yet.</p>
@@ -213,11 +224,14 @@
     const personalInfoStatus = document.getElementById("personal-info-status");
     const emergencyContactsStatus = document.getElementById("emergency-contacts-status");
     const authorizedRepresentativesStatus = document.getElementById("authorized-representatives-status");
+    const documentRecipientsStatus = document.getElementById("document-recipients-status");
     const personalInfoForm = document.getElementById("personal-info-form");
     const emergencyContactsForm = document.getElementById("emergency-contacts-form");
     const authorizedRepresentativesForm = document.getElementById("authorized-representatives-form");
+    const documentRecipientsForm = document.getElementById("document-recipients-form");
     const emergencyContactList = document.getElementById("emergency-contact-list");
     const authorizedRepresentativeList = document.getElementById("authorized-representative-list");
+    const documentRecipientList = document.getElementById("document-recipient-list");
 
     const personalInfoFields = {
       full_name: "full-name",
@@ -242,6 +256,13 @@
       { key: "may_communicate", label: "May communicate with 3promisesThailand." }
     ];
 
+    const documentTypes = [
+      { key: "death_certificates", label: "Death certificates" },
+      { key: "hospital_reports", label: "Available hospital reports" },
+      { key: "police_reports", label: "Available police reports" },
+      { key: "other_official_documentation", label: "Other official documentation" }
+    ];
+
     let personalInfoLoadPromise = null;
     let loadedPersonalInfoUserId = null;
 
@@ -257,7 +278,7 @@
       }
     }
 
-    function collectContactList(container, permissionFields = []) {
+    function collectContactList(container, checkboxFields = []) {
       return Array.from(container.querySelectorAll(".contact-card"))
         .map((card) => {
           const contact = {};
@@ -266,15 +287,15 @@
               .querySelector(`[data-contact-field="${field.key}"]`)
               .value.trim();
           }
-          for (const permission of permissionFields) {
-            contact[permission.key] = card
-              .querySelector(`[data-permission="${permission.key}"]`)
+          for (const checkboxField of checkboxFields) {
+            contact[checkboxField.key] = card
+              .querySelector(`[data-checkbox-field="${checkboxField.key}"]`)
               .checked;
           }
           return contact;
         })
         .filter((contact) => Object.entries(contact).some(([key, value]) => {
-          if (permissionFields.some((permission) => permission.key === key)) return value;
+          if (checkboxFields.some((checkboxField) => checkboxField.key === key)) return value;
           return value !== "";
         }));
     }
@@ -306,25 +327,25 @@
           fieldset.append(label, input);
         }
 
-        if (options.permissions.length) {
-          const permissionGroup = document.createElement("fieldset");
-          permissionGroup.className = "authority-options";
+        if (options.checkboxFields.length) {
+          const checkboxGroup = document.createElement("fieldset");
+          checkboxGroup.className = "authority-options";
 
-          const permissionLegend = document.createElement("legend");
-          permissionLegend.textContent = "Permissions you wish to request";
-          permissionGroup.appendChild(permissionLegend);
+          const checkboxLegend = document.createElement("legend");
+          checkboxLegend.textContent = options.checkboxLegend;
+          checkboxGroup.appendChild(checkboxLegend);
 
-          for (const permission of options.permissions) {
+          for (const checkboxField of options.checkboxFields) {
             const label = document.createElement("label");
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
-            checkbox.dataset.permission = permission.key;
-            checkbox.checked = Boolean(contact[permission.key]);
+            checkbox.dataset.checkboxField = checkboxField.key;
+            checkbox.checked = Boolean(contact[checkboxField.key]);
             label.className = "authority-choice";
-            label.append(checkbox, document.createTextNode(permission.label));
-            permissionGroup.appendChild(label);
+            label.append(checkbox, document.createTextNode(checkboxField.label));
+            checkboxGroup.appendChild(label);
           }
-          fieldset.appendChild(permissionGroup);
+          fieldset.appendChild(checkboxGroup);
         }
 
         const actions = document.createElement("div");
@@ -336,7 +357,7 @@
         moveUp.textContent = "Move up";
         moveUp.disabled = index === 0;
         moveUp.addEventListener("click", () => {
-          const current = collectContactList(container, options.permissions);
+          const current = collectContactList(container, options.checkboxFields);
           if (index < 1 || index >= current.length) return;
           [current[index - 1], current[index]] = [current[index], current[index - 1]];
           renderContactList(container, current, options);
@@ -348,7 +369,7 @@
         moveDown.textContent = "Move down";
         moveDown.disabled = index === contactsToRender.length - 1;
         moveDown.addEventListener("click", () => {
-          const current = collectContactList(container, options.permissions);
+          const current = collectContactList(container, options.checkboxFields);
           if (index < 0 || index >= current.length - 1) return;
           [current[index], current[index + 1]] = [current[index + 1], current[index]];
           renderContactList(container, current, options);
@@ -357,9 +378,9 @@
         const remove = document.createElement("button");
         remove.type = "button";
         remove.className = "secondary";
-        remove.textContent = "Remove";
+        remove.textContent = options.removeLabel;
         remove.addEventListener("click", () => {
-          const current = collectContactList(container, options.permissions);
+          const current = collectContactList(container, options.checkboxFields);
           current.splice(index, 1);
           renderContactList(container, current, options);
         });
@@ -375,13 +396,25 @@
       legend: (index) => index === 0
         ? "Priority 1 — contacted first"
         : `Priority ${index + 1} — additional contact`,
-      permissions: []
+      checkboxFields: [],
+      checkboxLegend: "",
+      removeLabel: "Remove contact"
     };
 
     const representativeOptions = {
       idPrefix: "authorized-representative",
       legend: (index) => `Representative ${index + 1}`,
-      permissions: representativePermissions
+      checkboxFields: representativePermissions,
+      checkboxLegend: "Permissions you wish to request",
+      removeLabel: "Remove representative"
+    };
+
+    const documentRecipientOptions = {
+      idPrefix: "document-recipient",
+      legend: (index) => `Recipient ${index + 1}`,
+      checkboxFields: documentTypes,
+      checkboxLegend: "Documents this person should receive",
+      removeLabel: "Remove recipient"
     };
 
     function renderEmergencyContacts(contacts) {
@@ -392,6 +425,10 @@
       renderContactList(authorizedRepresentativeList, representatives, representativeOptions);
     }
 
+    function renderDocumentRecipients(recipients) {
+      renderContactList(documentRecipientList, recipients, documentRecipientOptions);
+    }
+
     function clearEmergencyContacts() {
       renderEmergencyContacts([]);
     }
@@ -400,12 +437,20 @@
       renderAuthorizedRepresentatives([]);
     }
 
+    function clearDocumentRecipients() {
+      renderDocumentRecipients([]);
+    }
+
     function collectEmergencyContacts() {
       return collectContactList(emergencyContactList);
     }
 
     function collectAuthorizedRepresentatives() {
       return collectContactList(authorizedRepresentativeList, representativePermissions);
+    }
+
+    function collectDocumentRecipients() {
+      return collectContactList(documentRecipientList, documentTypes);
     }
 
     async function mergeAndSavePersonalInfo(userId, updates) {
@@ -446,10 +491,12 @@
         clearPersonalInfo();
         clearEmergencyContacts();
         clearAuthorizedRepresentatives();
+        clearDocumentRecipients();
         loadedPersonalInfoUserId = null;
         personalInfoStatus.textContent = "Personal information has not been loaded yet.";
         emergencyContactsStatus.textContent = "Emergency contacts have not been loaded yet.";
         authorizedRepresentativesStatus.textContent = "Authorized representatives have not been loaded yet.";
+        documentRecipientsStatus.textContent = "Document recipients have not been loaded yet.";
       } else {
         const emailField = document.getElementById(personalInfoFields.email);
         if (!emailField.value) emailField.value = user.email || "";
@@ -464,6 +511,7 @@
         personalInfoStatus.textContent = message;
         emergencyContactsStatus.textContent = message;
         authorizedRepresentativesStatus.textContent = message;
+        documentRecipientsStatus.textContent = message;
         return;
       }
 
@@ -472,6 +520,7 @@
         personalInfoStatus.textContent = "Log in to load personal information.";
         emergencyContactsStatus.textContent = "Log in to load emergency contacts.";
         authorizedRepresentativesStatus.textContent = "Log in to load authorized representatives.";
+        documentRecipientsStatus.textContent = "Log in to load document recipients.";
         return;
       }
 
@@ -497,9 +546,11 @@
         setFormDisabled(personalInfoForm, true);
         setFormDisabled(emergencyContactsForm, true);
         setFormDisabled(authorizedRepresentativesForm, true);
+        setFormDisabled(documentRecipientsForm, true);
         personalInfoStatus.textContent = "Loading personal information…";
         emergencyContactsStatus.textContent = "Loading emergency contacts…";
         authorizedRepresentativesStatus.textContent = "Loading authorized representatives…";
+        documentRecipientsStatus.textContent = "Loading document recipients…";
 
         try {
           const { data, error } = await sb
@@ -513,6 +564,7 @@
             personalInfoStatus.textContent = message;
             emergencyContactsStatus.textContent = message;
             authorizedRepresentativesStatus.textContent = message;
+            documentRecipientsStatus.textContent = message;
             return;
           }
 
@@ -522,6 +574,7 @@
             personalInfoStatus.textContent = message;
             emergencyContactsStatus.textContent = message;
             authorizedRepresentativesStatus.textContent = message;
+            documentRecipientsStatus.textContent = message;
             return;
           }
 
@@ -551,6 +604,12 @@
             : [];
           renderAuthorizedRepresentatives(savedRepresentatives);
 
+          const savedDocumentRecipients = Array.isArray(info.document_recipients)
+            ? info.document_recipients.filter((recipient) =>
+                recipient && typeof recipient === "object" && !Array.isArray(recipient))
+            : [];
+          renderDocumentRecipients(savedDocumentRecipients);
+
           const emailField = document.getElementById(personalInfoFields.email);
           if (!emailField.value) emailField.value = user.email || "";
 
@@ -564,15 +623,20 @@
           authorizedRepresentativesStatus.textContent = savedRepresentatives.length
             ? "Authorized representatives loaded."
             : "No authorized representatives saved yet. Add a representative.";
+          documentRecipientsStatus.textContent = savedDocumentRecipients.length
+            ? "Document recipients loaded."
+            : "No document recipients saved yet. Add a recipient.";
         } catch (error) {
           const message = error instanceof Error ? error.message : String(error);
           personalInfoStatus.textContent = "Could not load personal information: " + message;
           emergencyContactsStatus.textContent = "Could not load emergency contacts: " + message;
           authorizedRepresentativesStatus.textContent = "Could not load authorized representatives: " + message;
+          documentRecipientsStatus.textContent = "Could not load document recipients: " + message;
         } finally {
           setFormDisabled(personalInfoForm, false);
           setFormDisabled(emergencyContactsForm, false);
           setFormDisabled(authorizedRepresentativesForm, false);
+          setFormDisabled(documentRecipientsForm, false);
           personalInfoLoadPromise = null;
         }
       })();
@@ -714,6 +778,42 @@
       }
     });
 
+    document.getElementById("add-document-recipient").addEventListener("click", () => {
+      const recipients = collectDocumentRecipients();
+      recipients.push({});
+      renderDocumentRecipients(recipients);
+    });
+
+    documentRecipientsForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      documentRecipientsStatus.textContent = "Saving document recipients…";
+
+      try {
+        const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+
+        if (sessionError) {
+          documentRecipientsStatus.textContent = "Could not check sign-in: " + sessionError.message;
+          return;
+        }
+
+        const user = sessionData.session?.user;
+        if (!user) {
+          documentRecipientsStatus.textContent = "Log in before saving document recipients.";
+          return;
+        }
+
+        await mergeAndSavePersonalInfo(user.id, {
+          document_recipients: collectDocumentRecipients()
+        });
+
+        loadedPersonalInfoUserId = user.id;
+        documentRecipientsStatus.textContent = "Document recipients saved.";
+      } catch (error) {
+        documentRecipientsStatus.textContent = "Could not save document recipients: " +
+          (error instanceof Error ? error.message : String(error));
+      }
+    });
+
     personalInfoForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       personalInfoStatus.textContent = "Saving personal information…";
@@ -817,6 +917,7 @@
 
     renderEmergencyContacts([]);
     renderAuthorizedRepresentatives([]);
+    renderDocumentRecipients([]);
     refresh();
   </script>
 </body>
