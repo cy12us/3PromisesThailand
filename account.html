@@ -69,6 +69,28 @@
     }
     #msg, .note, .status { color: var(--muted); font-size: 14px; }
     #dash-box { display: none; }
+    .contact-card {
+      margin: 18px 0 0;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+    .contact-card legend {
+      padding: 0 6px;
+      color: var(--deep);
+      font: 600 14px system-ui, sans-serif;
+    }
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .contact-actions button {
+      margin: 6px 4px 0 0;
+      padding: 9px 13px;
+    }
   </style>
 </head>
 <body>
@@ -125,6 +147,17 @@
         </form>
       </section>
 
+      <section aria-labelledby="emergency-contacts-heading">
+        <h2 id="emergency-contacts-heading">Step One — Emergency Contacts</h2>
+        <p class="note">Choose who should be contacted first when something happens, followed by additional contacts. The order below sets the contact priority.</p>
+        <form id="emergency-contacts-form">
+          <div id="emergency-contact-list"></div>
+          <button id="add-emergency-contact" class="secondary" type="button">Add additional contact</button>
+          <button type="submit">Save emergency contacts</button>
+          <p id="emergency-contacts-status" class="status" role="status" aria-live="polite">Emergency contacts have not been loaded yet.</p>
+        </form>
+      </section>
+
       <section aria-label="Profile row test">
         <h3>Profile row test</h3>
         <p id="profile-status" class="status">Profile: not checked yet.</p>
@@ -145,7 +178,10 @@
     const msg = document.getElementById("msg");
     const profileStatus = document.getElementById("profile-status");
     const personalInfoStatus = document.getElementById("personal-info-status");
+    const emergencyContactsStatus = document.getElementById("emergency-contacts-status");
     const personalInfoForm = document.getElementById("personal-info-form");
+    const emergencyContactsForm = document.getElementById("emergency-contacts-form");
+    const emergencyContactList = document.getElementById("emergency-contact-list");
 
     const personalInfoFields = {
       full_name: "full-name",
@@ -156,6 +192,13 @@
       phone_number: "phone-number",
       email: "contact-email"
     };
+
+    const emergencyContactFields = [
+      { key: "name", label: "Full name", type: "text", autocomplete: "name" },
+      { key: "relationship", label: "Relationship", type: "text" },
+      { key: "phone", label: "Phone number", type: "tel", autocomplete: "tel" },
+      { key: "email", label: "Email address", type: "email", autocomplete: "email" }
+    ];
 
     let personalInfoLoadPromise = null;
     let loadedPersonalInfoUserId = null;
@@ -168,10 +211,146 @@
         });
     }
 
+    function setEmergencyContactsFormDisabled(disabled) {
+      emergencyContactsForm
+        .querySelectorAll("input, button")
+        .forEach((element) => {
+          element.disabled = disabled;
+        });
+    }
+
     function clearPersonalInfo() {
       for (const fieldId of Object.values(personalInfoFields)) {
         document.getElementById(fieldId).value = "";
       }
+    }
+
+    function collectEmergencyContacts() {
+      return Array.from(
+        emergencyContactList.querySelectorAll(".contact-card")
+      ).map((card) => {
+        const contact = {};
+        for (const field of emergencyContactFields) {
+          contact[field.key] = card
+            .querySelector(`[data-contact-field="${field.key}"]`)
+            .value.trim();
+        }
+        return contact;
+      }).filter((contact) =>
+        Object.values(contact).some((value) => value !== "")
+      );
+    }
+
+    function renderEmergencyContacts(contacts) {
+      emergencyContactList.replaceChildren();
+
+      const contactsToRender = contacts.length ? contacts : [{}];
+
+      contactsToRender.forEach((contact, index) => {
+        const fieldset = document.createElement("fieldset");
+        fieldset.className = "contact-card";
+
+        const legend = document.createElement("legend");
+        legend.textContent = index === 0
+          ? "Priority 1 — contacted first"
+          : `Priority ${index + 1} — additional contact`;
+        fieldset.appendChild(legend);
+
+        for (const field of emergencyContactFields) {
+          const label = document.createElement("label");
+          const input = document.createElement("input");
+          const inputId = `emergency-contact-${index}-${field.key}`;
+
+          label.htmlFor = inputId;
+          label.textContent = field.label;
+
+          input.id = inputId;
+          input.type = field.type;
+          input.dataset.contactField = field.key;
+          if (field.autocomplete) input.autocomplete = field.autocomplete;
+          input.value = contact[field.key] == null ? "" : String(contact[field.key]);
+
+          fieldset.append(label, input);
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "contact-actions";
+
+        const moveUp = document.createElement("button");
+        moveUp.type = "button";
+        moveUp.className = "secondary";
+        moveUp.textContent = "Move up";
+        moveUp.disabled = index === 0;
+        moveUp.addEventListener("click", () => {
+          const currentContacts = collectEmergencyContacts();
+          if (index < 1 || index >= currentContacts.length) return;
+          [currentContacts[index - 1], currentContacts[index]] =
+            [currentContacts[index], currentContacts[index - 1]];
+          renderEmergencyContacts(currentContacts);
+        });
+
+        const moveDown = document.createElement("button");
+        moveDown.type = "button";
+        moveDown.className = "secondary";
+        moveDown.textContent = "Move down";
+        moveDown.disabled = index === contactsToRender.length - 1;
+        moveDown.addEventListener("click", () => {
+          const currentContacts = collectEmergencyContacts();
+          if (index < 0 || index >= currentContacts.length - 1) return;
+          [currentContacts[index], currentContacts[index + 1]] =
+            [currentContacts[index + 1], currentContacts[index]];
+          renderEmergencyContacts(currentContacts);
+        });
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "secondary";
+        remove.textContent = "Remove contact";
+        remove.addEventListener("click", () => {
+          const currentContacts = collectEmergencyContacts();
+          currentContacts.splice(index, 1);
+          renderEmergencyContacts(currentContacts);
+        });
+
+        actions.append(moveUp, moveDown, remove);
+        fieldset.appendChild(actions);
+        emergencyContactList.appendChild(fieldset);
+      });
+    }
+
+    function clearEmergencyContacts() {
+      renderEmergencyContacts([]);
+    }
+
+    async function mergeAndSavePersonalInfo(userId, updates) {
+      const { data: row, error: readError } = await sb
+        .from("profiles")
+        .select("personal_info")
+        .eq("id", userId)
+        .maybeSingle();
+
+      if (readError) {
+        throw new Error("Could not read the saved profile: " + readError.message);
+      }
+
+      const existingInfo = row?.personal_info;
+      const baseInfo = existingInfo &&
+        typeof existingInfo === "object" &&
+        !Array.isArray(existingInfo)
+        ? existingInfo
+        : {};
+
+      const { error: saveError } = await sb
+        .from("profiles")
+        .upsert(
+          {
+            id: userId,
+            personal_info: { ...baseInfo, ...updates }
+          },
+          { onConflict: "id" }
+        );
+
+      if (saveError) throw new Error(saveError.message);
     }
 
     function showSession(session) {
@@ -182,8 +361,10 @@
 
       if (!user) {
         clearPersonalInfo();
+        clearEmergencyContacts();
         loadedPersonalInfoUserId = null;
         personalInfoStatus.textContent = "Personal information has not been loaded yet.";
+        emergencyContactsStatus.textContent = "Emergency contacts have not been loaded yet.";
       } else {
         const emailField = document.getElementById(personalInfoFields.email);
         if (!emailField.value) emailField.value = user.email || "";
@@ -201,6 +382,7 @@
       const user = initialSessionData.session?.user;
       if (!user) {
         personalInfoStatus.textContent = "Log in to load personal information.";
+        emergencyContactsStatus.textContent = "Log in to load emergency contacts.";
         return;
       }
 
@@ -224,7 +406,9 @@
 
       personalInfoLoadPromise = (async () => {
         setPersonalInfoFormDisabled(true);
+        setEmergencyContactsFormDisabled(true);
         personalInfoStatus.textContent = "Loading personal information…";
+        emergencyContactsStatus.textContent = "Loading emergency contacts…";
 
         try {
           const { data, error } = await sb
@@ -235,19 +419,21 @@
 
           if (error) {
             personalInfoStatus.textContent = "Could not load personal information: " + error.message;
+            emergencyContactsStatus.textContent = "Could not load emergency contacts: " + error.message;
             return;
           }
 
           const { data: currentSessionData, error: currentSessionError } = await sb.auth.getSession();
           if (currentSessionError) {
             personalInfoStatus.textContent = "Could not check sign-in: " + currentSessionError.message;
+            emergencyContactsStatus.textContent = "Could not check sign-in: " + currentSessionError.message;
             return;
           }
 
           if (currentSessionData.session?.user?.id !== user.id) return;
 
           const savedInfo = data?.personal_info;
-          if (savedInfo && typeof savedInfo === "object") {
+          if (savedInfo && typeof savedInfo === "object" && !Array.isArray(savedInfo)) {
             for (const [fieldName, fieldId] of Object.entries(personalInfoFields)) {
               const value = savedInfo[fieldName];
               document.getElementById(fieldId).value = value == null ? "" : String(value);
@@ -256,6 +442,20 @@
             clearPersonalInfo();
           }
 
+          const savedContacts = savedInfo &&
+            Array.isArray(savedInfo.emergency_contacts)
+            ? savedInfo.emergency_contacts
+                .filter((contact) => contact && typeof contact === "object" && !Array.isArray(contact))
+                .map((contact) => ({
+                  name: contact.name == null ? "" : String(contact.name),
+                  relationship: contact.relationship == null ? "" : String(contact.relationship),
+                  phone: contact.phone == null ? "" : String(contact.phone),
+                  email: contact.email == null ? "" : String(contact.email)
+                }))
+            : [];
+
+          renderEmergencyContacts(savedContacts);
+
           const emailField = document.getElementById(personalInfoFields.email);
           if (!emailField.value) emailField.value = user.email || "";
 
@@ -263,11 +463,16 @@
           personalInfoStatus.textContent = data
             ? "Personal information loaded."
             : "No personal information saved yet. Enter fictional test data and save it.";
+          emergencyContactsStatus.textContent = savedContacts.length
+            ? "Emergency contacts loaded."
+            : "No emergency contacts saved yet. Add the first contact.";
         } catch (error) {
-          personalInfoStatus.textContent = "Could not load personal information: " +
-            (error instanceof Error ? error.message : String(error));
+          const message = error instanceof Error ? error.message : String(error);
+          personalInfoStatus.textContent = "Could not load personal information: " + message;
+          emergencyContactsStatus.textContent = "Could not load emergency contacts: " + message;
         } finally {
           setPersonalInfoFormDisabled(false);
+          setEmergencyContactsFormDisabled(false);
           personalInfoLoadPromise = null;
         }
       })();
@@ -337,6 +542,43 @@
       }
     };
 
+    document.getElementById("add-emergency-contact").addEventListener("click", () => {
+      const contacts = collectEmergencyContacts();
+      contacts.push({});
+      renderEmergencyContacts(contacts);
+    });
+
+    emergencyContactsForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      emergencyContactsStatus.textContent = "Saving emergency contacts…";
+
+      try {
+        const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+
+        if (sessionError) {
+          emergencyContactsStatus.textContent = "Could not check sign-in: " + sessionError.message;
+          return;
+        }
+
+        const user = sessionData.session?.user;
+        if (!user) {
+          emergencyContactsStatus.textContent = "Log in before saving emergency contacts.";
+          return;
+        }
+
+        const emergencyContacts = collectEmergencyContacts();
+        await mergeAndSavePersonalInfo(user.id, {
+          emergency_contacts: emergencyContacts
+        });
+
+        loadedPersonalInfoUserId = user.id;
+        emergencyContactsStatus.textContent = "Emergency contacts saved.";
+      } catch (error) {
+        emergencyContactsStatus.textContent = "Could not save emergency contacts: " +
+          (error instanceof Error ? error.message : String(error));
+      }
+    });
+
     personalInfoForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       personalInfoStatus.textContent = "Saving personal information…";
@@ -360,17 +602,7 @@
           personalInfo[fieldName] = document.getElementById(fieldId).value.trim();
         }
 
-        const { error } = await sb
-          .from("profiles")
-          .upsert(
-            { id: user.id, personal_info: personalInfo },
-            { onConflict: "id" }
-          );
-
-        if (error) {
-          personalInfoStatus.textContent = "Could not save personal information: " + error.message;
-          return;
-        }
+        await mergeAndSavePersonalInfo(user.id, personalInfo);
 
         loadedPersonalInfoUserId = user.id;
         personalInfoStatus.textContent = "Personal information saved.";
@@ -451,4 +683,4 @@
     refresh();
   </script>
 </body>
-</html> 
+</html>
