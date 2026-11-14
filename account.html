@@ -88,6 +88,9 @@
       <h2>Private dashboard</h2>
       <p>Signed in as: <strong id="who"></strong></p>
       <p>This dashboard is intentionally empty for this test. No plan or documents are stored here.</p>
+            <p id="profile-status" style="font-family:system-ui,sans-serif; font-size:14px;">Profile: not checked yet.</p>
+      <button id="create-profile" type="button">Create my profile row</button>
+      <button id="load-profile" class="secondary" type="button">Load my profile row</button>
       <button id="signout" class="secondary" type="button">Log out</button>
     </section>
   </main>
@@ -106,7 +109,40 @@
       document.getElementById("dash-box").style.display = user ? "block" : "none";
       document.getElementById("who").textContent = user?.email || "";
     }
+    document.getElementById("create-profile").onclick = async () => {
+      const status = document.getElementById("profile-status");
+      const { data: { session }, error: sessionError } = await sb.auth.getSession();
 
+      if (sessionError) {
+        status.textContent = "Profile: " + sessionError.message;
+        return;
+      }
+      if (!session?.user) {
+        status.textContent = "Profile: log in first.";
+        return;
+      }
+
+      status.textContent = "Profile: creating…";
+      const { error } = await sb.from("profiles").insert({ id: session.user.id });
+
+      status.textContent = error
+        ? "Profile: " + error.message
+        : "Profile: created for " + session.user.email;
+    };
+
+    document.getElementById("load-profile").onclick = async () => {
+      const status = document.getElementById("profile-status");
+      status.textContent = "Profile: loading…";
+
+      const { data, error } = await sb
+        .from("profiles")
+        .select("id,created_at")
+        .limit(10);
+
+      status.textContent = error
+        ? "Profile: " + error.message
+        : "Profile: found " + data.length + " row(s) visible to you.";
+    };
     async function refresh() {
       const { data, error } = await sb.auth.getSession();
       if (error) {
