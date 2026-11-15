@@ -1553,6 +1553,7 @@
     let control;
     if (type === "textarea") {
       control = document.createElement("textarea");
+      control.value = savedValue == null ? "" : String(savedValue);
     } else if (type === "select") {
       control = document.createElement("select");
       for (const [value, text] of [
