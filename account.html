@@ -142,6 +142,21 @@
       color: var(--muted);
       font: 13px/1.45 system-ui, sans-serif;
     }
+    select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font: 16px system-ui, sans-serif;
+      background: #fff;
+    }
+    select:disabled { cursor: wait; opacity: 0.7; }
+    .digital-copy p, .digital-copy li {
+      font: 14px/1.5 system-ui, sans-serif;
+      color: var(--muted);
+    }
+    .digital-copy h3 { margin: 18px 0 4px; }
   </style>
 </head>
 <body>
@@ -262,6 +277,57 @@
         <div id="personal-belongings-list" aria-live="polite"></div>
       </section>
 
+      <section aria-labelledby="digital-accounts-heading">
+        <h2 id="digital-accounts-heading">Step One — Digital Accounts</h2>
+        <p class="note">Choose what you would like to happen to your social media, email, cloud storage and other online accounts after your death.</p>
+
+        <div class="digital-copy">
+          <p>You can:</p>
+          <ul>
+            <li>List your accounts: Facebook, Instagram, Gmail, Outlook, iCloud, LinkedIn or other services.</li>
+            <li>Choose what happens: Request account closure, memorialization, preservation of information or no action.</li>
+            <li>Designate authorized contacts: Identify who should handle each account or receive information.</li>
+            <li>Identify important files: Specify which people should receive particular documents, photographs or other stored files.</li>
+            <li>Set up legacy access: Where available, arrange official legacy contacts and account-access preferences while you are alive.</li>
+          </ul>
+
+          <h3>Digital Legacy Options</h3>
+          <p>Many major technology companies already provide ways to plan what happens to your accounts and information after death.</p>
+          <p>For example, Google allows someone to designate up to 10 people to receive selected account data after a specified period of inactivity.</p>
+          <p>Apple allows users to appoint Legacy Contacts who can request data after death.</p>
+          <p>Microsoft offers OneDrive Digital Legacy for sharing eligible files with trusted people.</p>
+          <p>3promisesThailand can help you identify these options and document your preferences.</p>
+
+          <h3>What Happens After Your Death?</h3>
+          <p>Following verification of your death, 3promisesThailand will:</p>
+          <ul>
+            <li>Review your recorded digital-account instructions.</li>
+            <li>Notify the authorized contacts you designated for each account.</li>
+            <li>Provide the appropriate death documentation to authorized recipients.</li>
+            <li>Coordinate requests for account closure, memorialization or eligible data access through each platform's official procedures.</li>
+            <li>Seek to preserve designated information before requesting account closure.</li>
+            <li>Track the status of authorized requests and inform your designated contacts of the results.</li>
+          </ul>
+
+          <h3>Digital Files and Storage</h3>
+          <p>Files uploaded to your 3promisesThailand account count toward your shared 10 GB secure storage allowance.</p>
+          <p>Files remaining in external services such as Google Drive, OneDrive or iCloud do not count toward that allowance.</p>
+
+          <h3>Important</h3>
+          <p>We do not require or store your passwords.</p>
+          <p>Access to online accounts, release of stored information, account memorialization and closure depend on each platform's policies and applicable law.</p>
+          <p>3promisesThailand cannot guarantee approval of every request or access to every account.</p>
+          <p>Our responsibility is to record your instructions, notify the people you've authorized, coordinate eligible requests and keep your designated contacts informed.</p>
+        </div>
+
+        <form id="digital-accounts-form">
+          <div id="digital-account-list"></div>
+          <button id="add-digital-account" class="secondary" type="button">Add account</button>
+          <button type="submit">Save digital accounts</button>
+          <p id="digital-accounts-status" class="status" role="status" aria-live="polite">Digital accounts have not been loaded yet.</p>
+        </form>
+      </section>
+
       <section aria-label="Profile row test">
         <h3>Profile row test</h3>
         <p id="profile-status" class="status">Profile: not checked yet.</p>
@@ -286,15 +352,18 @@
     const authorizedRepresentativesStatus = document.getElementById("authorized-representatives-status");
     const documentRecipientsStatus = document.getElementById("document-recipients-status");
     const personalBelongingsStatus = document.getElementById("personal-belongings-status");
+    const digitalAccountsStatus = document.getElementById("digital-accounts-status");
     const personalInfoForm = document.getElementById("personal-info-form");
     const emergencyContactsForm = document.getElementById("emergency-contacts-form");
     const authorizedRepresentativesForm = document.getElementById("authorized-representatives-form");
     const documentRecipientsForm = document.getElementById("document-recipients-form");
     const personalBelongingsForm = document.getElementById("personal-belongings-form");
+    const digitalAccountsForm = document.getElementById("digital-accounts-form");
     const emergencyContactList = document.getElementById("emergency-contact-list");
     const authorizedRepresentativeList = document.getElementById("authorized-representative-list");
     const documentRecipientList = document.getElementById("document-recipient-list");
     const personalBelongingsList = document.getElementById("personal-belongings-list");
+    const digitalAccountList = document.getElementById("digital-account-list");
 
     const personalInfoFields = {
       full_name: "full-name",
@@ -326,6 +395,28 @@
       { key: "other_official_documentation", label: "Other official documentation" }
     ];
 
+    const digitalAccountActions = [
+      { value: "", label: "Select an option" },
+      { value: "account_closure", label: "Request account closure" },
+      { value: "memorialization", label: "Request memorialization" },
+      { value: "preservation_of_information", label: "Preservation of information" },
+      { value: "no_action", label: "No action" }
+    ];
+
+    const digitalAccountFields = [
+      { key: "service", label: "Account or service (for example Facebook, Instagram, Gmail, Outlook, iCloud, LinkedIn or other)", type: "text" },
+      { key: "account_name", label: "Account name, username or email address (never enter a password)", type: "text" },
+      { key: "action", label: "What would you like to happen?", type: "select" },
+      { key: "contact_name", label: "Authorized contact: full name", type: "text" },
+      { key: "contact_phone", label: "Authorized contact: phone number", type: "tel" },
+      { key: "contact_email", label: "Authorized contact: email address", type: "email" },
+      { key: "files_description", label: "Important files: which documents, photographs or other stored files?", type: "textarea" },
+      { key: "files_recipient", label: "Who should receive those files? (name)", type: "text" },
+      { key: "files_recipient_contact", label: "File recipient contact information", type: "text" },
+      { key: "legacy_access", label: "I have arranged, or will arrange, an official legacy contact or account-access preference with this service.", type: "checkbox" },
+      { key: "legacy_notes", label: "Legacy access notes", type: "textarea" }
+    ];
+
     const belongingsBucket = "belongings-test";
     const maxBelongingPhotos = 5;
     const maxBelongingPhotoBytes = 10 * 1024 * 1024;
@@ -335,7 +426,7 @@
     let personalBelongings = [];
 
     function setFormDisabled(form, disabled) {
-      form.querySelectorAll("input, textarea, button").forEach((element) => {
+      form.querySelectorAll("input, textarea, select, button").forEach((element) => {
         element.disabled = disabled;
       });
     }
@@ -497,6 +588,97 @@
       renderContactList(documentRecipientList, recipients, documentRecipientOptions);
     }
 
+    function collectDigitalAccounts() {
+      return Array.from(digitalAccountList.querySelectorAll(".contact-card"))
+        .map((card) => {
+          const account = {};
+          for (const field of digitalAccountFields) {
+            const element = card.querySelector(`[data-digital-field="${field.key}"]`);
+            account[field.key] = field.type === "checkbox"
+              ? element.checked
+              : element.value.trim();
+          }
+          return account;
+        })
+        .filter((account) => Object.values(account).some((value) => value !== "" && value !== false));
+    }
+
+    function renderDigitalAccounts(accounts) {
+      digitalAccountList.replaceChildren();
+      const accountsToRender = accounts.length ? accounts : [{}];
+
+      accountsToRender.forEach((account, index) => {
+        const fieldset = document.createElement("fieldset");
+        fieldset.className = "contact-card";
+
+        const legend = document.createElement("legend");
+        legend.textContent = `Digital account ${index + 1}`;
+        fieldset.appendChild(legend);
+
+        for (const field of digitalAccountFields) {
+          const inputId = `digital-account-${index}-${field.key}`;
+          const saved = account[field.key];
+
+          if (field.type === "checkbox") {
+            const label = document.createElement("label");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = inputId;
+            checkbox.dataset.digitalField = field.key;
+            checkbox.checked = Boolean(saved);
+            label.className = "authority-choice";
+            label.append(checkbox, document.createTextNode(field.label));
+            fieldset.appendChild(label);
+            continue;
+          }
+
+          const label = document.createElement("label");
+          label.htmlFor = inputId;
+          label.textContent = field.label;
+
+          let control;
+          if (field.type === "select") {
+            control = document.createElement("select");
+            for (const option of digitalAccountActions) {
+              const optionElement = document.createElement("option");
+              optionElement.value = option.value;
+              optionElement.textContent = option.label;
+              control.appendChild(optionElement);
+            }
+            control.value = saved == null ? "" : String(saved);
+          } else if (field.type === "textarea") {
+            control = document.createElement("textarea");
+            control.value = saved == null ? "" : String(saved);
+          } else {
+            control = document.createElement("input");
+            control.type = field.type;
+            control.value = saved == null ? "" : String(saved);
+          }
+
+          control.id = inputId;
+          control.dataset.digitalField = field.key;
+          fieldset.append(label, control);
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "contact-actions";
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "secondary";
+        remove.textContent = "Remove account";
+        remove.addEventListener("click", () => {
+          const current = collectDigitalAccounts();
+          current.splice(index, 1);
+          renderDigitalAccounts(current);
+        });
+
+        actions.appendChild(remove);
+        fieldset.appendChild(actions);
+        digitalAccountList.appendChild(fieldset);
+      });
+    }
+
     function renderPersonalBelongings(items) {
       personalBelongingsList.replaceChildren();
 
@@ -639,12 +821,14 @@
         clearDocumentRecipients();
         personalBelongings = [];
         renderPersonalBelongings(personalBelongings);
+        renderDigitalAccounts([]);
         loadedPersonalInfoUserId = null;
         personalInfoStatus.textContent = "Personal information has not been loaded yet.";
         emergencyContactsStatus.textContent = "Emergency contacts have not been loaded yet.";
         authorizedRepresentativesStatus.textContent = "Authorized representatives have not been loaded yet.";
         documentRecipientsStatus.textContent = "Document recipients have not been loaded yet.";
         personalBelongingsStatus.textContent = "Personal belongings have not been loaded yet.";
+        digitalAccountsStatus.textContent = "Digital accounts have not been loaded yet.";
       } else {
         const emailField = document.getElementById(personalInfoFields.email);
         if (!emailField.value) emailField.value = user.email || "";
@@ -661,6 +845,7 @@
         authorizedRepresentativesStatus.textContent = message;
         documentRecipientsStatus.textContent = message;
         personalBelongingsStatus.textContent = message;
+        digitalAccountsStatus.textContent = message;
         return;
       }
 
@@ -671,6 +856,7 @@
         authorizedRepresentativesStatus.textContent = "Log in to load authorized representatives.";
         documentRecipientsStatus.textContent = "Log in to load document recipients.";
         personalBelongingsStatus.textContent = "Log in to load personal belongings.";
+        digitalAccountsStatus.textContent = "Log in to load digital accounts.";
         return;
       }
 
@@ -698,11 +884,13 @@
         setFormDisabled(authorizedRepresentativesForm, true);
         setFormDisabled(documentRecipientsForm, true);
         setFormDisabled(personalBelongingsForm, true);
+        setFormDisabled(digitalAccountsForm, true);
         personalInfoStatus.textContent = "Loading personal information…";
         emergencyContactsStatus.textContent = "Loading emergency contacts…";
         authorizedRepresentativesStatus.textContent = "Loading authorized representatives…";
         documentRecipientsStatus.textContent = "Loading document recipients…";
         personalBelongingsStatus.textContent = "Loading personal belongings…";
+        digitalAccountsStatus.textContent = "Loading digital accounts…";
 
         try {
           const { data, error } = await sb
@@ -718,6 +906,7 @@
             authorizedRepresentativesStatus.textContent = message;
             documentRecipientsStatus.textContent = message;
             personalBelongingsStatus.textContent = message;
+            digitalAccountsStatus.textContent = message;
             return;
           }
 
@@ -729,6 +918,7 @@
             authorizedRepresentativesStatus.textContent = message;
             documentRecipientsStatus.textContent = message;
             personalBelongingsStatus.textContent = message;
+            digitalAccountsStatus.textContent = message;
             return;
           }
 
@@ -771,6 +961,12 @@
           personalBelongings = savedBelongings;
           renderPersonalBelongings(personalBelongings);
 
+          const savedDigitalAccounts = Array.isArray(info.digital_accounts)
+            ? info.digital_accounts.filter((account) =>
+                account && typeof account === "object" && !Array.isArray(account))
+            : [];
+          renderDigitalAccounts(savedDigitalAccounts);
+
           const emailField = document.getElementById(personalInfoFields.email);
           if (!emailField.value) emailField.value = user.email || "";
 
@@ -790,6 +986,9 @@
           personalBelongingsStatus.textContent = savedBelongings.length
             ? "Personal belongings loaded."
             : "No personal belongings saved yet. Add an item.";
+          digitalAccountsStatus.textContent = savedDigitalAccounts.length
+            ? "Digital accounts loaded."
+            : "No digital accounts saved yet. Add an account.";
         } catch (error) {
           const message = error instanceof Error ? error.message : String(error);
           personalInfoStatus.textContent = "Could not load personal information: " + message;
@@ -797,12 +996,14 @@
           authorizedRepresentativesStatus.textContent = "Could not load authorized representatives: " + message;
           documentRecipientsStatus.textContent = "Could not load document recipients: " + message;
           personalBelongingsStatus.textContent = "Could not load personal belongings: " + message;
+          digitalAccountsStatus.textContent = "Could not load digital accounts: " + message;
         } finally {
           setFormDisabled(personalInfoForm, false);
           setFormDisabled(emergencyContactsForm, false);
           setFormDisabled(authorizedRepresentativesForm, false);
           setFormDisabled(documentRecipientsForm, false);
           setFormDisabled(personalBelongingsForm, false);
+          setFormDisabled(digitalAccountsForm, false);
           personalInfoLoadPromise = null;
         }
       })();
@@ -976,6 +1177,42 @@
         documentRecipientsStatus.textContent = "Document recipients saved.";
       } catch (error) {
         documentRecipientsStatus.textContent = "Could not save document recipients: " +
+          (error instanceof Error ? error.message : String(error));
+      }
+    });
+
+    document.getElementById("add-digital-account").addEventListener("click", () => {
+      const accounts = collectDigitalAccounts();
+      accounts.push({});
+      renderDigitalAccounts(accounts);
+    });
+
+    digitalAccountsForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      digitalAccountsStatus.textContent = "Saving digital accounts…";
+
+      try {
+        const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+
+        if (sessionError) {
+          digitalAccountsStatus.textContent = "Could not check sign-in: " + sessionError.message;
+          return;
+        }
+
+        const user = sessionData.session?.user;
+        if (!user) {
+          digitalAccountsStatus.textContent = "Log in before saving digital accounts.";
+          return;
+        }
+
+        await mergeAndSavePersonalInfo(user.id, {
+          digital_accounts: collectDigitalAccounts()
+        });
+
+        loadedPersonalInfoUserId = user.id;
+        digitalAccountsStatus.textContent = "Digital accounts saved.";
+      } catch (error) {
+        digitalAccountsStatus.textContent = "Could not save digital accounts: " +
           (error instanceof Error ? error.message : String(error));
       }
     });
@@ -1195,6 +1432,7 @@
     renderAuthorizedRepresentatives([]);
     renderDocumentRecipients([]);
     renderPersonalBelongings([]);
+    renderDigitalAccounts([]);
     refresh();
   </script>
 </body>
