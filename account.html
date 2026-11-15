@@ -1435,5 +1435,343 @@
     renderDigitalAccounts([]);
     refresh();
   </script>
+<!-- account.html -->
+<script>
+(() => {
+  const section = document.createElement("section");
+  section.className = "special-requests-section";
+  section.setAttribute("aria-labelledby", "special-requests-heading");
+  section.innerHTML = `
+    <style>
+      .special-requests-section { margin-top: 24px; }
+      .special-request-card { margin-top: 18px; }
+      .special-request-card > label { display: block; margin-top: 14px; }
+      .special-request-card input,
+      .special-request-card textarea,
+      .special-request-card select {
+        width: 100%;
+        margin-top: 6px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        font: 16px system-ui, sans-serif;
+      }
+      .special-request-card input[type="file"] { padding: 8px; }
+      .special-request-card textarea { min-height: 110px; resize: vertical; }
+      .special-request-attachments { margin-top: 12px; }
+      .special-request-attachments label {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .special-request-attachments input { width: auto; margin-top: 4px; }
+    </style>
+
+    <h2 id="special-requests-heading">Step One — Special Requests</h2>
+    <p class="note">Some things are too important to leave unsaid. Leave personal messages, memories and important non-financial instructions for the people who matter to you. Your words. Your timing. Your choice.</p>
+    <p class="note">For testing, use fictional information and sample files only. Attachments use test storage; the shared 10 GB allowance is not measured here. Encryption, secure recipient access and message delivery are not implemented in this test.</p>
+
+    <form id="special-requests-form">
+      <div id="special-requests-list"></div>
+      <button id="add-special-request" class="secondary" type="button">Add message</button>
+      <button type="submit">Save special requests</button>
+      <p id="special-requests-status" class="status" role="status" aria-live="polite">Special requests have not been loaded yet.</p>
+    </form>
+  `;
+
+  const digitalSection = document.getElementById("digital-accounts-heading")?.closest("section");
+  const insertBefore = document.querySelector('[aria-label="Profile row test"]');
+  if (digitalSection) {
+    digitalSection.insertAdjacentElement("afterend", section);
+  } else if (insertBefore) {
+    insertBefore.insertAdjacentElement("beforebegin", section);
+  } else {
+    document.getElementById("dash-box")?.appendChild(section);
+  }
+
+  const form = section.querySelector("#special-requests-form");
+  const list = section.querySelector("#special-requests-list");
+  const addButton = section.querySelector("#add-special-request");
+  const status = section.querySelector("#special-requests-status");
+  const storageBucket = "belongings-test";
+  const fileLimitBytes = 10 * 1024 * 1024;
+  let savedRequests = [];
+
+  function makeField(card, labelText, key, type = "text", savedValue = "") {
+    const label = document.createElement("label");
+    const id = `special-request-${crypto.randomUUID()}`;
+    label.htmlFor = id;
+    label.textContent = labelText;
+
+    let control;
+    if (type === "textarea") {
+      control = document.createElement("textarea");
+    } else if (type === "select") {
+      control = document.createElement("select");
+      for (const [value, text] of [
+        ["email", "Email"],
+        ["line", "LINE, where supported"]
+      ]) {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = text;
+        control.appendChild(option);
+      }
+      control.value = savedValue || "email";
+    } else {
+      control = document.createElement("input");
+      control.type = type;
+      if (type === "number") {
+        control.min = "0";
+        control.step = "1";
+      }
+      control.value = savedValue == null ? "" : String(savedValue);
+    }
+
+    control.id = id;
+    control.dataset.specialField = key;
+    label.appendChild(control);
+    card.appendChild(label);
+    return control;
+  }
+
+  function renderRequestCard(request = {}) {
+    const card = document.createElement("fieldset");
+    card.className = "contact-card special-request-card";
+    card.dataset.requestId = request.id || crypto.randomUUID();
+
+    const legend = document.createElement("legend");
+    legend.textContent = "Personal message";
+    card.appendChild(legend);
+
+    makeField(card, "Recipient’s name", "recipient_name", "text", request.recipient_name);
+    makeField(card, "Recipient email address", "recipient_email", "email", request.recipient_email);
+    makeField(card, "Recipient’s LINE name or contact information", "recipient_line", "text", request.recipient_line);
+    makeField(card, "Delivery method", "delivery_method", "select", request.delivery_method);
+    makeField(card, "Days after verification of death", "days_after_verification", "number", request.days_after_verification);
+    makeField(card, "Future occasion (if applicable)", "future_occasion", "text", request.future_occasion);
+    makeField(card, "Your message or non-financial instructions", "message", "textarea", request.message);
+
+    const attachmentLabel = document.createElement("label");
+    attachmentLabel.textContent = "Attachments: photos, videos, personal letters or documents";
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.multiple = true;
+    fileInput.accept = "image/*,video/*,.pdf,.doc,.docx,.txt";
+    fileInput.dataset.specialFiles = "true";
+    attachmentLabel.appendChild(fileInput);
+    card.appendChild(attachmentLabel);
+
+    const attachmentNote = document.createElement("p");
+    attachmentNote.className = "note";
+    attachmentNote.textContent = "Test storage currently limits each file to 10 MB. This test does not enforce or display a shared storage quota.";
+    card.appendChild(attachmentNote);
+
+    const existingFiles = Array.isArray(request.attachments) ? request.attachments : [];
+    if (existingFiles.length) {
+      const filesBox = document.createElement("div");
+      filesBox.className = "special-request-attachments";
+      const heading = document.createElement("p");
+      heading.className = "note";
+      heading.textContent = "Saved attachments. Select any you want removed, then save.";
+      filesBox.appendChild(heading);
+
+      for (const file of existingFiles) {
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = file.path || "";
+        checkbox.dataset.removeSpecialFile = "true";
+        label.append(checkbox, document.createTextNode("Remove " + (file.name || "attachment")));
+        filesBox.appendChild(label);
+      }
+      card.appendChild(filesBox);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "contact-actions";
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.className = "secondary";
+    removeButton.textContent = "Remove message";
+    removeButton.addEventListener("click", () => {
+      card.remove();
+      if (!list.querySelector(".special-request-card")) renderRequestCard();
+      updateAddButton();
+    });
+    actions.appendChild(removeButton);
+    card.appendChild(actions);
+    list.appendChild(card);
+  }
+
+  function updateAddButton() {
+    addButton.disabled = list.querySelectorAll(".special-request-card").length >= 10;
+  }
+
+  function renderRequests(requests) {
+    list.replaceChildren();
+    (requests.length ? requests : [{}]).forEach(renderRequestCard);
+    updateAddButton();
+  }
+
+  async function loadRequests() {
+    const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+    if (sessionError) {
+      status.textContent = "Could not check sign-in: " + sessionError.message;
+      return;
+    }
+    const user = sessionData.session?.user;
+    if (!user) {
+      savedRequests = [];
+      renderRequests([]);
+      status.textContent = "Log in to load special requests.";
+      return;
+    }
+
+    status.textContent = "Loading special requests…";
+    const { data, error } = await sb
+      .from("profiles")
+      .select("personal_info")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (error) {
+      status.textContent = "Could not load special requests: " + error.message;
+      return;
+    }
+
+    const info = data?.personal_info;
+    savedRequests = info && typeof info === "object" && !Array.isArray(info)
+      && Array.isArray(info.special_requests)
+      ? info.special_requests.filter((item) => item && typeof item === "object")
+      : [];
+
+    renderRequests(savedRequests);
+    status.textContent = savedRequests.length
+      ? "Special requests loaded."
+      : "No special requests saved yet. Add a message.";
+  }
+
+  addButton.addEventListener("click", () => {
+    if (list.querySelectorAll(".special-request-card").length >= 10) return;
+    renderRequestCard();
+    updateAddButton();
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    status.textContent = "Saving special requests…";
+    const uploadedPaths = [];
+
+    try {
+      const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+      if (sessionError) throw new Error("Could not check sign-in: " + sessionError.message);
+      const user = sessionData.session?.user;
+      if (!user) throw new Error("Log in before saving special requests.");
+
+      const cards = Array.from(list.querySelectorAll(".special-request-card"));
+      const requests = [];
+
+      for (const card of cards) {
+        const get = (key) => card.querySelector(`[data-special-field="${key}"]`)?.value.trim() || "";
+        const files = Array.from(card.querySelector('[data-special-files="true"]')?.files || []);
+        if (files.some((file) => file.size > fileLimitBytes)) {
+          throw new Error("Each test attachment must be 10 MB or smaller.");
+        }
+
+        const removed = new Set(
+          Array.from(card.querySelectorAll('[data-remove-special-file="true"]:checked'))
+            .map((checkbox) => checkbox.value)
+        );
+        const original = savedRequests.find((item) => item.id === card.dataset.requestId);
+        const attachments = (Array.isArray(original?.attachments) ? original.attachments : [])
+          .filter((file) => !removed.has(file.path));
+
+        const request = {
+          id: card.dataset.requestId,
+          recipient_name: get("recipient_name"),
+          recipient_email: get("recipient_email"),
+          recipient_line: get("recipient_line"),
+          delivery_method: get("delivery_method"),
+          days_after_verification: get("days_after_verification"),
+          future_occasion: get("future_occasion"),
+          message: get("message"),
+          attachments
+        };
+
+        const hasContent = Object.entries(request).some(([key, value]) =>
+          !["id", "attachments"].includes(key) && value !== ""
+        ) || attachments.length > 0 || files.length > 0;
+        if (!hasContent) continue;
+
+        for (const file of files) {
+          const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+          const path = `${user.id}/special-requests/${request.id}/${crypto.randomUUID()}-${safeName}`;
+          const { error: uploadError } = await sb.storage
+            .from(storageBucket)
+            .upload(path, file, {
+              upsert: false,
+              contentType: file.type || "application/octet-stream"
+            });
+          if (uploadError) throw new Error("Attachment upload failed: " + uploadError.message);
+          uploadedPaths.push(path);
+          request.attachments.push({ path, name: file.name, type: file.type, size: file.size });
+        }
+        requests.push(request);
+      }
+
+      if (requests.length > 10) throw new Error("You can save up to 10 active messages.");
+
+      const latestSession = await sb.auth.getSession();
+      if (latestSession.error) throw latestSession.error;
+      if (latestSession.data.session?.user?.id !== user.id) {
+        throw new Error("The signed-in account changed. Log in again before saving.");
+      }
+
+      await mergeAndSavePersonalInfo(user.id, { special_requests: requests });
+
+      const retainedPaths = new Set(requests.flatMap((request) =>
+        request.attachments.map((file) => file.path)
+      ));
+      const oldPaths = savedRequests.flatMap((request) =>
+        Array.isArray(request.attachments) ? request.attachments.map((file) => file.path) : []
+      ).filter((path) => path && path.startsWith(`${user.id}/`) && !retainedPaths.has(path));
+
+      savedRequests = requests;
+      if (oldPaths.length) {
+        const { error: removeError } = await sb.storage.from(storageBucket).remove(oldPaths);
+        if (removeError) {
+          renderRequests(savedRequests);
+          status.textContent = "Special requests saved, but some removed attachments could not be deleted: " + removeError.message;
+          return;
+        }
+      }
+
+      renderRequests(savedRequests);
+      status.textContent = "Special requests saved.";
+    } catch (error) {
+      if (uploadedPaths.length) {
+        await sb.storage.from(storageBucket).remove(uploadedPaths);
+      }
+      status.textContent = "Could not save special requests: " +
+        (error instanceof Error ? error.message : String(error));
+    }
+  });
+
+  sb.auth.onAuthStateChange((_event, session) => {
+    if (session?.user) {
+      loadRequests();
+    } else {
+      savedRequests = [];
+      renderRequests([]);
+      status.textContent = "Log in to load special requests.";
+    }
+  });
+
+  loadRequests();
+})();
+</script>
 </body>
 </html>
