@@ -184,6 +184,11 @@
       <p>Signed in as: <strong id="who"></strong></p>
       <p class="note">This test dashboard stores only the fictional information you enter below.</p>
 
+      <section aria-labelledby="appointment-payment-heading">
+        <h2 id="appointment-payment-heading">Appointment Payment Status</h2>
+        <p id="appointment-payment-status" class="status" role="status" aria-live="polite">Sign in to view your appointment payment status.</p>
+      </section>
+
       <h2>Step One — Create Your Account</h2>
 
       <section aria-labelledby="personal-info-heading">
@@ -349,6 +354,7 @@
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const msg = document.getElementById("msg");
     const profileStatus = document.getElementById("profile-status");
+    const appointmentPaymentStatus = document.getElementById("appointment-payment-status");
     const personalInfoStatus = document.getElementById("personal-info-status");
     const emergencyContactsStatus = document.getElementById("emergency-contacts-status");
     const authorizedRepresentativesStatus = document.getElementById("authorized-representatives-status");
@@ -436,6 +442,41 @@
     function clearPersonalInfo() {
       for (const fieldId of Object.values(personalInfoFields)) {
         document.getElementById(fieldId).value = "";
+      }
+    }
+
+    async function loadAppointmentPaymentStatus(user) {
+      appointmentPaymentStatus.textContent = "Loading appointment payment status…";
+
+      try {
+        const { data, error } = await sb
+          .from("coverage_enrollments")
+          .select("appointment_payment_status")
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (error) throw error;
+
+        const { data: sessionData, error: sessionError } = await sb.auth.getSession();
+        if (sessionError) throw sessionError;
+
+        if (sessionData.session?.user?.id !== user.id) return;
+
+        if (!data) {
+          appointmentPaymentStatus.textContent = "No appointment payment status found.";
+          return;
+        }
+
+        const status = String(data.appointment_payment_status || "").trim();
+
+        appointmentPaymentStatus.textContent = status.toLowerCase() === "pending"
+          ? "Appointment Payment Pending"
+          : status
+            ? "Appointment payment status: " + status
+            : "No appointment payment status recorded.";
+      } catch (error) {
+        appointmentPaymentStatus.textContent = "Could not load appointment payment status: " +
+          (error instanceof Error ? error.message : String(error));
       }
     }
 
@@ -825,6 +866,7 @@
         renderPersonalBelongings(personalBelongings);
         renderDigitalAccounts([]);
         loadedPersonalInfoUserId = null;
+        appointmentPaymentStatus.textContent = "Sign in to view your appointment payment status.";
         personalInfoStatus.textContent = "Personal information has not been loaded yet.";
         emergencyContactsStatus.textContent = "Emergency contacts have not been loaded yet.";
         authorizedRepresentativesStatus.textContent = "Authorized representatives have not been loaded yet.";
@@ -832,6 +874,7 @@
         personalBelongingsStatus.textContent = "Personal belongings have not been loaded yet.";
         digitalAccountsStatus.textContent = "Digital accounts have not been loaded yet.";
       } else {
+        loadAppointmentPaymentStatus(user);
         const emailField = document.getElementById(personalInfoFields.email);
         if (!emailField.value) emailField.value = user.email || "";
       }
