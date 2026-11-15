@@ -1805,9 +1805,11 @@
     }
   });
 
-  sb.auth.onAuthStateChange((_event, session) => {
+    sb.auth.onAuthStateChange((_event, session) => {
     if (session?.user) {
-      loadRequests();
+      window.setTimeout(() => {
+        void loadRequests();
+      }, 0);
     } else {
       savedRequests = [];
       renderRequests([]);
