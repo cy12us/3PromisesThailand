@@ -90,36 +90,47 @@ index.html
       nav .hide { display: none; }
       .hero { padding-top: 40px; }
     }
-    /* Promise cards - ivory glass */
+   /* Promise cards - champagne ivory */
 .grid .card {
   position: relative;
   overflow: hidden;
-  background: rgba(255, 250, 245, 0.84);
+  background: linear-gradient(to bottom, #FFFEF9 0%, #FFF9F0 38%, #FDF0DE 100%);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 253, 248, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), inset 0 -1px 0 rgba(200, 138, 61, 0.12), 0 18px 44px rgba(10, 50, 55, 0.22), 0 4px 12px rgba(10, 50, 55, 0.12);
   border-radius: 24px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-  padding: 32px;
+  padding: 36px;
 }
 
-/* Gold accent along top */
+/* Warm light near top interior */
+.grid .card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 120px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 235, 190, 0.55), rgba(255, 235, 190, 0) 70%);
+  pointer-events: none;
+}
+
+/* Gold accent integrated in top curve */
 .grid .card::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(to right, #C88A3D, #FFD98A, #C88A3D);
+  height: 5px;
+  background: linear-gradient(to right, #B87A2E, #FFD98A, #FFEFC6, #FFD98A, #B87A2E);
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
 }
 
-/* Fallback if blur not supported */
 @supports not ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
   .grid .card {
-    background: #FFFAF5;
+    background: linear-gradient(to bottom, #FFFEF9 0%, #FFF6EA 100%);
   }
 }
 
@@ -132,14 +143,16 @@ index.html
 
 .grid .card h3 {
   color: #123E42;
-  font-size: 23px;
-  margin: 8px 0 12px 0;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 1.25;
+  margin: 10px 0 14px 0;
 }
 
 .grid .card p:last-child {
-  color: #283C3B;
-  font-size: 15px;
-  line-height: 1.6;
+  color: #1E3A3A;
+  font-size: 16px;
+  line-height: 1.65;
 }
   </style>
 <style>
