@@ -362,7 +362,11 @@ body { background: transparent; }
   background-position: center;
   background-repeat: no-repeat;
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
+  header, main, footer, .wrap {
+  position: relative;
+  z-index: 1;
+}
 }body {
   font-family: "Helvetica Neue", "Inter", sans-serif;
   font-weight: 400;
