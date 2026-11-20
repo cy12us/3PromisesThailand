@@ -90,6 +90,57 @@ index.html
       nav .hide { display: none; }
       .hero { padding-top: 40px; }
     }
+    /* Promise cards - ivory glass */
+.grid .card {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 250, 245, 0.84);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 24px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  padding: 32px;
+}
+
+/* Gold accent along top */
+.grid .card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, #C88A3D, #FFD98A, #C88A3D);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+
+/* Fallback if blur not supported */
+@supports not ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+  .grid .card {
+    background: #FFFAF5;
+  }
+}
+
+.grid .card .kicker {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #54615C;
+}
+
+.grid .card h3 {
+  color: #123E42;
+  font-size: 23px;
+  margin: 8px 0 12px 0;
+}
+
+.grid .card p:last-child {
+  color: #283C3B;
+  font-size: 15px;
+  line-height: 1.6;
+}
   </style>
 <style>
 body { background-color: #073B46; }
