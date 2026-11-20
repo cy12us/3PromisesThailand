@@ -1,4 +1,4 @@
-
+index.html
 <!doctype html>
 <html lang="en">
 <head>
@@ -90,12 +90,306 @@
       nav .hide { display: none; }
       .hero { padding-top: 40px; }
     }
-  </style>
-</head>
+   /* Promise cards - champagne ivory */
+.grid .card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #FFFEF9 0%, #FFF9F0 38%, #FDF0DE 100%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 253, 248, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), inset 0 -1px 0 rgba(200, 138, 61, 0.12), 0 18px 44px rgba(10, 50, 55, 0.22), 0 4px 12px rgba(10, 50, 55, 0.12);
+  border-radius: 24px;
+  padding: 36px;
+}
+
+/* Warm light near top interior */
+.grid .card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 120px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 235, 190, 0.55), rgba(255, 235, 190, 0) 70%);
+  pointer-events: none;
+}
+
+/* Gold accent integrated in top curve */
+.grid .card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(to right, #B87A2E, #FFD98A, #FFEFC6, #FFD98A, #B87A2E);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+
+@supports not ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+  .grid .card {
+    background: linear-gradient(to bottom, #FFFEF9 0%, #FFF6EA 100%);
+  }
+}
+
+.grid .card .kicker {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #54615C;
+}
+
+.grid .card h3 {
+  color: #123E42;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 1.25;
+  margin: 10px 0 14px 0;
+}
+
+.grid .card p:last-child {
+  color: #1E3A3A;
+  font-size: 16px;
+  line-height: 1.65;
+}/* How It Works - timeline */
+#how {
+  background: transparent;
+}
+#how h2 {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-weight: 100;
+  font-size: 38px;
+  color: #F6F1E7;
+}
+#how .sub {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 16px;
+  color: #D8AA68;
+  margin-bottom: 32px;
+}
+.how-timeline {
+  position: relative;
+  margin-left: 18px;
+  padding-left: 56px;
+}
+.how-timeline::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: rgba(169, 136, 86, 0.65);
+}
+.how-step {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.how-step:last-child {
+  margin-bottom: 0;
+}
+.how-num {
+  position: absolute;
+  left: -56px;
+  top: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #D8AA68;
+  color: #12383C;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+}
+.how-text h3 {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 21px;
+  font-weight: 500;
+  color: #F9F5EC;
+  margin: 2px 0 10px 0;
+}
+.how-text p {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #D8E4E2;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  #how h2 { font-size: 32px; }
+  .how-num { width: 34px; height: 34px; }
+  .how-text h3 { font-size: 19px; }
+  .how-text p { font-size: 15px; }
+}
+    /* Pricing - forest teal panel */
+#pricing h2 {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-weight: 200;
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  color: #F6F1E7;
+}
+.pricing-intro {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #D8AA68;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+.pricing-panel {
+  background: #203E38;
+  border: 1px solid rgba(216, 170, 104, 0.55);
+  border-radius: 22px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+  padding: 36px;
+  max-width: 1000px;
+  width: 100%;
+}
+.pricing-label {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #D8AA68;
+  margin: 0 0 26px 0;
+}
+.pricing-cols {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+.pricing-left { flex: 0 0 44%; }
+.pricing-right { flex: 0 0 56%; }
+.pricing-amount {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 64px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: #F9F3E8;
+}
+.pricing-caption {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 16px;
+  color: #F9F3E8;
+  margin: 6px 0 0 0;
+}
+.pricing-monthly {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 30px;
+  font-weight: 500;
+  color: #E3BB82;
+  margin-top: 30px;
+}
+.pricing-caption2 {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 15px;
+  color: #D6E1DC;
+  margin: 4px 0 0 0;
+}
+.pricing-divider {
+  border: none;
+  border-top: 1px solid rgba(216, 170, 104, 0.35);
+  margin: 24px 0 18px 0;
+}
+.pricing-total-label {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 13px;
+  color: #D6E1DC;
+  margin: 0;
+}
+.pricing-total {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: #F9F3E8;
+  margin-top: 4px;
+}
+.pricing-benefit {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #F1F0E9;
+  margin-bottom: 18px;
+}
+.pricing-benefit:last-child { margin-bottom: 0; }
+.pricing-benefit .check {
+  color: #D8AA68;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.pricing-bottom-divider {
+  border: none;
+  border-top: 1px solid rgba(216, 170, 104, 0.25);
+  margin: 24px 0 20px 0;
+}
+.pricing-foot {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #D7E0D8;
+  margin: 0 0 12px 0;
+}
+.pricing-foot:last-child { margin-bottom: 0; }
+@media (max-width: 700px) {
+  #pricing h2 { font-size: 32px; }
+  .pricing-panel { padding: 26px; }
+  .pricing-cols { flex-direction: column; gap: 32px; }
+  .pricing-left, .pricing-right { flex: 1 1 auto; width: 100%; }
+  .pricing-amount { font-size: 52px; }
+  .pricing-monthly { font-size: 26px; }
+}
+  </<style>
+body { background: transparent; }
+.site-background {
+  position: fixed;
+  inset: 0;
+  background-color: #073B46;
+  background-image: url("3promises-desktop.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+header, main, footer, .wrap {
+  position: relative;
+  z-index: 1;
+}
+body {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-weight: 400;
+  color: #f8f4ec;
+}
+h1, h2 {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-weight: 100;
+}
+p, .lead, .sub, li {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-weight: 400;
+}
+</style>
+</style><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap" rel="stylesheet"></head>
 <body>
+  <div class="site-background" aria-hidden="true"></div>
   <header>
     <div class="wrap bar">
-      <a class="brand" href="#top">3PromisesThailand</a>
+      <a class="brand" href="#top">PromisesThailand</a>
       <nav>
         <a class="hide" href="#promises">Promises</a>
         <a class="hide" href="#how">How it works</a>
@@ -108,140 +402,88 @@
   <main id="top">
     <section class="hero">
       <div class="wrap">
-        <p class="kicker">Three promises. One mission: Peace of mind.</p>
+        <p class="kicker">THREE PROMISES. ONE MISSION: PEACE OF MIND.</p>
         <h1>3PromisesThailand</h1>
-        <p class="lead">Your Life. Your Choice.<br><br><strong>Who will make sure nothing falls through the cracks after you're gone?</strong><br><br>3PromisesThailand is a U.S.-owned professional stewardship service for people living in Thailand.</p>
+       <p class="lead" style="color: var(--gold);">3PromisesThailand is a U.S. company providing people living in Thailand with a secure online repository for important information and documents, backed by professional stewardship.</p>
         <div class="actions">
           <a class="btn" href="#enroll">Join the waitlist</a>
           <a class="btn ghost" href="#how">See how it works</a>
         </div>
-        <p class="note">Public preview. Enrollment is not open. This page does not take payment or store personal documents.</p>
-        <p class="note">3Promises is a secure repository for your important information and documents.
-
-Our professional stewardship ensures that, after your death is verified, your important information and documents are delivered to your designated contacts. We also make relevant information available to your embassy, consulate, and local authorities when appropriate and legally permitted.
-
-We notify the service providers you've independently contracted and paid for, request that they begin work, monitor their progress, and document what has been completed—or remains unfinished.
-
-We keep your designated contacts informed throughout the process.
+        <p class="note" style="color: #000;">Public preview. Enrollment is not open. This page does not take payment or store personal documents.</p>
+        <p class="lead" style="color: #FFF;">Who will make sure nothing falls through the cracks after you're gone?</p>
       </div>
     </section>
     <section id="promises">
       <div class="wrap">
-        <h2>The three promises</h2>
-        <p class="sub">The service is built around three promises:</p>
+        <h2>The Three Promises</h2>
+       <p class="sub" style="color: #a67c45;">Our service is built around three promises.</p>
         <div class="grid">
           <article class="card">
             <p class="kicker">Promise one</p>
-            <h3>Sign up and easily manage your 3Promises account online. 
-Website or mobile app. Secure 24/7 access.
-</h3>
-            <p>Professional stewardship for your repository of important information, contacts, and documents.</p>
+            <h3><strong>Do everything online</strong></h3>
+            <p>Sign up and manage your 3Promises account from anywhere, anytime. No office visits. No appointments required to get started. Just simple, convenient, and secure 24/7 access through our website or mobile app.</p>
           </article>
           <article class="card">
             <p class="kicker">Promise two</p>
-            <h3>We notify the right people and follow through.</h3>
-            <p>after your death is verified, your important information and documents are delivered to your designated contacts. We also make relevant information available to your embassy, consulate, and local authorities when appropriate and legally permitted.
-</p>
+            <h3><strong>We notify the right people and follow through.</strong></h3>
+            <p>After your death is verified, your important information and documents are delivered to your designated contacts. We also make relevant information available to your embassy, consulate, and local authorities when appropriate and legally permitted.</p>
           </article>
           <article class="card">
             <p class="kicker">Promise three</p>
-            <h3>You stay in control while you're alive. We provide professional stewardship when you're gone. </h3>
-            <p>We notify the service providers you've independently contracted and paid for, request that they begin work, monitor their progress, and document what has been completed—or remains unfinished. We keep your designated contacts informed throughout the process.</p>
+            <h3><strong>You stay in control while you're alive. We provide professional stewardship when you're gone.</strong></h3>
+            <p>We notify the service providers you've independently contracted and paid for, request that they begin work, monitor their progress, and document what has been completed—or remains unfinished. We keep your designated contacts informed throughout the process</p>
           </article>
         </div>
-       <p class="lead" style="text-align:left; margin-top:24px;"><strong>Wherever life takes you in Thailand, your wishes and the people who matter to you remain connected.</strong></p>
       </div>
     </section>
-        <section id="how">
+    <section id="how">
       <div class="wrap">
         <h2>How it works</h2>
-        <p class="sub">Enrollment follows three steps. This page is a preview; enrollment and payments are not open.</p>
-        <div class="steps">
-          <div class="step">
-            <div class="num">1</div>
-            <div>
-              <h3>STEP ONE — CREATE YOUR ACCOUNT</h3>
-              <p>Complete your personal information, identification and Thailand contact details; emergency contacts and notification priorities; authorized representatives; recipients of official documents; a personal belongings inventory with up to five photographs per item; digital account information, designated contacts and file recipients; special requests and personal messages. Review and accept the agreement, then pay the $49.99 signup fee.</p>
-              <p><strong>Result: Account Active — Coverage Pending.</strong></p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="num">2</div>
-            <div>
-              <h3>STEP TWO — ACTIVATE COVERAGE</h3>
-              <p>Pay $120 and schedule an appointment with the principal Thai representative and two witnesses. Complete the appropriate authorization documents. After the signed documents are verified and securely recorded, your dashboard displays <strong>Coverage Active.</strong></p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="num">3</div>
-            <div>
-              <h3>STEP THREE — RECORD YOUR WISHES</h3>
-              <p>Choose cremation or burial, a funeral ceremony, your preferred funeral company, transportation arrangements and your final resting place. You can update your wishes and personal information whenever you want.</p>
-            </div>
-          </div>
-        </div>
+        <p class="sub">Four simple steps to organize your important information, document your wishes, and prepare for professional stewardship.</p>
+     <div class="how-timeline">
+<div class="how-step"><div class="how-num">1</div><div class="how-text"><h3>Sign Up & Verify Your Identity</h3><p>Create your secure account, verify your passport, phone and email, and make your initial $49.99 payment.</p></div></div>
+<div class="how-step"><div class="how-num">2</div><div class="how-text"><h3>Organize Your Important Information</h3><p>Enter your contacts, financial institutions, personal belongings, and other important details.</p></div></div>
+<div class="how-step"><div class="how-num">3</div><div class="how-text"><h3>Record Your Special Requests</h3><p>Document your personal wishes, preferences, and special instructions.</p></div></div>
+<div class="how-step"><div class="how-num">4</div><div class="how-text"><h3>Upload Your Contracts & Receipts</h3><p>Securely store your independently arranged service agreements and receipts for future stewardship oversight.</p></div></div>
+</div>        </div>
       </div>
     </section>
-
-         <section id="pricing">
+    <section id="pricing">
       <div class="wrap">
         <h2>Pricing</h2>
-        <p class="sub">Payment is not open on this page.</p>
-        <div class="price">
-          <p class="kicker" style="color:#d7c4a3">Approved pricing</p>
-          <strong>Sign up for just $49.99.</strong>
-          <p><b>Complete plan price: $1,340.00.</b></p>
-          <p><b>What's Included:</b> Planning, coordination, independent oversight, digital storage, personal messages and 24/7 customer support.</p>
-          <p><b>What's Not Included:</b> Funeral, cremation, burial, transportation and other services performed by independent providers. These services are charged separately by your selected providers.</p>
-          <p>The payment schedule is:</p>
-          <table style="width:100%; border-collapse:collapse; font-family:system-ui,sans-serif; font-size:15px; margin:8px 0 16px;">
-            <thead>
-              <tr>
-                <th style="text-align:left; padding:10px 8px; border-bottom:1px solid #d7c4a3;">Payment</th>
-                <th style="text-align:right; padding:10px 8px; border-bottom:1px solid #d7c4a3;">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td style="padding:10px 8px; border-bottom:1px solid rgba(215,196,163,0.35);">Signup — Step One</td><td style="text-align:right; padding:10px 8px; border-bottom:1px solid rgba(215,196,163,0.35);">$49.99</td></tr>
-              <tr><td style="padding:10px 8px; border-bottom:1px solid rgba(215,196,163,0.35);">Month 1 — Before scheduling appointment</td><td style="text-align:right; padding:10px 8px; border-bottom:1px solid rgba(215,196,163,0.35);">$120.00</td></tr>
-              <tr><td style="padding:10px 8px; border-bottom:1px solid rgba(215,196,163,0.35);">Months 2–26</td><td style="text-align:right; padding:10px 8px; border-bottom:1px solid rgba(215,196,163,0.35);">$44.99/month</td></tr>
-              <tr><td style="padding:10px 8px; border-bottom:1px solid rgba(215,196,163,0.35);">Month 27 — Final payment</td><td style="text-align:right; padding:10px 8px; border-bottom:1px solid rgba(215,196,163,0.35);">$45.26</td></tr>
-              <tr><td style="padding:10px 8px;"><b>Total</b></td><td style="text-align:right; padding:10px 8px;"><b>$1,340.00</b></td></tr>
-            </tbody>
-          </table>
-          <p>The 25 installments of $44.99 total $1,124.75.</p>
-          <p>The $120 Month One payment covers the principal Thai representative's appointment and two witnesses.</p>
-          <p>There are no mandatory recurring plan payments after the $1,340 is paid in full.</p>
-          <h3 style="font-weight:500; margin:22px 0 6px;">Coverage Activation</h3>
-          <p>Paying the $49.99 signup fee creates an active online account but does not activate full coordination coverage.</p>
-          <p>Coverage becomes active only after the Thai funeral representative appointment and all required authorizations have been completed and verified.</p>
-          <p>Once coverage is active, all three promises apply, even while the customer continues paying installments.</p>
-          <p>If a customer dies with active, uncanceled coverage, the remaining installments are waived and covered coordination services are performed under the service agreement.</p>
-          <p>These contract terms require legal approval before accepting payments.</p>
-        </div>
+       <p class="pricing-intro">One simple payment plan. Long-term peace of mind.</p>
+
+<div class="pricing-panel">
+  <p class="pricing-label">SECURE REPOSITORY & PROFESSIONAL STEWARDSHIP</p>
+
+  <div class="pricing-cols">
+    <div class="pricing-left">
+      <div class="pricing-amount">$49.99</div>
+      <p class="pricing-caption">To get started</p>
+
+      <div class="pricing-monthly">$39.99/month</div>
+      <p class="pricing-caption2">For 36 months</p>
+
+      <hr class="pricing-divider">
+      <p class="pricing-total-label">Total payment</p>
+      <div class="pricing-total">$1,489.63</div>
+    </div>
+
+    <div class="pricing-right">
+      <div class="pricing-benefit"><span class="check">✓</span><span>Secure 24/7 online repository</span></div>
+      <div class="pricing-benefit"><span class="check">✓</span><span>Professional stewardship when the time comes</span></div>
+      <div class="pricing-benefit"><span class="check">✓</span><span>Update your information anytime</span></div>
+      <div class="pricing-benefit"><span class="check">✓</span><span>No further scheduled installments after 36 monthly payments</span></div>
+    </div>
+  </div>
+
+  <hr class="pricing-bottom-divider">
+  <p class="pricing-foot">Your initial payment activates stewardship coverage after basic enrollment and acceptance of the terms. Complete and update your information at your convenience.</p>
+  <p class="pricing-foot">Funeral, cremation, transportation, repatriation, and other third-party services are arranged and paid for separately through your chosen providers.</p>
+</div>
       </div>
     </section>
-    <section id="faq" class="faq">
-      <div class="wrap">
-        <h2>Questions</h2>
-        <details open>
-          <summary>Who is this for?</summary>
-          <p>Expatriates living in Thailand who want a written plan and a coordinator, not a guess left to whoever is nearby.</p>
-        </details>
-        <details>
-          <summary>Do I have to involve my family?</summary>
-          <p>No. You choose whether family, a representative, or only the company and provider can see each part.</p>
-        </details>
-                <details>
-          <summary>What does the plan include?</summary>
-          <p>Planning, coordination, independent oversight, digital storage, personal messages and 24/7 customer support. The complete plan price is $1,340.00. Funeral, cremation, burial, transportation and other services performed by independent providers are charged separately by your selected providers.</p>
-        </details>
-        <details>
-          <summary>Can I enroll today?</summary>
-          <p>Not yet. This is a waitlist preview. Do not send identity documents or payment details through this page.</p>
-        </details>
-      </div>
-    </section>
+ 
     <section id="enroll">
       <div class="wrap">
         <h2>Waitlist</h2>
@@ -257,7 +499,7 @@ Website or mobile app. Secure 24/7 access.
   </main>
   <footer>
     <div class="wrap">
-      <p>3PromisesThailand · 3PromisesThailand.com · Contact: <a href="mailto:info@3Promisesthailand.com">info@3Promisesthailand.com</a> · A planning and coordination service for expatriates in Thailand.</p>
+      <p>3PromisesThailand · 3PromisesThailand.com · Contact: <a href="mailto:cy12us@gmail.com">cy12us@gmail.com</a> · A planning and coordination service for expatriates in Thailand.</p>
       <p>This preview is not an offer to enroll, not legal advice, and not a funeral contract. Eligibility and authorizations must be confirmed before any payment.</p>
     </div>
   </footer>
