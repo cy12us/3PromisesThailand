@@ -153,6 +153,80 @@ index.html
   color: #1E3A3A;
   font-size: 16px;
   line-height: 1.65;
+}/* How It Works - timeline */
+#how {
+  background: transparent;
+}
+#how h2 {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-weight: 100;
+  font-size: 38px;
+  color: #F6F1E7;
+}
+#how .sub {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 16px;
+  color: #D8AA68;
+  margin-bottom: 32px;
+}
+.how-timeline {
+  position: relative;
+  margin-left: 18px;
+  padding-left: 56px;
+}
+.how-timeline::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: rgba(169, 136, 86, 0.65);
+}
+.how-step {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.how-step:last-child {
+  margin-bottom: 0;
+}
+.how-num {
+  position: absolute;
+  left: -56px;
+  top: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #D8AA68;
+  color: #12383C;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+}
+.how-text h3 {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 21px;
+  font-weight: 500;
+  color: #F9F5EC;
+  margin: 2px 0 10px 0;
+}
+.how-text p {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #D8E4E2;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  #how h2 { font-size: 32px; }
+  .how-num { width: 34px; height: 34px; }
+  .how-text h3 { font-size: 19px; }
+  .how-text p { font-size: 15px; }
 }
   </style>
 <style>
@@ -237,12 +311,12 @@ p, .lead, .sub, li {
       <div class="wrap">
         <h2>How it works</h2>
         <p class="sub">Four simple steps to organize your important information, document your wishes, and prepare for professional stewardship.</p>
-        <div class="steps">
-          <div class="step"><div class="num">1</div><div><h3>Sign Up & Verify Your Identity</h3><p>Create your secure 3Promises account, enter your basic personal information, and verify your identity using your passport, phone number, and email address. Make your initial payment of $49.99 to activate your stewardship coverage.</p></div></div>
-          <div class="step"><div class="num">2</div><div><h3>Organize Your Important Information</h3><p>Enter and manage your emergency contacts, family members, financial institutions, personal belongings, and other important information. Update your information anytime through your secure account.</p></div></div>
-          <div class="step"><div class="num">3</div><div><h3>Record Your Special Requests</h3><p>Document your personal wishes, preferences, and special instructions so the people responsible for carrying them out know what matters to you.</p></div></div>
-          <div class="step"><div class="num">4</div><div><h3>Upload Your Contracts & Receipts</h3><p>Upload contracts, receipts, and related documents for funeral, cremation, transportation, repatriation, or other services you have independently arranged and paid for. These records help our professional stewardship team monitor your providers' obligations, follow up, and document fulfillment when the time comes.</p></div></div>
-        </div>
+     <div class="how-timeline">
+<div class="how-step"><div class="how-num">1</div><div class="how-text"><h3>Sign Up & Verify Your Identity</h3><p>Create your secure account, verify your passport, phone and email, and make your initial $49.99 payment.</p></div></div>
+<div class="how-step"><div class="how-num">2</div><div class="how-text"><h3>Organize Your Important Information</h3><p>Enter your contacts, financial institutions, personal belongings, and other important details.</p></div></div>
+<div class="how-step"><div class="how-num">3</div><div class="how-text"><h3>Record Your Special Requests</h3><p>Document your personal wishes, preferences, and special instructions.</p></div></div>
+<div class="how-step"><div class="how-num">4</div><div class="how-text"><h3>Upload Your Contracts & Receipts</h3><p>Securely store your independently arranged service agreements and receipts for future stewardship oversight.</p></div></div>
+</div>        </div>
       </div>
     </section>
     <section id="pricing">
