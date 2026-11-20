@@ -228,6 +228,129 @@ index.html
   .how-text h3 { font-size: 19px; }
   .how-text p { font-size: 15px; }
 }
+    /* Pricing - forest teal panel */
+#pricing h2 {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-weight: 200;
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  color: #F6F1E7;
+}
+.pricing-intro {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #D8AA68;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+.pricing-panel {
+  background: #203E38;
+  border: 1px solid rgba(216, 170, 104, 0.55);
+  border-radius: 22px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+  padding: 40px;
+  max-width: 960px;
+  width: 100%;
+}
+.pricing-label {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #D8AA68;
+  margin: 0 0 32px 0;
+}
+.pricing-cols {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+.pricing-left { flex: 0 0 44%; }
+.pricing-right { flex: 0 0 56%; }
+.pricing-amount {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 64px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: #F9F3E8;
+}
+.pricing-caption {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 16px;
+  color: #F9F3E8;
+  margin: 6px 0 0 0;
+}
+.pricing-monthly {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 30px;
+  font-weight: 500;
+  color: #E3BB82;
+  margin-top: 30px;
+}
+.pricing-caption2 {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 15px;
+  color: #D6E1DC;
+  margin: 4px 0 0 0;
+}
+.pricing-divider {
+  border: none;
+  border-top: 1px solid rgba(216, 170, 104, 0.35);
+  margin: 24px 0 18px 0;
+}
+.pricing-total-label {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 13px;
+  color: #D6E1DC;
+  margin: 0;
+}
+.pricing-total {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: #F9F3E8;
+  margin-top: 4px;
+}
+.pricing-benefit {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #F1F0E9;
+  margin-bottom: 18px;
+}
+.pricing-benefit:last-child { margin-bottom: 0; }
+.pricing-benefit .check {
+  color: #D8AA68;
+  font-size: 18px;
+  line-height: 1.4;
+}
+.pricing-bottom-divider {
+  border: none;
+  border-top: 1px solid rgba(216, 170, 104, 0.25);
+  margin: 32px 0 24px 0;
+}
+.pricing-foot {
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #D7E0D8;
+  margin: 0 0 12px 0;
+}
+.pricing-foot:last-child { margin-bottom: 0; }
+@media (max-width: 700px) {
+  #pricing h2 { font-size: 32px; }
+  .pricing-panel { padding: 26px; }
+  .pricing-cols { flex-direction: column; gap: 32px; }
+  .pricing-left, .pricing-right { flex: 1 1 auto; width: 100%; }
+  .pricing-amount { font-size: 52px; }
+  .pricing-monthly { font-size: 26px; }
+}
   </style>
 <style>
 body { background-color: #073B46; }
@@ -322,19 +445,36 @@ p, .lead, .sub, li {
     <section id="pricing">
       <div class="wrap">
         <h2>Pricing</h2>
-        <p class="sub">One published price for now. Payment is not open on this page.</p>
-        <div class="price">
-          <p class="kicker" style="color:#d7c4a3">Lifetime Repository & Professional Stewardship</p>
-          <strong>$49.99 to get started</strong>
-          <p>Then $39.99/month for 36 months. Total: $1,489.63.</p>
-          <ul>
-           <li>No additional installment payments after completing your 36 monthly payments.</li>
-            <li>Your initial payment activates your stewardship coverage. Complete and update your information at your convenience through your secure online account.</li>
-            <li>Secure online repository for your important information, documents, and wishes.</li>
-            <li>Professional stewardship and coordination when the time comes.</li>
-            <li>Funeral, cremation, transportation, repatriation, and other third-party service costs are separate and paid directly to your chosen providers.</li>
-          </ul>
-        </div>
+       <p class="pricing-intro">One simple payment plan. Long-term peace of mind.</p>
+
+<div class="pricing-panel">
+  <p class="pricing-label">SECURE REPOSITORY & PROFESSIONAL STEWARDSHIP</p>
+
+  <div class="pricing-cols">
+    <div class="pricing-left">
+      <div class="pricing-amount">$49.99</div>
+      <p class="pricing-caption">To get started</p>
+
+      <div class="pricing-monthly">$39.99/month</div>
+      <p class="pricing-caption2">For 36 months</p>
+
+      <hr class="pricing-divider">
+      <p class="pricing-total-label">Total payment</p>
+      <div class="pricing-total">$1,489.63</div>
+    </div>
+
+    <div class="pricing-right">
+      <div class="pricing-benefit"><span class="check">✓</span><span>Secure 24/7 online repository</span></div>
+      <div class="pricing-benefit"><span class="check">✓</span><span>Professional stewardship when the time comes</span></div>
+      <div class="pricing-benefit"><span class="check">✓</span><span>Update your information anytime</span></div>
+      <div class="pricing-benefit"><span class="check">✓</span><span>No further scheduled installments after 36 monthly payments</span></div>
+    </div>
+  </div>
+
+  <hr class="pricing-bottom-divider">
+  <p class="pricing-foot">Your initial payment activates stewardship coverage after basic enrollment and acceptance of the terms. Complete and update your information at your convenience.</p>
+  <p class="pricing-foot">Funeral, cremation, transportation, repatriation, and other third-party services are arranged and paid for separately through your chosen providers.</p>
+</div>
       </div>
     </section>
     <section id="faq" class="faq">
