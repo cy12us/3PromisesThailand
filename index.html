@@ -404,13 +404,48 @@ p, .lead, .sub, li {
       <div class="wrap">
         <p class="kicker">THREE PROMISES. ONE MISSION: PEACE OF MIND.</p>
         <h1>3PromisesThailand</h1>
-  <div class="hero-intro">
-<p class="hero-intro-opening">Something happens to you. You're thousands of miles from home. Will the people trying to help you have the information they need? Or will they be working with incomplete or outdated information?</p>
-<p>Living abroad means your life is constantly changing. Your address, phone number, friends, emergency contacts, insurance, and other important details may change without your family or friends knowing.</p>
-<p>3PromisesThailand gives you a secure, convenient place to keep that information organized and up to date.</p>
-<p>If you pass away in Thailand, our professional stewardship helps ensure that your designated contacts and authorized representatives, including your embassy or consulate when appropriate, receive the information they need, following verification and applicable authorizations.</p>
-<p class="hero-intro-closing">Because important information is only useful when it reaches the people who need it.</p>
-</div>
+.hero-intro {
+  width: min(800px, 100%);
+  margin: 28px 0 0;
+  text-align: left;
+  font-family: "Helvetica Neue", "Inter", sans-serif;
+}
+
+.hero-intro p {
+  margin: 0 0 16px;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #F3F0E8;
+}
+
+.hero-intro .hero-intro-opening {
+  margin-bottom: 22px;
+  font-weight: 300;
+  font-size: 25px;
+  line-height: 1.4;
+  color: #F3F0E8;
+}
+
+.hero-intro .hero-intro-closing {
+  margin: 26px 0 0;
+  font-weight: 300;
+  font-size: 21px;
+  line-height: 1.5;
+  color: #E4C79E;
+}
+
+@media (max-width: 600px) {
+  .hero-intro p {
+    font-size: 16px;
+  }
+  .hero-intro .hero-intro-opening {
+    font-size: 21px;
+  }
+  .hero-intro .hero-intro-closing {
+    font-size: 18px;
+  }
+}
       </div>
     </section>
     <section id="promises">
