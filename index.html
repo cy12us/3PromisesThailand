@@ -7,7 +7,6 @@
   <title>3PromisesThailand — Peace of mind. Your life. Your choice.</title>
 <meta name="description" content="A U.S. company helping expats in Thailand securely store and manage important information and documents. Backed by professional stewardship.">
 <link rel="icon" type="image/svg+xml" sizes="any" href="/3PromisesThailand_Icon.svg?v=2">
-
   <style>
     :root {
       --ink: #1c1915;
@@ -55,7 +54,6 @@
   color: #E4B77E;
   margin: 0 0 16px 0;
 }
-
 .hero-eyebrow-2 {
   margin: 0 0 16px 0;
 }
@@ -93,8 +91,10 @@
       width: 100%; margin-top: 6px; border: 1px solid var(--line); border-radius: 10px;
       padding: 12px; font: 16px system-ui, sans-serif; background: #fff;
     }
-    button.btn { border: 0; cursor: not-allowed; opacity: 0.72; }
-    footer { border-top: 1px solid var(--line); padding: 28px 0 40px; font-family: system-ui, sans-serif; font-size: 13px; color: var(--muted); }
+    button.btn { border: 0; cursor: pointer; opacity: 1; }
+    button.btn[disabled] { cursor: not-allowed; opacity: 0.72; }
+   footer { border-top: 1px solid rgba(216, 170, 104, 0.25); padding: 28px 0 40px; font-family: system-ui, sans-serif; font-size: 13px; color: #D7E0D8; }
+footer a { color: #F9F3E8; }
     @media (max-width: 800px) {
       .grid { grid-template-columns: 1fr; }
       nav .hide { display: none; }
@@ -396,6 +396,7 @@ p, .lead, .sub, li {
   font-size: 17px;
   line-height: 1.6;
   color: #F3F0E8;
+  text-wrap: pretty;
 }
 .hero-intro .hero-intro-opening {
   margin-bottom: 22px;
@@ -403,6 +404,7 @@ p, .lead, .sub, li {
   font-size: 25px;
   line-height: 1.4;
   color: #F3F0E8;
+  text-wrap: pretty;
 }
 .hero-intro .hero-intro-closing {
   margin: 26px 0 0;
@@ -410,15 +412,14 @@ p, .lead, .sub, li {
   font-size: 21px;
   line-height: 1.5;
   color: #E4C79E;
+  text-wrap: pretty;
 }
 @media (max-width: 600px) {
-  
   .hero-intro p { font-size: 16px; }
   .hero-intro .hero-intro-opening { font-size: 21px; }
-  {  text-wrap: pretty; }
   .hero-intro .hero-intro-closing { font-size: 18px; }
-{text-wrap: pretty;}
-   .brand-logo {
+}
+.brand-logo {
   width: 220px;
   height: auto;
   display: block;
@@ -458,6 +459,30 @@ p, .lead, .sub, li {
   .roots-heading { font-size: 26px; }
   .roots-text { font-size: 16px; }
 }
+   #enroll .waitlist-intro { color: #F3F0E8 !important; opacity: 1 !important; }
+#enroll .waitlist-intro strong { color: #E4C79E !important; opacity: 1 !important; }
+#enroll .waitlist-label { color: #20433F !important; font-weight: 500; opacity: 1 !important; }
+#enroll #waitlist-form input[type="text"],
+#enroll #waitlist-form input[type="email"],
+#enroll #waitlist-form textarea {
+  background: #FFFFFF !important;
+  border: 1.5px solid #B8A78F !important;
+  color: #20433F !important;
+  opacity: 1 !important;
+}
+#enroll #waitlist-form input::placeholder,
+#enroll #waitlist-form textarea::placeholder { color: #66716D !important; opacity: 1 !important; }
+#enroll #waitlist-form input:focus,
+#enroll #waitlist-form textarea:focus {
+  outline: 2px solid #20433F !important;
+  outline-offset: 1px;
+  border-color: #20433F !important;
+}
+#enroll .waitlist-consent { color: #20433F !important; opacity: 1 !important; font-size: 13px; line-height: 1.5; display: flex; gap: 8px; align-items: flex-start; }
+#enroll .waitlist-consent a { color: #80501E !important; text-decoration: underline !important; }
+#enroll .waitlist-consent input[type="checkbox"] { width: 18px; height: 18px; accent-color: #20433F; flex-shrink: 0; margin-top: 2px; }
+#enroll #waitlist-btn { cursor: pointer; opacity: 1; }
+#enroll .waitlist-msg { font-family: "Helvetica Neue", Inter, sans-serif; font-size: 15px; margin: 8px 0 0; color: #20433F; }
 </style><link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap" rel="stylesheet"></head>
@@ -526,9 +551,7 @@ p, .lead, .sub, li {
      <div class="how-timeline">
 <div class="how-step"><div class="how-num">1</div><div class="how-text"><h3>Sign Up & Verify Your Identity</h3><p>Create your secure account, verify your passport, phone and email, and make your initial $49.99 payment.</p></div></div>
 <div class="how-step"><div class="how-num">2</div><div class="how-text"><h3>Organize Your Important Information</h3><p>Start with the essentials. Then add your contacts, financial institutions, personal belongings, and other important details at your own pace. Update them whenever you wish.</p></div></div>
-<div class="how-step"><div class="how-num">3</div><div class="how-text"><h3>Leave Personal Messages and Special Instructions</h3><p>Leave personal messages for loved ones, friends, or anyone you choose. Share words of love, gratitude, apologies, or things left unsaid. Provide special instructions, including how designated individuals can access important accounts or information after your death.
-
-Take your time. Add, edit, or delete your messages and instructions whenever you wish.</p></div></div>
+<div class="how-step"><div class="how-num">3</div><div class="how-text"><h3>Leave Personal Messages and Special Instructions</h3><p>Leave personal messages for loved ones, friends, or anyone you choose. Share words of love, gratitude, apologies, or things left unsaid. Provide special instructions, including how designated individuals can access important accounts or information after your death. Take your time. Add, edit, or delete your messages and instructions whenever you wish.</p></div></div>
 <div class="how-step"><div class="how-num">4</div><div class="how-text"><h3>Upload Your Contracts & Receipts</h3><p>Securely store your independently arranged service agreements and receipts for future stewardship oversight.</p></div></div>
 </div>        </div>
     </section>
@@ -542,11 +565,11 @@ Take your time. Add, edit, or delete your messages and instructions whenever you
     <div class="pricing-left">
       <div class="pricing-amount">$49.99</div>
       <p class="pricing-caption">To get started</p>
-      <div class="pricing-monthly">$39.99/month</div>
+      <div class="pricing-monthly">$19.99/month</div>
       <p class="pricing-caption2">For 36 months</p>
       <hr class="pricing-divider">
       <p class="pricing-total-label">Total payment</p>
-      <div class="pricing-total">$1,489.63</div>
+      <div class="pricing-total">$769.63</div>
     </div>
     <div class="pricing-right">
       <div class="pricing-benefit"><span class="check">✓</span><span>Secure 24/7 online repository</span></div>
@@ -557,29 +580,83 @@ Take your time. Add, edit, or delete your messages and instructions whenever you
     </div>
   </div>
   <hr class="pricing-bottom-divider">
-  <p class="pricing-foot">Your initial payment activates all Three Promises after basic enrollment and acceptance of the terms. We honor our commitments even if you pass away before completing your payment plan.</p>
+  <p class="pricing-foot">Your initial payment activates all Three Promises after basic enrollment and acceptance of the terms. If you pass away before your final payment, our commitment to you remains unchanged</p>
   <p class="pricing-foot">Funeral, cremation, transportation, repatriation, and other third-party services are arranged and paid for separately through your chosen providers.</p>
 </div>
       </div>
     </section>
-    <section id="enroll">
-      <div class="wrap">
-        <h2>Waitlist</h2>
-        <p class="sub">Leave a note if you want to hear when enrollment opens. This form is not connected. Nothing you type here is saved.</p>
-        <form onsubmit="return false" aria-disabled="true">
-          <label>Name<input type="text" name="name" autocomplete="name" disabled placeholder="Not accepting entries yet"></label>
-          <label>Email<input type="email" name="email" autocomplete="email" disabled placeholder="Not accepting entries yet"></label>
-          <label>Note<textarea name="note" rows="4" disabled placeholder="Do not enter documents or payment details."></textarea></label>
-          <button class="btn" type="button" disabled>Waitlist not open</button>
-        </form>
-      </div>
-    </section>
+   <section id="enroll">
+  <div class="wrap">
+    <h2>Waitlist</h2>
+    <p class="sub waitlist-intro"><strong>Interested in 3PromisesThailand?</strong><br>Leave your name and email address to be notified when enrollment opens. Have a question? Leave us a note, and we'll be happy to help.</p>
+    <form id="waitlist-form">
+      <label class="waitlist-label">Name<input type="text" name="name" autocomplete="name" required maxlength="100" placeholder="Your name"></label>
+      <label class="waitlist-label">Email address<input type="email" name="email" autocomplete="email" required placeholder="you@example.com"></label>
+      <label class="waitlist-label">Note / Question<textarea name="note" rows="4" maxlength="2000" placeholder="Optional — your question or note"></textarea></label>
+      <input type="text" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;" aria-hidden="true">
+      <label class="waitlist-consent"><input type="checkbox" id="waitlist-consent" required> <span>By submitting this form, you agree that 3PromisesThailand may contact you regarding your inquiry and notify you when enrollment opens. <br> See our <a href="privacy.html" id="privacy-link">Privacy Policy</a></span></label>
+      <button class="btn" type="submit" id="waitlist-btn">Join the Waitlist</button>
+      <p class="waitlist-msg" id="waitlist-msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
   </main>
   <footer>
     <div class="wrap">
-      <p>3PromisesThailand · 3PromisesThailand.com · Contact: <a href="mailto:cy12us@gmail.com">cy12us@gmail.com</a> · A planning and coordination service for expatriates in Thailand.</p>
+      <p>Contact: <a href="mailto:info@3promisesthailand.com">info@3promisesthailand.com</a> 3PromisesThailand American roots. International understanding. Professional stewardship for expats in Thailand</p>
       <p>This preview is not an offer to enroll, not legal advice, and not a funeral contract. Eligibility and authorizations must be confirmed before any payment.</p>
     </div>
   </footer>
+  <script>
+(function(){
+  var form = document.getElementById('waitlist-form');
+  if(!form) return;
+  var msg = document.getElementById('waitlist-msg');
+  var btn = document.getElementById('waitlist-btn');
+  var SUPA_URL = 'https://igiotdsfolmftkexbwmx.supabase.co';
+  var SUPA_ANON = 'sb_publishable_MTZ0EdQ7i1Hrx7sefVdRnQ_CPmjnJOY';
+  var lastSubmit = 0;
+  var startTime = Date.now();
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    msg.style.color = '#123E42';
+    msg.textContent = '';
+    if(form.company && form.company.value){ return; }
+    if(Date.now() - startTime < 3000){ msg.textContent = 'Please wait a moment and try again.'; return; }
+    if(Date.now() - lastSubmit < 30000){ msg.textContent = 'Please wait before submitting again.'; return; }
+    var name = form.name.value.trim();
+    var email = form.email.value.trim().toLowerCase();
+    var note = form.note.value.trim();
+    var consent = document.getElementById('waitlist-consent').checked;
+    if(!name || !email || !consent){ msg.textContent = 'Please add your name, email, and consent.'; return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ msg.textContent = 'Please enter a valid email address.'; return; }
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    try{
+      var res = await fetch(SUPA_URL + '/rest/v1/waitlist_signups', {
+        method: 'POST',
+        headers: { 'apikey': SUPA_ANON, 'Authorization': 'Bearer ' + SUPA_ANON, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ name: name, email: email, note: note || null, consent_ack: true, consent_version: 'v1-2026-11-22', status: note ? 'has_question' : 'new' })
+      });
+      lastSubmit = Date.now();
+      if(res.ok || res.status === 201){
+        msg.textContent = "Thank you for your interest in 3PromisesThailand. We've received your information and will contact you when enrollment opens.";
+        form.name.value = ''; form.email.value = ''; form.note.value = '';
+      } else {
+        var t = await res.text();
+        if(t.indexOf('duplicate') > -1 || t.indexOf('unique') > -1 || res.status === 409){
+          msg.textContent = "Thank you for your interest in 3PromisesThailand. We've received your information and will contact you when enrollment opens.";
+        } else {
+          msg.textContent = 'Something did not save. Please check your entries and try again.';
+        }
+      }
+    } catch(err){
+      msg.textContent = 'Something did not save. Please check your connection and try again.';
+    }
+    btn.disabled = false;
+    btn.textContent = 'Join the Waitlist';
+  });
+})();
+</script>
 </body>
 </html>
