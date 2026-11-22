@@ -458,6 +458,11 @@ p, .lead, .sub, li {
   .roots-heading { font-size: 26px; }
   .roots-text { font-size: 16px; }
 }
+    .waitlist-intro { color: #E4C79E; }
+.waitlist-label { color: #123E42; font-weight: 500; }
+.waitlist-consent { color: #123E42; font-size: 13px; line-height: 1.5; display: flex; gap: 8px; align-items: flex-start; }
+.waitlist-consent a { color: #123E42; text-decoration: underline; }
+.waitlist-msg { font-family: "Helvetica Neue", Inter, sans-serif; font-size: 15px; margin: 8px 0 0; }
 </style><link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap" rel="stylesheet"></head>
@@ -585,5 +590,60 @@ Take your time. Add, edit, or delete your messages and instructions whenever you
       <p>This preview is not an offer to enroll, not legal advice, and not a funeral contract. Eligibility and authorizations must be confirmed before any payment.</p>
     </div>
   </footer>
+  <script>
+(function(){
+  var form = document.getElementById('waitlist-form');
+  if(!form) return;
+  var msg = document.getElementById('waitlist-msg');
+  var btn = document.getElementById('waitlist-btn');
+  var SUPA_URL = 'https://igiotdsfolmftkexbwmx.supabase.co';
+  var SUPA_ANON = 'sb_publishable_MTZ0EdQ7i1Hrx7sefVdRnQ_CPmjnJOY';
+  var lastSubmit = 0;
+  var startTime = Date.now();
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    msg.style.color = '#123E42';
+    msg.textContent = '';
+    // honeypot
+    if(form.company && form.company.value){ return; }
+    // slow-bot check: less than 3 sec
+    if(Date.now() - startTime < 3000){ msg.textContent = 'Please wait a moment and try again.'; return; }
+    // rate limit: 30 sec
+    if(Date.now() - lastSubmit < 30000){ msg.textContent = 'Please wait before submitting again.'; return; }
+    var name = form.name.value.trim();
+    var email = form.email.value.trim().toLowerCase();
+    var note = form.note.value.trim();
+    var consent = document.getElementById('waitlist-consent').checked;
+    if(!name || !email || !consent){ msg.textContent = 'Please add your name, email, and consent.'; return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ msg.textContent = 'Please enter a valid email address.'; return; }
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    try{
+      var res = await fetch(SUPA_URL + '/rest/v1/waitlist_signups', {
+        method: 'POST',
+        headers: { 'apikey': SUPA_ANON, 'Authorization': 'Bearer ' + SUPA_ANON, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ name: name, email: email, note: note || null, consent_ack: true, consent_version: 'v1-2026-11-22', status: note ? 'has_question' : 'new' })
+      });
+      lastSubmit = Date.now();
+      if(res.ok || res.status === 201){
+        msg.textContent = "Thank you for your interest in 3PromisesThailand. We've received your information and will contact you when enrollment opens.";
+        form.name.value = ''; form.email.value = ''; form.note.value = '';
+      } else {
+        // show same success message on duplicate so we don't reveal existing emails
+        var t = await res.text();
+        if(t.indexOf('duplicate') > -1 || t.indexOf('unique') > -1 || res.status === 409){
+          msg.textContent = "Thank you for your interest in 3PromisesThailand. We've received your information and will contact you when enrollment opens.";
+        } else {
+          msg.textContent = 'Something did not save. Please check your entries and try again.';
+        }
+      }
+    } catch(err){
+      msg.textContent = 'Something did not save. Please check your connection and try again.';
+    }
+    btn.disabled = false;
+    btn.textContent = 'Join the Waitlist';
+  });
+})();
+</script>
 </body>
 </html>
