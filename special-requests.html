@@ -3,33 +3,16 @@
 <html lang="en">
 <head>
 <link rel="stylesheet" href="app.css">
-  <style>
+<style>
 header.app { background: #EFE2CF; }
 .header-divider { border-top: 1px solid #C5D0C8; }
-</style>
-  <style>
-header.app { background: #EFE2CF; }
+body { background: #EFE2CF; }
 </style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Special Requests - Customer Dashboard</title>
-<style>
-body { font-family:"Helvetica Neue",Inter,sans-serif; margin:0; background:#EFE2CF; color:#111; }
-.wrap-center { max-width:800px; margin:0 auto; padding:40px 20px; }
-.kicker { font-size:11px; color:#c96a2b; margin:0; }
-h1 { font-size:32px; line-height:1.1; font-weight:500; margin:8px 0 0; }
-.back { display:inline-block; margin-top:16px; font-size:13px; color:#111; }
-.section { margin-top:16px; padding:20px; background:rgba(255,255,255,.7); backdrop-filter:blur(10px); border:1px solid #eee; border-radius:12px; }
-.section h2 { margin:0 0 8px; font-size:18px; }
-.section p { margin:0 0 14px; color:#555; font-size:13px; line-height:1.5; }
-label { display:block; margin:12px 0 5px; color:#333; font-size:13px; }
-input, textarea, select { box-sizing:border-box; width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; background:#fff; color:#111; font:inherit; font-size:14px; }
-textarea { resize:vertical; }
-@media(max-width:700px) { .wrap-center { padding:24px 16px; } }
-</style>
 </head>
 <body>
-<div class="wrap-center">
 <header class="app"><div class="wrap bar">
 <a class="brand-mini" href="dashboard.html"><img src="3PromisesThailand_Icon.svg" alt=""> 3PromisesThailand</a>
 <nav class="app-nav"><a href="dashboard.html">Dashboard</a></nav>
@@ -37,90 +20,80 @@ textarea { resize:vertical; }
 <main class="page"><div class="wrap">
 <p class="crumb">Customer Dashboard / Special Requests</p>
 <h1>Special Requests</h1>
-<a class="back" href="dashboard.html">← Back to Dashboard</a>
-<section class="section">
-  <h2>Personal Messages</h2>
-  <p>Draft an email to be sent after death.</p>
-  <label for="request-from">Send from (your email address)</label>
-  <input id="request-from" name="request-from" type="email">
-  <label for="request-email">Email address</label>
-  <input id="request-email" name="request-email" type="email">
+<p><a class="back" href="dashboard.html">← Back to Dashboard</a></p>
 
-  <label for="request-subject">Subject line</label>
-  <input id="request-subject" name="request-subject" type="text">
+<div class="panel">
+<h3>Personal Messages</h3>
+<p class="panel-desc">Draft an email to be sent after death.</p>
 
-  <label for="request-message">Message</label>
-  <textarea id="request-message" name="request-message" rows="6"></textarea>
-    <label for="request-attachments">Attachments</label>
-  <input id="request-attachments" name="request-attachments" type="file" multiple>
-  <p class="hint">Attachments count toward your 10GB storage.</p>
-    <label for="request-timing">After confirmation of your death, when do you want this message sent?</label>
-  <select id="request-timing" name="request-timing">
-    <option value="">Select timing</option>
-    <option value="immediately">Immediately</option>
-    <option value="day-after">The day after</option>
-    <option value="one-week">Wait one week</option>
-    <option value="one-month">Wait one month</option>
-  </select>
-  <div class="action-row">
-  <div class="action-main">
-    <button type="button" id="save-request" class="btn-save">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg>
-      Save Request
-    </button>
-    <button type="button" id="add-request" class="btn-add">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-      Add Another
-    </button>
-  </div>
-  <button type="button" id="delete-request" class="btn-delete">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg>
-    Delete Request
-  </button>
+<label for="request-from">Send from (your email address)</label>
+<input class="financial-input" id="request-from" name="request-from" type="email">
+
+<label for="request-email">Email address</label>
+<input class="financial-input" id="request-email" name="request-email" type="email">
+
+<label for="request-subject">Subject line</label>
+<input class="financial-input" id="request-subject" name="request-subject" type="text">
+
+<label for="request-message">Message</label>
+<textarea class="financial-textarea" id="request-message" name="request-message" rows="6"></textarea>
+
+<label for="request-attachments">Attachments</label>
+<input id="request-attachments" name="request-attachments" type="file" multiple>
+<p class="panel-desc">Attachments count toward your 10GB storage.</p>
+
+<label for="request-timing">After confirmation of your death, when do you want this message sent?</label>
+<select class="financial-select" id="request-timing" name="request-timing">
+<option value="">Select timing</option>
+<option value="immediately">Immediately</option>
+<option value="day-after">The day after</option>
+<option value="one-week">Wait one week</option>
+<option value="one-month">Wait one month</option>
+</select>
+
+<div class="action-row">
+<div class="action-main">
+<button type="button" id="save-request" class="btn-save">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg>
+Save Request
+</button>
+<button type="button" id="add-request" class="btn-add">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+Add Another
+</button>
 </div>
-</section>
+<button type="button" id="delete-request" class="btn-delete">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg>
+Delete Request
+</button>
 </div>
-  <script>
-  // Pre-fill Send From with logged-in account email
-  // Replace 'user.email' with your Supabase auth value from account.html
-  document.addEventListener('DOMContentLoaded', function() {
-    var fromField = document.getElementById('request-from');
-    if (fromField && typeof user !== 'undefined' && user.email) {
-      fromField.value = user.email;
-      fromField.readOnly = true;
-    }
-  });
+</div>
+</div></main>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+var fromField = document.getElementById('request-from');
+if (fromField && typeof user !== 'undefined' && user.email) {
+fromField.value = user.email;
+fromField.readOnly = true;
+}
+});
 </script>
-  <script>
-  document.getElementById('add-request').onclick = function() {
-    var sec = document.querySelector('section.section');
-    var copy = sec.cloneNode(true);
-    copy.querySelectorAll('input, textarea, select').forEach(function(f){ f.value=''; });
-    sec.parentNode.insertBefore(copy, document.getElementById('add-request').parentNode);
-  };
-  document.getElementById('delete-request').onclick = function() {
-    var secs = document.querySelectorAll('section.section');
-    if (secs.length > 1) secs[secs.length-1].remove();
-  };
-</script>
- <script>
-document.getElementById('save-request').onclick = function() {
-  alert('Special request saved.');
+<script>
+document.getElementById('add-request').onclick = function() {
+var sec = document.querySelector('div.panel');
+var copy = sec.cloneNode(true);
+copy.querySelectorAll('input, textarea, select').forEach(function(f){ f.value=''; });
+sec.parentNode.insertBefore(copy, document.getElementById('add-request').parentNode);
+};
+document.getElementById('delete-request').onclick = function() {
+var secs = document.querySelectorAll('div.panel');
+if (secs.length > 1) secs[secs.length-1].remove();
 };
 </script>
-  <script>
-document.querySelectorAll('.select-all').forEach(function(master){
-  var group = master.closest('.check-group');
-  var boxes = group.querySelectorAll('input[type="checkbox"]:not(.select-all)');
-  master.addEventListener('change', function(){
-    boxes.forEach(function(b){ b.checked = master.checked; });
-  });
-  boxes.forEach(function(b){
-    b.addEventListener('change', function(){
-      master.checked = Array.from(boxes).every(function(x){ return x.checked; });
-    });
-  });
-});
+<script>
+document.getElementById('save-request').onclick = function() {
+alert('Special request saved.');
+};
 </script>
 </body>
 </html>
