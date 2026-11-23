@@ -104,10 +104,10 @@ input:focus, textarea:focus, select:focus { outline: 3px solid var(--sage); outl
   .action-main { flex-direction: column; }
   .btn-save, .btn-add { justify-content: center; width: 100%; }
 }
-header.app { background: #F4F3F0; }
+
 .header-divider { border: 0; border-top: 1px solid #E1E4DE; margin: 22px 0 0 0; }
 main.page { padding-top: 32px; }
-header.app .bar { display:flex; align-items:center; justify-content:space-between; min-height:64px; }
+
 .brand-mini { display:flex; align-items:center; gap:8px; text-decoration:none; color:#223733; font-size:15px; font-weight:500; }
 .brand-mini img { height:22px; width:auto; display:block; }
 nav.app-nav a { color:#395950; text-decoration:none; font-size:14px; }
