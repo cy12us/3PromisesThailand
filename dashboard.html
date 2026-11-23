@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer Dashboard</title>
+<style>
+body { font-family: "Helvetica Neue", Inter, sans-serif; margin:0; padding:40px; background:#fafaf8; color:#111; }
+p.kicker { font-size:11px; color:#c96a2b; margin:0; }
+h1 { font-size:32px; line-height:1.1; font-weight:500; max-width:400px; margin:8px 0 0 0; }
+.bento { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; max-width:1000px; margin-top:24px; }
+.card { background:rgba(255,255,255,0.7); backdrop-filter:blur(10px); border:1px solid #eee; border-radius:12px; padding:20px; min-height:220px; }
+.card h3 { margin:0 0 8px 0; font-size:18px; font-weight:600; }
+.card p { margin:0; font-size:13px; line-height:1.5; color:#555; }
+.wide { grid-column: span 2; }
+.visual { background:#f0f0ef; border-radius:8px; height:120px; margin-top:16px; display:flex; align-items:center; justify-content:center; color:#999; font-size:12px; }
+a.btn { display:inline-block; margin-top:12px; font-size:13px; color:#111; text-decoration:underline; }
+@media(max-width:700px){ .bento{grid-template-columns:1fr;} .wide{grid-column:span 1;} }
+</style>
+</head>
+<body>
+<p class="kicker">Features</p>
+<h1>Customer Dashboard</h1>
+<div class="bento">
+  <div class="card wide"><h3>Personal Information</h3><p>This is where you jump to personal information page and enter personal info, emergency contacts, authorized reps, document recipients.</p><div class="visual">PERSONAL INFO VISUAL</div><a class="btn" href="account.html">Go to Personal Information</a></div>
+  <div class="card"><h3>Contracts and receipts</h3><p>For arrangements.</p><div class="visual">CONTRACTS VISUAL</div></div>
+  <div class="card"><h3>Special requests</h3><p>For personal messages.</p><div class="visual">MESSAGES VISUAL</div></div>
+  <div class="card"><h3>Financial and institutional contacts</h3><p>Your banks, insurers, and institutions.</p><div class="visual">FINANCE VISUAL</div></div>
+  <div class="card"><h3>Landlord and local contacts</h3><p>Your housing and local contacts.</p><div class="visual">CONTACTS VISUAL</div></div>
+</div>
+</body>
+</html>
