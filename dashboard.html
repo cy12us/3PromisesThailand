@@ -4,32 +4,98 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Customer Dashboard</title>
+<title>Customer Dashboard — 3PromisesThailand</title>
+<link rel="icon" type="image/svg+xml" href="/3PromisesThailand_Icon.svg?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body { font-family: "Helvetica Neue", Inter, sans-serif; margin:0; padding:40px; background:#fafaf8; color:#111; }
-p.kicker { font-size:11px; color:#c96a2b; margin:0; }
-h1 { font-size:32px; line-height:1.1; font-weight:500; max-width:400px; margin:8px 0 0 0; }
-.bento { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; max-width:1000px; margin-top:24px; }
-.card { background:rgba(255,255,255,0.7); backdrop-filter:blur(10px); border:1px solid #eee; border-radius:12px; padding:20px; min-height:220px; }
-.card h3 { margin:0 0 8px 0; font-size:18px; font-weight:600; }
-.card h3 a { color:#111; text-decoration:none; }
-.card h3 a:hover { text-decoration:underline; }
-.card p { margin:0; font-size:13px; line-height:1.5; color:#555; }
-.wide { grid-column: span 2; }
-.visual { background:#f0f0ef; border-radius:8px; height:120px; margin-top:16px; display:flex; align-items:center; justify-content:center; color:#999; font-size:12px; }
-a.btn { display:inline-block; margin-top:12px; font-size:13px; color:#111; }
-@media(max-width:700px){ .bento{grid-template-columns:1fr;} .wide{grid-column:span 1;} }
+:root { --ink:#1c1915; --muted:#5c564c; --paper:#f6f1e8; --card:#fffdf9; --line:#e4d9c8; --deep:#1f3d36; --gold:#a67c45; }
+* { box-sizing:border-box; }
+body { margin:0; color:#f8f4ec; background:transparent; font-family:"Helvetica Neue",Inter,sans-serif; line-height:1.55; }
+a { color:inherit; }
+.site-background { position:fixed; inset:0; z-index:0; background:#073B46 url("3promises-desktop.webp") center/cover no-repeat; pointer-events:none; }
+header, main, footer { position:relative; z-index:1; }
+header { position:sticky; top:0; z-index:5; background:rgba(246,241,232,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(8px); }
+.wrap { width:min(1080px,calc(100% - 32px)); margin:0 auto; }
+.bar { min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.brand-logo { width:220px; max-width:100%; height:auto; display:block; }
+nav { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+nav a { color:var(--muted); text-decoration:none; font-size:14px; }
+.btn { display:inline-block; padding:11px 17px; color:#f8f4ec; background:var(--deep); border-radius:999px; text-decoration:none; font-size:14px; }
+main { min-height:65vh; }
+.page { padding:56px 0 72px; }
+.kicker { margin:0 0 12px; color:#D8AA68; font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
+h1 { margin:0; color:#f8f4ec; font-size:clamp(36px,6vw,58px); line-height:1.08; font-weight:100; }
+.intro { max-width:680px; margin:14px 0 0; color:#D8E4E2; font-size:16px; }
+.grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-top:28px; }
+.card { position:relative; overflow:hidden; min-height:220px; padding:28px; border:1px solid rgba(255,253,248,.9); border-radius:24px; background:linear-gradient(to bottom,#FFFEF9 0%,#FFF9F0 38%,#FDF0DE 100%); box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 18px 44px rgba(10,50,55,.22),0 4px 12px rgba(10,50,55,.12); color:#1E3A3A; }
+.card::before { content:""; position:absolute; inset:0 0 auto; height:5px; background:linear-gradient(to right,#B87A2E,#FFD98A,#FFEFC6,#FFD98A,#B87A2E); }
+.card.wide { grid-column:span 2; }
+.card h2 { margin:8px 0 12px; color:#123E42; font-size:25px; line-height:1.25; font-weight:700; }
+.card p { margin:0; color:#1E3A3A; font-size:15px; line-height:1.65; }
+.card-link { display:inline-block; margin-top:18px; padding:10px 15px; border-radius:999px; background:#1f3d36; color:#f8f4ec; text-decoration:none; font-size:14px; }
+.card-link:hover, .btn:hover { background:#2d554b; }
+footer { border-top:1px solid rgba(216,170,104,.25); padding:28px 0 40px; color:#D7E0D8; font-size:13px; }
+footer a { color:#F9F3E8; }
+.footer-logo { display:block; width:320px; max-width:100%; height:auto; margin:0 0 24px; }
+@media(max-width:800px) { .grid { grid-template-columns:1fr 1fr; } .card.wide { grid-column:span 2; } }
+@media(max-width:600px) { .bar { min-height:68px; } .brand-logo { width:160px; } nav { gap:10px; } nav .hide { display:none; } .page { padding:40px 0 56px; } .grid { grid-template-columns:1fr; } .card.wide { grid-column:span 1; } .card { min-height:0; padding:24px; } .footer-logo { width:220px; margin-bottom:18px; } }
 </style>
 </head>
 <body>
-<p class="kicker">Features</p>
-<h1>Customer Dashboard</h1>
-<div class="bento">
-  <div class="card wide"><h3><a href="personal-information.html">Personal Information</a></h3><p>Enter personal info, emergency contacts, authorized reps, document recipients.</p><div class="visual">PERSONAL INFO VISUAL</div><a class="btn" href="personal-information.html">Go to Personal Information</a></div>
-  <div class="card"><h3><a href="contracts-and-receipts.html">Contracts and Receipts</a></h3><p>For arrangements.</p><div class="visual">CONTRACTS VISUAL</div><a class="btn" href="contracts-and-receipts.html">Go to Contracts and Receipts</a></div>
-  <div class="card"><h3><a href="special-requests.html">Special Requests</a></h3><p>For personal messages.</p><div class="visual">MESSAGES VISUAL</div><a class="btn" href="special-requests.html">Go to Special Requests</a></div>
-  <div class="card"><h3><a href="financial-institutional-contacts.html">Financial and Institutional Contacts</a></h3><p>Your banks, insurers, and institutions.</p><div class="visual">FINANCE VISUAL</div><a class="btn" href="financial-institutional-contacts.html">Go to Financial Contacts</a></div>
-  <div class="card"><h3><a href="landlord-local-contacts.html">Landlord and Local Contacts</a></h3><p>Your housing and local contacts.</p><div class="visual">CONTACTS VISUAL</div><a class="btn" href="landlord-local-contacts.html">Go to Local Contacts</a></div>
-</div>
+<div class="site-background" aria-hidden="true"></div>
+<header>
+  <div class="wrap bar">
+    <a href="index.html" aria-label="3PromisesThailand home"><img src="3PromisesThailand_Logo_Horizontal_Refined.svg" alt="3PromisesThailand" class="brand-logo"></a>
+    <nav><a class="hide" href="index.html">Home</a><a class="btn" href="dashboard.html">Customer Dashboard</a></nav>
+  </div>
+</header>
+<main>
+  <section class="page">
+    <div class="wrap">
+      <p class="kicker">Customer Dashboard</p>
+      <h1>Customer Dashboard</h1>
+      <p class="intro">Choose a section to view or manage your information.</p>
+      <div class="grid">
+        <article class="card wide">
+          <p class="kicker">Your information</p>
+          <h2>Personal Information</h2>
+          <p>Enter personal information, emergency contacts, authorized representatives, and document recipients.</p>
+          <a class="card-link" href="personal-information.html">Go to Personal Information</a>
+        </article>
+        <article class="card">
+          <p class="kicker">Your arrangements</p>
+          <h2>Contracts and Receipts</h2>
+          <p>Keep track of arrangements, contracts, and receipts.</p>
+          <a class="card-link" href="contracts-and-receipts.html">Go to Contracts and Receipts</a>
+        </article>
+        <article class="card">
+          <p class="kicker">Your messages</p>
+          <h2>Special Requests</h2>
+          <p>Record personal messages and special requests.</p>
+          <a class="card-link" href="special-requests.html">Go to Special Requests</a>
+        </article>
+        <article class="card">
+          <p class="kicker">Your contacts</p>
+          <h2>Financial and Institutional Contacts</h2>
+          <p>Record financial and institutional contact information.</p>
+          <a class="card-link" href="financial-institutional-contacts.html">Go to Financial and Institutional Contacts</a>
+        </article>
+        <article class="card">
+          <p class="kicker">Your local contacts</p>
+          <h2>Landlord and Local Contacts</h2>
+          <p>Record landlord, property, and local contact information.</p>
+          <a class="card-link" href="landlord-local-contacts.html">Go to Landlord and Local Contacts</a>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">
+  <img src="3PromisesThailand_Logo_Horizontal_Footer.svg" alt="3PromisesThailand" class="footer-logo">
+  <p>Contact: <a href="mailto:info@3promisesthailand.com">info@3promisesthailand.com</a><br>3PromisesThailand American roots. International understanding. Professional stewardship for expats in Thailand</p>
+  <p>This preview is not an offer to enroll, not legal advice, and not a funeral contract. Eligibility and authorizations must be confirmed before any payment.</p>
+</div></footer>
 </body>
 </html>
