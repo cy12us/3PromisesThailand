@@ -120,3 +120,18 @@ nav.app-nav a { color:#395950; text-decoration:none; font-size:14px; }
 .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; margin: 8px 0; font-size: 14px; }
 .check input { width: 18px; height: 18px; margin-top: 2px; accent-color: #395950; flex-shrink: 0; }
 .panel-foot { font-size: 13px; color: #717B75; margin-top: 18px; line-height: 1.6; }
+.check { display:flex; gap:10px; align-items:center; font-weight:400; margin:8px 0; font-size:14px; }
+.check input[type="checkbox"] {
+  appearance:none; -webkit-appearance:none;
+  width:20px; height:20px; flex:0 0 20px;
+  border-radius:50%; border:1.5px solid #C5D0C8;
+  background:#fff; margin:0; cursor:pointer; position:relative;
+}
+.check input[type="checkbox"]:checked {
+  background:#223E35; border-color:#223E35;
+}
+.check input[type="checkbox"]:checked::after {
+  content:"✓"; position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:12px; font-weight:700;
+}
