@@ -1,22 +1,23 @@
+<!-- contracts-and-receipts.html -->
 <!doctype html>
 <html>
 <head>
-  <link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="app.css">
+<style>
+header.app { background: #FFFFFF; }
+.header-divider { border-top: 1px solid #E1E4DE; }
+body { background: #FFFFFF; }
+</style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contracts and Receipts - Customer Dashboard</title>
-<style>
-body { font-family: "Helvetica Neue", Inter, sans-serif; margin:0; padding:40px; background:#fafaf8; color:#111; }
-p.kicker { font-size:11px; color:#c96a2b; margin:0; }
-h1 { font-size:32px; line-height:1.1; font-weight:500; margin:8px 0 0 0; }
-.section { background:rgba(255,255,255,0.7); backdrop-filter:blur(10px); border:1px solid #eee; border-radius:12px; padding:20px; max-width:800px; margin-top:16px; }
-.section h3 { margin:0 0 12px 0; font-size:18px; }
-.section p { font-size:13px; color:#555; line-height:1.5; }
-.item { border:1px solid #ddd; border-radius:8px; padding:12px; margin-top:10px; font-size:13px; }
-a.back { font-size:13px; color:#111; }
-</style>
 </head>
 <body>
-<p class="kicker">Customer Dashboard</p>
+<header class="app"><div class="wrap bar">
+<a class="brand-mini" href="dashboard.html"><img src="3PromisesThailand_Icon.svg" alt=""> 3PromisesThailand</a>
+<nav class="app-nav"><a href="dashboard.html">Dashboard</a></nav>
+</div><div class="wrap"><hr class="header-divider"></div></header>
+<main class="page"><div class="wrap">
+<p class="crumb">Customer Dashboard / Contracts and Receipts</p>
 <h1>Contracts and Receipts</h1>
 <p><a class="back" href="dashboard.html">← Back to Dashboard</a></p>
 <div class="panel" id="arrangements-panel">
@@ -61,6 +62,7 @@ a.back { font-size:13px; color:#111; }
 
 <p class="panel-foot">3PromisesThailand does not collect payments for independent providers. These records help verify what was arranged, what was paid, and what documents are available.</p>
 </div>
+</div></main>
 <script>
 document.querySelectorAll('.pay-method').forEach(function(sel){
   sel.addEventListener('change', function(){
