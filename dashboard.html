@@ -101,8 +101,19 @@ h1 {
 .card:focus-visible { outline: 3px solid var(--sage); outline-offset: 3px; }
 .card .icon { width: 28px; height: 28px; flex: 0 0 auto; }
 .card .body { margin-top: auto; padding-top: 40px; }
-.card h2 { margin: 0 0 8px; font-size: 22px; font-weight: 500; line-height: 1.25; }
-.card p { margin: 0; font-size: 15px; line-height: 1.6; }
+.card h2 { margin: 0 0 8px; font-family: "Helvetica Neue", Inter, sans-serif; font-weight: 500; line-height: 1.25; }
+.card p { margin: 0; line-height: 1.5; }
+.c-personal h2 { font-size: 24px; }
+.c-special h2 { font-size: 23px; }
+.c-financial h2 { font-size: 21px; }
+.c-account h2, .c-contracts h2, .c-landlord h2 { font-size: 19px; }
+.c-personal p, .c-special p, .c-financial p { font-size: 14px; }
+.c-account p, .c-contracts p, .c-landlord p { font-size: 13px; }
+@media (max-width: 640px) {
+  .c-personal h2 { font-size: 21px; }
+  .c-special h2 { font-size: 20px; }
+  .c-financial h2 { font-size: 19px; }
+}
 .card .arrow {
   position: absolute;
   right: 22px;
