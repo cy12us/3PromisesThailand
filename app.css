@@ -38,3 +38,67 @@ input:focus, textarea:focus, select:focus { outline: 3px solid var(--sage); outl
 .btn-primary { display: inline-block; background: var(--forest); color: var(--ivory); border: 0; border-radius: 999px; padding: 12px 20px; font-size: 14px; cursor: pointer; min-height: 44px; }
 .btn-primary:hover { background: #2d554b; }
 @media (max-width: 640px) { .wrap { width: calc(100% - 40px); } h1 { font-size: 34px; } .panel { padding: 20px; } }
+/* Bento action buttons */
+.action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.action-main { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.btn-save, .btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-family: "Helvetica Neue", Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  min-height: 44px;
+}
+.btn-save svg, .btn-add svg, .btn-delete svg {
+  width: 16px; height: 16px; flex: 0 0 auto;
+}
+.btn-save {
+  background: #344D46;
+  color: #F7F3EA;
+  border: 1px solid #344D46;
+}
+.btn-save:hover { background: #2b3f39; }
+.btn-save:focus-visible, .btn-add:focus-visible, .btn-delete:focus-visible {
+  outline: 3px solid #395950; outline-offset: 2px;
+}
+.btn-add {
+  background: #FFFFFF;
+  color: #344D46;
+  border: 1px solid #C5D0C8;
+}
+.btn-add:hover { background: #E0E8E1; }
+
+.btn-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 0;
+  color: #794C3B;
+  font-family: "Helvetica Neue", Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 10px 0;
+  min-height: 44px;
+}
+.btn-delete:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .action-row { flex-direction: column; align-items: stretch; }
+  .action-main { flex-direction: column; }
+  .btn-save, .btn-add { justify-content: center; width: 100%; }
+}
