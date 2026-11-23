@@ -50,10 +50,21 @@ textarea { resize:vertical; }
     <option value="one-week">Wait one week</option>
     <option value="one-month">Wait one month</option>
   </select>
-   <div style="margin-top:16px; display:flex; gap:12px;">
-  <button type="button" id="save-request">Save special request</button>
-  <button type="button" id="delete-request">Delete special request</button>
-  <button type="button" id="add-request">Add special request</button>
+  <div class="action-row">
+  <div class="action-main">
+    <button type="button" id="save-request" class="btn-save">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg>
+      Save Request
+    </button>
+    <button type="button" id="add-request" class="btn-add">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      Add Another
+    </button>
+  </div>
+  <button type="button" id="delete-request" class="btn-delete">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg>
+    Delete Request
+  </button>
 </div>
 </section>
 </div>
