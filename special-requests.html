@@ -41,6 +41,7 @@ textarea { resize:vertical; }
   <textarea id="request-message" name="request-message" rows="6"></textarea>
     <label for="request-attachments">Attachments</label>
   <input id="request-attachments" name="request-attachments" type="file" multiple>
+  <p class="hint">Attachments count toward your 10GB storage.</p>
     <label for="request-timing">After confirmation of your death, when do you want this message sent?</label>
   <select id="request-timing" name="request-timing">
     <option value="">Select timing</option>
@@ -49,6 +50,10 @@ textarea { resize:vertical; }
     <option value="one-week">Wait one week</option>
     <option value="one-month">Wait one month</option>
   </select>
+    <div style="margin-top:16px; display:flex; gap:12px;">
+    <button type="button" id="add-request">Add special request</button>
+    <button type="button" id="delete-request">Delete special request</button>
+  </div>
 </section>
 </div>
   <script>
@@ -61,6 +66,18 @@ textarea { resize:vertical; }
       fromField.readOnly = true;
     }
   });
+</script>
+  <script>
+  document.getElementById('add-request').onclick = function() {
+    var sec = document.querySelector('section.section');
+    var copy = sec.cloneNode(true);
+    copy.querySelectorAll('input, textarea, select').forEach(function(f){ f.value=''; });
+    sec.parentNode.insertBefore(copy, document.getElementById('add-request').parentNode);
+  };
+  document.getElementById('delete-request').onclick = function() {
+    var secs = document.querySelectorAll('section.section');
+    if (secs.length > 1) secs[secs.length-1].remove();
+  };
 </script>
 </body>
 </html>
