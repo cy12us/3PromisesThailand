@@ -1,71 +1,69 @@
 <!-- financial-institutional-contacts.html -->
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-  <link rel="stylesheet" href="app.css">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Financial and Institutional Contacts - Customer Dashboard</title>
+<link rel="stylesheet" href="app.css">
 <style>
-body { font-family:"Helvetica Neue",Inter,sans-serif; margin:0; padding:40px; background:#fafaf8; color:#111; }
-.kicker { font-size:11px; color:#c96a2b; margin:0; }
-h1 { font-size:32px; line-height:1.1; font-weight:500; margin:8px 0 0; }
-.back { display:inline-block; margin-top:16px; font-size:13px; color:#111; }
-.section { max-width:800px; margin-top:16px; padding:20px; background:rgba(255,255,255,.7); backdrop-filter:blur(10px); border:1px solid #eee; border-radius:12px; }
-.section h2 { margin:0 0 8px; font-size:18px; }
-.section p { margin:0 0 14px; color:#555; font-size:13px; line-height:1.5; }
-.row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-label { display:block; margin:12px 0 5px; color:#333; font-size:13px; }
-input, textarea, select { box-sizing:border-box; width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; background:#fff; color:#111; font:inherit; font-size:14px; }
-textarea { resize:vertical; }
-@media(max-width:700px) { body { padding:24px; } .row { grid-template-columns:1fr; gap:0; } }
+header.app { background: #FFFFFF; }
+.header-divider { border-top: 1px solid #E1E4DE; }
+body { background: #FFFFFF; }
 </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Financial & Institutional Contacts - Customer Dashboard</title>
 </head>
 <body>
-<p class="kicker">Customer Dashboard</p>
-<h1>Financial and Institutional Contacts</h1>
-<a class="back" href="dashboard.html">← Back to Dashboard</a>
+<header class="app"><div class="wrap bar">
+<a class="brand-mini" href="dashboard.html"><img src="3PromisesThailand_Icon.svg" alt=""> 3PromisesThailand</a>
+<nav class="app-nav"><a href="dashboard.html">Dashboard</a></nav>
+</div><div class="wrap"><hr class="header-divider"></div></header>
+<main class="page"><div class="wrap">
+<p class="crumb">Customer Dashboard / Financial & Institutional Contacts</p>
+<h1>Financial & Institutional Contacts</h1>
+<p class="panel-desc"><strong>Help the people you choose know where to begin.</strong><br>Keep a record of institutions where you maintain financial relationships, not account credentials or balances.</p>
+<p><a class="back" href="dashboard.html">← Back to Dashboard</a></p>
 
-<section class="section">
-  <h2>Contact Information</h2>
-  <p>Add the financial or institutional contacts you want recorded.</p>
+<div class="panel">
+<label>Institution or service name *<input class="financial-input" name="fin-name" placeholder="e.g., Wells Fargo, Fidelity, Wise"></label>
+<label>Account or service type *<select class="financial-select" name="fin-type"><option value="">Select a category</option><option>Checking Account</option><option>Savings Account</option><option>Investment / Brokerage</option><option>Retirement / Pension</option><option>Digital Wallet / Payment Service</option><option>Cryptocurrency Exchange</option><option>Insurance</option><option>Other</option></select></label>
+<label>Country *<input class="financial-input" name="fin-country" placeholder="e.g., United States, Thailand"></label>
 
-  <label for="contact-type">Contact type</label>
-  <select id="contact-type" name="contact-type">
-    <option value="">Select a type</option>
-    <option>Financial institution</option>
-    <option>Government or public institution</option>
-    <option>Insurance provider</option>
-    <option>Other institution</option>
-  </select>
+<div class="check-group">
+<h5>Branch & Contact Information</h5>
+<p class="check-desc">Optional — include whatever details may help your designated recipients reach this institution.</p>
+<label>Branch name or location<input class="financial-input" name="fin-branch" placeholder="e.g., Central Westgate Branch"></label>
+<label>Institution or branch address<textarea class="financial-textarea" name="fin-address" rows="3" placeholder="Street address, city, province/state, postal code"></textarea></label>
+<div class="fin-grid">
+<label>Contact person's name<input class="financial-input" name="fin-contact" placeholder="Name, if known"></label>
+<label>Position or title<input class="financial-input" name="fin-title" placeholder="e.g., Branch Manager"></label>
+<label>Phone number<input class="financial-input" name="fin-phone" placeholder="Include country code"></label>
+<label>Email address<input class="financial-input" name="fin-email" placeholder="Institution or contact email"></label>
+</div>
+<label>Official website<input class="financial-input" name="fin-web" placeholder="https://"></label>
+<label>Additional notes<textarea class="financial-textarea" name="fin-notes" rows="4" placeholder="General contact instructions only. Do not include account numbers, passwords, or balances."></textarea></label>
+</div>
 
-  <div class="row">
-    <div>
-      <label for="organization">Organization</label>
-      <input id="organization" name="organization" type="text">
-    </div>
-    <div>
-      <label for="contact-name">Contact person</label>
-      <input id="contact-name" name="contact-name" type="text">
-    </div>
-  </div>
+<div class="check-group">
+<h5>Beneficiary designation</h5>
+<label class="ben-radio"><input type="radio" name="fin-ben" value="designated"> I've designated a beneficiary directly with the institution</label>
+<label class="ben-radio"><input type="radio" name="fin-ben" value="none"> I haven't designated a beneficiary</label>
+<label class="ben-radio"><input type="radio" name="fin-ben" value="unsure"> I'm not sure</label>
+<label class="ben-radio"><input type="radio" name="fin-ben" value="na"> Not applicable / Institution doesn't offer this option</label>
+</div>
 
-  <div class="row">
-    <div>
-      <label for="phone">Phone</label>
-      <input id="phone" name="phone" type="tel">
-    </div>
-    <div>
-      <label for="email">Email</label>
-      <input id="email" name="email" type="email">
-    </div>
-  </div>
+<div class="financial-reminder">
+<h5>ⓘ Important reminder</h5>
+<p>Where available, designate your beneficiaries directly with your financial institution and keep those designations up to date. Listing an institution here does not designate a beneficiary or authorize anyone to access your accounts.</p>
+<p>Do not enter account numbers, usernames, passwords, PINs, or account balances.</p>
+</div>
 
-  <label for="address">Address or location</label>
-  <textarea id="address" name="address" rows="2"></textarea>
-
-  <label for="notes">Additional notes</label>
-  <textarea id="notes" name="notes" rows="3"></textarea>
-</section>
+<div class="action-row">
+<div class="action-main">
+<button type="button" class="btn-save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg> Save Institution</button>
+<button type="button" class="btn-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add Another</button>
+</div>
+<button type="button" class="btn-delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"/></svg> Delete</button>
+</div>
+</div>
+</div></main>
 </body>
 </html>
