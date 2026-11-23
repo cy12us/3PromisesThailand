@@ -50,10 +50,11 @@ textarea { resize:vertical; }
     <option value="one-week">Wait one week</option>
     <option value="one-month">Wait one month</option>
   </select>
-    <div style="margin-top:16px; display:flex; gap:12px;">
-    <button type="button" id="add-request">Add special request</button>
-    <button type="button" id="delete-request">Delete special request</button>
-  </div>
+   <div style="margin-top:16px; display:flex; gap:12px;">
+  <button type="button" id="save-request">Save special request</button>
+  <button type="button" id="delete-request">Delete special request</button>
+  <button type="button" id="add-request">Add special request</button>
+</div>
 </section>
 </div>
   <script>
@@ -79,5 +80,8 @@ textarea { resize:vertical; }
     if (secs.length > 1) secs[secs.length-1].remove();
   };
 </script>
+  document.getElementById('save-request').onclick = function() {
+  alert('Special request saved.');
+};
 </body>
 </html>
