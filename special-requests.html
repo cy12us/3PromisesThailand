@@ -29,7 +29,8 @@ textarea { resize:vertical; }
 <section class="section">
   <h2>Personal Messages</h2>
   <p>Draft an email to be sent after death.</p>
-
+  <label for="request-from">Send from (your email address)</label>
+  <input id="request-from" name="request-from" type="email">
   <label for="request-email">Email address</label>
   <input id="request-email" name="request-email" type="email">
 
@@ -48,5 +49,16 @@ textarea { resize:vertical; }
   </select>
 </section>
 </div>
+  <script>
+  // Pre-fill Send From with logged-in account email
+  // Replace 'user.email' with your Supabase auth value from account.html
+  document.addEventListener('DOMContentLoaded', function() {
+    var fromField = document.getElementById('request-from');
+    if (fromField && typeof user !== 'undefined' && user.email) {
+      fromField.value = user.email;
+      fromField.readOnly = true;
+    }
+  });
+</script>
 </body>
 </html>
