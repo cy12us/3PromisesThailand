@@ -50,7 +50,6 @@ input:focus, textarea:focus, select:focus { outline: 3px solid var(--sage); outl
   flex-wrap: wrap;
 }
 .action-main { display: flex; gap: 12px; flex-wrap: wrap; }
-
 .btn-save, .btn-add {
   display: inline-flex;
   align-items: center;
@@ -82,7 +81,6 @@ input:focus, textarea:focus, select:focus { outline: 3px solid var(--sage); outl
   border: 1px solid #C5D0C8;
 }
 .btn-add:hover { background: #E0E8E1; }
-
 .btn-delete {
   display: inline-flex;
   align-items: center;
@@ -98,22 +96,22 @@ input:focus, textarea:focus, select:focus { outline: 3px solid var(--sage); outl
   min-height: 44px;
 }
 .btn-delete:hover { text-decoration: underline; }
-
 @media (max-width: 640px) {
   .action-row { flex-direction: column; align-items: stretch; }
   .action-main { flex-direction: column; }
   .btn-save, .btn-add { justify-content: center; width: 100%; }
 }
-
-.header-divider { border: 0; border-top: 1px solid #E1E4DE; margin: 22px 0 0 0; }
-main.page { padding-top: 32px; }
-
 .brand-mini { display:flex; align-items:center; gap:8px; text-decoration:none; color:#223733; font-size:15px; font-weight:500; }
 .brand-mini img { height:22px; width:auto; display:block; }
 nav.app-nav a { color:#395950; text-decoration:none; font-size:14px; }
 .crumb { font-size:13px; color:#A06F40; margin:20px 0 0; }
 .panel-desc { font-size: 14px; color: #717B75; margin: 6px 0 16px; }
 .recipient h4 { margin: 18px 0 8px; font-size: 16px; color: #223E35; }
+.check-group { border-top: 1px solid #E1E4DE; margin-top: 18px; padding-top: 16px; }
+.check-group h5 { margin: 0 0 4px; font-size: 15px; color: #223E35; }
+.check-desc { font-size: 13px; color: #717B75; margin: 0 0 10px; }
+.panel-foot { font-size: 13px; color: #717B75; margin-top: 18px; line-height: 1.6; }
+.check { display: flex; gap: 10px; align-items: center; font-weight: 400; margin: 8px 0; font-size: 14px; }
 .check input[type="checkbox"] {
   appearance:none; -webkit-appearance:none;
   width:16px; height:16px; flex:0 0 16px;
