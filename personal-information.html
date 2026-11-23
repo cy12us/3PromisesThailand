@@ -3,6 +3,13 @@
 <html>
 <head>
 <link rel="stylesheet" href="app.css">
+  <head>
+<link rel="stylesheet" href="app.css">
+<style>
+header.app { background: #E0E8E1; }
+.header-divider { border-top: 1px solid #C5D0C8; }
+body { background: #E0E8E1; }
+</style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Personal Information - Customer Dashboard</title>
 <style>
@@ -11,7 +18,12 @@ body { background: #E0E8E1; }
 </head>
 <body>
 <main class="page"><div class="wrap">
-<p class="kicker">Customer Dashboard</p>
+<header class="app"><div class="wrap bar">
+<a class="brand-mini" href="dashboard.html"><img src="3PromisesThailand_Icon.svg" alt=""> 3PromisesThailand</a>
+<nav class="app-nav"><a href="dashboard.html">Dashboard</a></nav>
+</div><div class="wrap"><hr class="header-divider"></div></header>
+<main class="page"><div class="wrap">
+<p class="crumb">Customer Dashboard / Personal Information</p>
 <h1>Personal Information</h1>
 <p><a class="back" href="dashboard.html">← Back to Dashboard</a></p>
 
