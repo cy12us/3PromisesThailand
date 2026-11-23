@@ -108,5 +108,19 @@ document.getElementById('save-request').onclick = function() {
   alert('Special request saved.');
 };
 </script>
+  <script>
+document.querySelectorAll('.select-all').forEach(function(master){
+  var group = master.closest('.check-group');
+  var boxes = group.querySelectorAll('input[type="checkbox"]:not(.select-all)');
+  master.addEventListener('change', function(){
+    boxes.forEach(function(b){ b.checked = master.checked; });
+  });
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      master.checked = Array.from(boxes).every(function(x){ return x.checked; });
+    });
+  });
+});
+</script>
 </body>
 </html>
