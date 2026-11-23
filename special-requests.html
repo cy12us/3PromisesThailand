@@ -28,13 +28,16 @@ textarea { resize:vertical; }
 <a class="back" href="dashboard.html">← Back to Dashboard</a>
 <section class="section">
   <h2>Personal Messages</h2>
-  <p>Record a personal message or special request.</p>
-  <label for="request-title">Title or subject</label>
-  <input id="request-title" name="request-title" type="text">
-  <label for="request-message">Message or request details</label>
+  <p>Draft an email to be sent after death.</p>
+
+  <label for="request-email">Email address</label>
+  <input id="request-email" name="request-email" type="email">
+
+  <label for="request-subject">Subject line</label>
+  <input id="request-subject" name="request-subject" type="text">
+
+  <label for="request-message">Message</label>
   <textarea id="request-message" name="request-message" rows="6"></textarea>
-  <label for="request-notes">Additional notes</label>
-  <textarea id="request-notes" name="request-notes" rows="3"></textarea>
 </section>
 </div>
 </body>
