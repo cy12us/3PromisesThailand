@@ -112,3 +112,11 @@ main.page { padding-top: 32px; }
 .brand-mini img { height:22px; width:auto; display:block; }
 nav.app-nav a { color:#395950; text-decoration:none; font-size:14px; }
 .crumb { font-size:13px; color:#A06F40; margin:20px 0 0; }
+.panel-desc { font-size: 14px; color: #717B75; margin: 6px 0 16px; }
+.recipient h4 { margin: 18px 0 8px; font-size: 16px; color: #223E35; }
+.check-group { border-top: 1px solid #E1E4DE; margin-top: 18px; padding-top: 16px; }
+.check-group h5 { margin: 0 0 4px; font-size: 15px; color: #223E35; }
+.check-desc { font-size: 13px; color: #717B75; margin: 0 0 10px; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; margin: 8px 0; font-size: 14px; }
+.check input { width: 18px; height: 18px; margin-top: 2px; accent-color: #395950; flex-shrink: 0; }
+.panel-foot { font-size: 13px; color: #717B75; margin-top: 18px; line-height: 1.6; }
