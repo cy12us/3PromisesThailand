@@ -126,3 +126,34 @@ nav.app-nav a { color:#395950; text-decoration:none; font-size:14px; }
   display:flex; align-items:center; justify-content:center;
   color:#fff; font-size:7px; font-weight:700;
 }
+.financial-input, .financial-select {
+  width:100%; min-height:52px;
+  border:1px solid #D9DDD8; border-radius:9999px;
+  padding:0 18px; background:#FFFFFF;
+  color:#223733; font-size:16px;
+}
+.financial-textarea {
+  width:100%; border:1px solid #D9DDD8; border-radius:12px;
+  padding:14px 16px; background:#FFFFFF;
+  color:#223733; font-size:16px; line-height:1.5; resize:vertical;
+}
+.financial-input:focus, .financial-select:focus, .financial-textarea:focus {
+  outline:3px solid #395950; outline-offset:2px;
+}
+.fin-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:640px){ .fin-grid{ grid-template-columns:1fr; } }
+.ben-radio { display:flex; gap:12px; align-items:flex-start; margin:12px 0; font-size:15px; cursor:pointer; }
+.ben-radio input {
+  appearance:none; -webkit-appearance:none;
+  width:21px; height:21px; flex:0 0 21px; border-radius:50%;
+  border:1.5px solid #C5D0C8; background:#fff; margin:1px 0 0 0; cursor:pointer; position:relative;
+}
+.ben-radio input:checked { border-color:#344D46; background:#344D46; }
+.ben-radio input:checked::after {
+  content:""; position:absolute; top:50%; left:50%;
+  width:7px; height:7px; border-radius:50%; background:#F7F3EA;
+  transform:translate(-50%,-50%);
+}
+.financial-reminder { background:#EFE2CF; color:#493B2D; border-radius:18px; padding:22px; margin-top:18px; }
+.financial-reminder h5 { margin:0 0 8px; font-size:15px; }
+.financial-reminder p { margin:0 0 8px; font-size:14px; line-height:1.6; }
