@@ -1,0 +1,71 @@
+<!-- landlord-local-contacts.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landlord and Local Contacts - Customer Dashboard</title>
+<style>
+body { font-family:"Helvetica Neue",Inter,sans-serif; margin:0; padding:40px; background:#fafaf8; color:#111; }
+.kicker { font-size:11px; color:#c96a2b; margin:0; }
+h1 { font-size:32px; line-height:1.1; font-weight:500; margin:8px 0 0; }
+.back { display:inline-block; margin-top:16px; font-size:13px; color:#111; }
+.section { max-width:800px; margin-top:16px; padding:20px; background:rgba(255,255,255,.7); backdrop-filter:blur(10px); border:1px solid #eee; border-radius:12px; }
+.section h2 { margin:0 0 8px; font-size:18px; }
+.section p { margin:0 0 14px; color:#555; font-size:13px; line-height:1.5; }
+.row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+label { display:block; margin:12px 0 5px; color:#333; font-size:13px; }
+input, textarea, select { box-sizing:border-box; width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; background:#fff; color:#111; font:inherit; font-size:14px; }
+textarea { resize:vertical; }
+@media(max-width:700px) { body { padding:24px; } .row { grid-template-columns:1fr; gap:0; } }
+</style>
+</head>
+<body>
+<p class="kicker">Customer Dashboard</p>
+<h1>Landlord and Local Contacts</h1>
+<a class="back" href="dashboard.html">← Back to Dashboard</a>
+
+<section class="section">
+  <h2>Contact Information</h2>
+  <p>Add landlord, property, or local contact details.</p>
+
+  <label for="contact-type">Contact type</label>
+  <select id="contact-type" name="contact-type">
+    <option value="">Select a type</option>
+    <option>Landlord</option>
+    <option>Property manager</option>
+    <option>Building contact</option>
+    <option>Local contact</option>
+    <option>Other</option>
+  </select>
+
+  <div class="row">
+    <div>
+      <label for="contact-name">Contact name</label>
+      <input id="contact-name" name="contact-name" type="text">
+    </div>
+    <div>
+      <label for="property">Property or location</label>
+      <input id="property" name="property" type="text">
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" type="tel">
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email">
+    </div>
+  </div>
+
+  <label for="address">Address</label>
+  <textarea id="address" name="address" rows="2"></textarea>
+
+  <label for="notes">Additional notes</label>
+  <textarea id="notes" name="notes" rows="3"></textarea>
+</section>
+</body>
+</html>
