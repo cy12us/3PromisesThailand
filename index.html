@@ -1,698 +1,460 @@
-<!-- index.html -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>3PromisesThailand — Peace of mind. Your life. Your choice.</title>
-<meta name="description" content="A U.S. company helping expats in Thailand securely store and manage important information and documents. Backed by professional stewardship.">
-<link rel="icon" type="image/svg+xml" sizes="any" href="/3PromisesThailand_Icon.svg?v=2">
+  <meta name="color-scheme" content="light">
+  <title>3PromisesThailand | Animated Three-Slide Homepage</title>
+  <meta name="description" content="Three rotating 3PromisesThailand homepage slides with interactive controls.">
   <style>
     :root {
-      --ink: #1c1915;
-      --muted: #5c564c;
-      --paper: #f6f1e8;
-      --card: #fffdf9;
-      --line: #e4d9c8;
-      --deep: #1f3d36;
-      --gold: #a67c45;
+      --forest: #0c483b;
+      --forest-dark: #0a3b31;
+      --sage: #e1e9e1;
+      --cream: #faf3ed;
+      --warm: #f5e6d6;
+      --bg: #fcf9f7;
+      --radius: 22px;
+      --font: 'Helvetica Neue', 'Helvetica', 'Inter', 'Nimbus Sans', Arial, sans-serif;
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { min-height: 100%; background: var(--bg); }
     body {
       margin: 0;
-      font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
-      color: var(--ink);
-      background: var(--paper);
-      line-height: 1.55;
+      color: var(--forest-dark);
+      font-family: var(--font);
+      font-weight: 300;
+      line-height: 1.35;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(ellipse 35% 24% at 93% 22%, rgba(216, 155, 75, 0.30), transparent 77%),
+        radial-gradient(ellipse 39% 40% at 98% 8%, rgba(50, 179, 166, .53), transparent 78%),
+        radial-gradient(ellipse 24% 20% at 77% 19%, rgba(162, 222, 211, .25), transparent 88%),
+        radial-gradient(ellipse 67% 58% at 30% 78%, rgba(247, 243, 242, .82), transparent 89%),
+        var(--bg);
     }
-    a { color: inherit; }
-    .wrap { width: min(1080px, calc(100% - 32px)); margin: 0 auto; }
-    header {
-      position: sticky; top: 0; z-index: 5;
-      background: rgba(246, 241, 232, 0.94);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(8px);
+    .page {
+      width: min(100% - 64px, 1294px);
+      margin: 0 auto;
+      padding: 94px 0 76px;
     }
-    .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
-    .brand { font-weight: 700; letter-spacing: 0.01em; text-decoration: none; }
-    nav { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-    nav a { text-decoration: none; font-family: system-ui, sans-serif; font-size: 14px; color: var(--muted); }
-    .btn {
-      display: inline-block; text-decoration: none;
-      background: var(--deep); color: #f8f4ec;
-      border-radius: 999px; padding: 12px 18px;
-      font-family: system-ui, sans-serif; font-size: 14px;
+    .brand {
+      display: block;
+      width: clamp(420px, 51vw, 680px);
+      max-width: 100%;
+      height: auto;
+      transform-origin: left center;
+      animation: rise-in 850ms ease-out both;
     }
-    .btn.ghost { background: transparent; color: var(--deep); border: 1px solid var(--deep); }
-    .hero { padding: 72px 0 36px; }
-    .kicker {
-      font-family: system-ui, sans-serif; letter-spacing: 0.14em;
-      text-transform: uppercase; font-size: 12px; color: var(--gold); margin: 0 0 14px;
+    /* The headline and rotating detail animate together on every slide. */
+    .slide-headline {
+      margin-top: 63px;
+      animation: rise-in 950ms 130ms ease-out both;
     }
-    .hero-eyebrow {
-  color: #E4B77E;
-  margin: 0 0 16px 0;
-}
-.hero-eyebrow-2 {
-  margin: 0 0 16px 0;
-}
-    h1 { font-size: clamp(36px, 6vw, 68px); line-height: 1.05; margin: 0 0 16px; font-weight: 500; }
-    .lead { font-size: 20px; max-width: 680px; color: var(--muted); }
-    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
-    .note { margin-top: 22px; font-family: system-ui, sans-serif; font-size: 13px; color: var(--muted); }
-    section { padding: 28px 0 56px; }
-    h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 500; margin: 0 0 10px; }
-    .sub { color: var(--muted); max-width: 680px; margin-top: 0; }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
-    .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
-    .card h3 { margin: 0 0 8px; font-size: 22px; font-weight: 500; }
-    .card p { margin: 0; color: var(--muted); }
-    .steps { display: grid; gap: 12px; margin-top: 22px; }
-    .step {
-      display: grid; grid-template-columns: 52px 1fr; gap: 14px; align-items: start;
-      background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px;
+    .slide-headline h1 {
+      font-weight: 200;
+      font-size: clamp(29px, 3.25vw, 48px);
+      line-height: 1.23;
+      letter-spacing: -.045em;
+      margin: 0;
+      max-width: 1250px;
     }
-    .num {
-      width: 40px; height: 40px; border-radius: 50%; background: var(--deep); color: #f8f4ec;
-      display: grid; place-items: center; font-family: system-ui, sans-serif;
+    .changing {
+      margin-top: 18px;
+      height: 68px;
+      display: flex;
+      align-items: flex-start;
     }
-    .price { margin-top: 22px; background: var(--deep); color: #f8f4ec; border-radius: 22px; padding: 28px; }
-    .price strong { font-size: clamp(40px, 6vw, 64px); font-weight: 500; display: block; }
-    .price ul { margin: 16px 0 0; padding-left: 18px; }
-    .faq details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-top: 10px; }
-    .faq summary { cursor: pointer; font-size: 18px; }
-    form {
-      margin-top: 18px; display: grid; gap: 12px; max-width: 560px;
-      background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px;
+    .changing-word {
+      display: inline-block;
+      font-weight: 250;
+      font-size: clamp(24px, 2.36vw, 36px);
+      letter-spacing: -.035em;
+      line-height: 1.25;
+      transition: opacity 330ms ease, transform 330ms ease;
+      opacity: 1;
+      transform: translateY(0);
+      white-space: nowrap;
     }
-    label { font-family: system-ui, sans-serif; font-size: 13px; }
-    input, textarea {
-      width: 100%; margin-top: 6px; border: 1px solid var(--line); border-radius: 10px;
-      padding: 12px; font: 16px system-ui, sans-serif; background: #fff;
+    .changing-word.out {
+      opacity: 0;
+      transform: translateY(-8px);
     }
-    button.btn { border: 0; cursor: pointer; opacity: 1; }
-    button.btn[disabled] { cursor: not-allowed; opacity: 0.72; }
-   footer { border-top: 1px solid rgba(216, 170, 104, 0.25); padding: 28px 0 40px; font-family: system-ui, sans-serif; font-size: 13px; color: #D7E0D8; }
-footer a { color: #F9F3E8; }
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 15px 18px;
+      margin: 187px 20px 0;
+    }
+    .tile {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+      border: 1px solid rgba(40, 65, 51, .03);
+      border-radius: var(--radius);
+      width: 100%;
+      min-width: 0;
+      color: var(--forest-dark);
+      padding: 0 35px 0 46px;
+      min-height: 102px;
+      background: #fff;
+      cursor: pointer;
+      font-family: var(--font);
+      font-weight: 250;
+      font-size: clamp(19px, 1.65vw, 25px);
+      letter-spacing: -.033em;
+      box-shadow: 0 4px 20px rgba(33, 54, 47, .035);
+      transition: transform 270ms cubic-bezier(.2, .75, .2, 1),
+                  box-shadow 270ms ease, filter 270ms ease;
+      animation: tile-arrive 700ms cubic-bezier(.2,.75,.2,1) both;
+    }
+    .tile:focus-visible {
+      outline: 3px solid #bf9457;
+      outline-offset: 4px;
+    }
+    .tile:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 13px 32px rgba(25, 56, 44, .11);
+      filter: saturate(1.05);
+    }
+    .tile:active { transform: translateY(-1px); }
+    .tile .arrow {
+      font-size: 37px;
+      line-height: 1;
+      font-weight: 250;
+      transition: transform 240ms ease;
+      margin-left: 8px;
+    }
+    .tile:hover .arrow { transform: translateX(6px); }
+    .tile:nth-child(1), .tile:nth-child(5) { grid-column: span 7; background: #e2eae1; }
+    .tile:nth-child(2), .tile:nth-child(6) { grid-column: span 5; background: #0c5842; color: #f8f9f4; }
+    .tile:nth-child(3) { grid-column: span 5; background: rgba(255, 253, 251, .86); }
+    .tile:nth-child(4) { grid-column: span 7; background: #f8e8d8; }
+    .tile:nth-child(1) { animation-delay: 380ms; }
+    .tile:nth-child(2) { animation-delay: 465ms; }
+    .tile:nth-child(3) { animation-delay: 550ms; }
+    .tile:nth-child(4) { animation-delay: 635ms; }
+    .tile:nth-child(5) { animation-delay: 720ms; }
+    .tile:nth-child(6) { animation-delay: 805ms; }
+    .tile:nth-child(n+3) { min-height: 91px; }
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes tile-arrive {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Informational modal for the design preview; real pages are not yet linked. */
+    dialog {
+      color: var(--forest-dark);
+      background: #fcfaf6;
+      width: min(430px, calc(100vw - 32px));
+      padding: 30px;
+      border: 1px solid rgba(30, 75, 56, .15);
+      border-radius: 20px;
+      box-shadow: 0 25px 90px rgba(12, 50, 40, .23);
+      font-family: var(--font);
+    }
+    dialog::backdrop { background: rgba(10, 35, 30, .38); backdrop-filter: blur(4px); }
+    dialog h2 { margin: 0 0 12px; font-weight: 300; font-size: 27px; }
+    dialog p { line-height: 1.6; font-size: 15px; color: #536760; }
+    .modal-close {
+      border: 0; border-radius: 100px; background: #0c5842;
+      color: white; padding: 11px 24px; cursor: pointer;
+      margin-top: 10px; font: 400 14px var(--font);
+    }
+    @media (min-width: 1000px) and (min-height: 1050px) {
+      .bento-grid { margin-top: 160px; }
+    }
     @media (max-width: 800px) {
-      .grid { grid-template-columns: 1fr; }
-      nav .hide { display: none; }
-      .hero { padding-top: 40px; }
+      .page { width: calc(100% - 40px); padding-top: 64px; }
+      .brand { width: min(100%, 540px); }
+      .slide-headline { margin-top: 52px; }
+      .changing { margin-top: 18px; height: 52px; }
+      .bento-grid { margin: 131px 0 0; gap: 12px; }
+      .tile { border-radius: 19px; padding: 0 21px; min-height: 100px; }
+      .tile:nth-child(n+3) { min-height: 89px; }
+      .tile .arrow { font-size: 29px; }
     }
-   /* Promise cards - champagne ivory */
-.grid .card {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(to bottom, #FFFEF9 0%, #FFF9F0 38%, #FDF0DE 100%);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 253, 248, 0.9);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), inset 0 -1px 0 rgba(200, 138, 61, 0.12), 0 18px 44px rgba(10, 50, 55, 0.22), 0 4px 12px rgba(10, 50, 55, 0.12);
-  border-radius: 24px;
-  padding: 36px;
-}
-/* Warm light near top interior */
-.grid .card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 10%;
-  right: 10%;
-  height: 120px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(255, 235, 190, 0.55), rgba(255, 235, 190, 0) 70%);
-  pointer-events: none;
-}
-/* Gold accent integrated in top curve */
-.grid .card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: linear-gradient(to right, #B87A2E, #FFD98A, #FFEFC6, #FFD98A, #B87A2E);
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
-}
-@supports not ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
-  .grid .card {
-    background: linear-gradient(to bottom, #FFFEF9 0%, #FFF6EA 100%);
-  }
-}
-.grid .card .kicker {
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: #54615C;
-}
-.grid .card h3 {
-  color: #123E42;
-  font-weight: 700;
-  font-size: 25px;
-  line-height: 1.25;
-  margin: 10px 0 14px 0;
-}
-.grid .card p:last-child {
-  color: #1E3A3A;
-  font-size: 16px;
-  line-height: 1.65;
-}/* How It Works - timeline */
-#how {
-  background: transparent;
-}
-#how h2 {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-weight: 100;
-  font-size: 38px;
-  color: #F6F1E7;
-}
-#how .sub {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 16px;
-  color: #D8AA68;
-  margin-bottom: 32px;
-}
-.how-timeline {
-  position: relative;
-  margin-left: 18px;
-  padding-left: 56px;
-}
-.how-timeline::before {
-  content: "";
-  position: absolute;
-  left: 18px;
-  top: 8px;
-  bottom: 8px;
-  width: 1px;
-  background: rgba(169, 136, 86, 0.65);
-}
-.how-step {
-  position: relative;
-  display: flex;
-  gap: 20px;
-  margin-bottom: 32px;
-}
-.how-step:last-child {
-  margin-bottom: 0;
-}
-.how-num {
-  position: absolute;
-  left: -56px;
-  top: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #D8AA68;
-  color: #12383C;
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-}
-.how-text h3 {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 21px;
-  font-weight: 500;
-  color: #F9F5EC;
-  margin: 2px 0 10px 0;
-}
-.how-text p {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  color: #D8E4E2;
-  margin: 0;
-}
-@media (max-width: 600px) {
-  #how h2 { font-size: 32px; }
-  .how-num { width: 34px; height: 34px; }
-  .how-text h3 { font-size: 19px; }
-  .how-text p { font-size: 15px; }
-}
-    /* Pricing - forest teal panel */
-#pricing h2 {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-weight: 200;
-  font-size: 36px;
-  letter-spacing: -0.02em;
-  color: #F6F1E7;
-}
-.pricing-intro {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #D8AA68;
-  margin-top: 16px;
-  margin-bottom: 32px;
-}
-.pricing-panel {
-  background: #203E38;
-  border: 1px solid rgba(216, 170, 104, 0.55);
-  border-radius: 22px;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
-  padding: 36px;
-  max-width: 1000px;
-  width: 100%;
-}
-.pricing-label {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #D8AA68;
-  margin: 0 0 26px 0;
-}
-.pricing-cols {
-  display: flex;
-  gap: 48px;
-  align-items: flex-start;
-}
-.pricing-left { flex: 0 0 44%; }
-.pricing-right { flex: 0 0 56%; }
-.pricing-amount {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 64px;
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
-  color: #F9F3E8;
-}
-.pricing-caption {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 16px;
-  color: #F9F3E8;
-  margin: 6px 0 0 0;
-}
-.pricing-monthly {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 30px;
-  font-weight: 500;
-  color: #E3BB82;
-  margin-top: 30px;
-}
-.pricing-caption2 {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 15px;
-  color: #D6E1DC;
-  margin: 4px 0 0 0;
-}
-.pricing-divider {
-  border: none;
-  border-top: 1px solid rgba(216, 170, 104, 0.35);
-  margin: 24px 0 18px 0;
-}
-.pricing-total-label {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 13px;
-  color: #D6E1DC;
-  margin: 0;
-}
-.pricing-total {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 28px;
-  font-weight: 500;
-  color: #F9F3E8;
-  margin-top: 4px;
-}
-.pricing-benefit {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #F1F0E9;
-  margin-bottom: 18px;
-}
-.pricing-benefit:last-child { margin-bottom: 0; }
-.pricing-benefit .check {
-  color: #D8AA68;
-  font-size: 14px;
-  line-height: 1.4;
-}
-.pricing-bottom-divider {
-  border: none;
-  border-top: 1px solid rgba(216, 170, 104, 0.25);
-  margin: 24px 0 20px 0;
-}
-.pricing-foot {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-size: 14px;
-  line-height: 1.65;
-  color: #D7E0D8;
-  margin: 0 0 12px 0;
-}
-.pricing-foot:last-child { margin-bottom: 0; }
-@media (max-width: 700px) {
-  #pricing h2 { font-size: 32px; }
-  .pricing-panel { padding: 26px; }
-  .pricing-cols { flex-direction: column; gap: 32px; }
-  .pricing-left, .pricing-right { flex: 1 1 auto; width: 100%; }
-  .pricing-amount { font-size: 52px; }
-  .pricing-monthly { font-size: 26px; }
-}
-body { background: transparent; }
-.site-background {
-  position: fixed;
-  inset: 0;
-  background-color: #073B46;
-  background-image: url("3promises-desktop.webp");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  pointer-events: none;
-  z-index: 0;
-}
-header, main, footer, .wrap {
-  position: relative;
-  z-index: 1;
-}
-body {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-weight: 400;
-  color: #f8f4ec;
-}
-h1, h2 {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-weight: 100;
-}
-p, .lead, .sub, li {
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-  font-weight: 400;
-}
-    .hero-intro {
-  width: min(680px, 100%);
-  margin: 28px 0 0;
-  text-align: left;
-  font-family: "Helvetica Neue", "Inter", sans-serif;
-}
-.hero-intro p {
-  margin: 0 0 16px;
-  font-weight: 400;
-  font-size: 17px;
-  line-height: 1.6;
-  color: #F3F0E8;
-  text-wrap: pretty;
-}
-.hero-intro .hero-intro-opening {
-  margin-bottom: 22px;
-  font-weight: 300;
-  font-size: 25px;
-  line-height: 1.4;
-  color: #F3F0E8;
-  text-wrap: pretty;
-}
-.hero-intro .hero-intro-closing {
-  margin: 26px 0 0;
-  font-weight: 300;
-  font-size: 21px;
-  line-height: 1.5;
-  color: #E4C79E;
-  text-wrap: pretty;
-}
-@media (max-width: 600px) {
-  .hero-intro p { font-size: 16px; }
-  .hero-intro .hero-intro-opening { font-size: 21px; }
-  .hero-intro .hero-intro-closing { font-size: 18px; }
-}
-.brand-logo {
-  width: 220px;
-  height: auto;
-  display: block;
-}
-.bar {
-  min-height: 76px;
-}
-@media (max-width: 600px) {
-  .brand-logo {
-    width: 160px;
-  }
-}
-    .roots-section {
-  padding: 28px 0 56px;
-}
-.roots-heading {
-  font-family: "Helvetica Neue", Inter, sans-serif;
-  font-weight: 100;
-  font-size: clamp(26px, 3.5vw, 34px);
-  line-height: 1.3;
-  color: #E4C79E;
-  margin: 0 0 18px 0;
-  max-width: 680px;
-  text-wrap: pretty;
-}
-.roots-text {
-  font-family: "Helvetica Neue", Inter, sans-serif;
-  font-weight: 400;
-  font-size: 17px;
-  line-height: 1.6;
-  color: #F3F0E8;
-  margin: 0;
-  max-width: 680px;
-  text-wrap: pretty;
-}
-@media (max-width: 600px) {
-  .roots-heading { font-size: 26px; }
-  .roots-text { font-size: 16px; }
-}
-   #enroll .waitlist-intro { color: #F3F0E8 !important; opacity: 1 !important; }
-#enroll .waitlist-intro strong { color: #E4C79E !important; opacity: 1 !important; }
-#enroll .waitlist-label { color: #20433F !important; font-weight: 500; opacity: 1 !important; }
-#enroll #waitlist-form input[type="text"],
-#enroll #waitlist-form input[type="email"],
-#enroll #waitlist-form textarea {
-  background: #FFFFFF !important;
-  border: 1.5px solid #B8A78F !important;
-  color: #20433F !important;
-  opacity: 1 !important;
-}
-#enroll #waitlist-form input::placeholder,
-#enroll #waitlist-form textarea::placeholder { color: #66716D !important; opacity: 1 !important; }
-#enroll #waitlist-form input:focus,
-#enroll #waitlist-form textarea:focus {
-  outline: 2px solid #20433F !important;
-  outline-offset: 1px;
-  border-color: #20433F !important;
-}
-#enroll .waitlist-consent { color: #20433F !important; opacity: 1 !important; font-size: 13px; line-height: 1.5; display: flex; gap: 8px; align-items: flex-start; }
-#enroll .waitlist-consent a { color: #80501E !important; text-decoration: underline !important; }
-#enroll .waitlist-consent input[type="checkbox"] { width: 18px; height: 18px; accent-color: #20433F; flex-shrink: 0; margin-top: 2px; }
-#enroll #waitlist-btn { cursor: pointer; opacity: 1; }
-#enroll .waitlist-msg { font-family: "Helvetica Neue", Inter, sans-serif; font-size: 15px; margin: 8px 0 0; color: #20433F; }
-    /* Logo placement only */
-.promises-title-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.promises-title-row h2 {
-  margin: 0;
-}
-.promises-emblem {
-  height: 42px;
-  width: auto;
-  display: block;
-  flex: 0 0 auto;
-}
-.footer-logo {
-  width: 320px;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 0 24px 0;
-}
-@media (max-width: 900px) {
-  .promises-emblem { height: 36px; }
-  .promises-title-row { gap: 12px; }
-  .footer-logo { width: 270px; margin-bottom: 20px; }
-}
-@media (max-width: 600px) {
-  .promises-emblem { height: 30px; }
-  .promises-title-row { gap: 10px; }
-  .footer-logo { width: 220px; margin-bottom: 18px; }
-}
-</style><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap" rel="stylesheet"></head>
+    @media (max-width: 500px) {
+      .page { padding: 42px 0 50px; }
+      .brand { width: 100%; }
+      .slide-headline { margin-top: 42px; }
+      .slide-headline h1 { font-size: clamp(29px, 7.4vw, 38px); }
+      .changing { margin-top: 17px; height: 56px; }
+      .changing-word { font-size: 25px; white-space: normal; }
+      .bento-grid { grid-template-columns: 1fr 1fr; margin-top: 108px; gap: 10px; }
+      .tile { grid-column: auto !important; min-height: 100px !important; padding: 19px 17px; align-items: flex-end; font-size: 16px; line-height: 1.25; }
+      .tile .arrow { font-size: 21px; align-self: flex-end; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important;
+        transition-duration: .01ms !important; }
+      .tile:hover { transform: none; }
+    }
+
+    /* Three rotating slides. Keep the existing layout and bento styling intact. */
+    .slide-headline { position: relative; cursor: pointer; }
+    .slide-copy {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 330ms ease, transform 330ms ease;
+    }
+    .slide-copy.is-switching {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    .slide-controls {
+      position: absolute;
+      right: 8px;
+      bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      z-index: 2;
+    }
+    .slide-count {
+      color: #536d63;
+      font: 400 11px var(--font);
+      letter-spacing: .09em;
+      margin-right: 6px;
+      white-space: nowrap;
+    }
+    .slide-dot {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      cursor: pointer;
+    }
+    .slide-dot::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: 1.5px solid #6a8a7d;
+      background: transparent;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .slide-dot[aria-current='true']::before {
+      background: #0c5842;
+      border-color: #0c5842;
+      transform: scale(1.3);
+    }
+    .slide-dot:focus-visible { outline: 2px solid #bf9457; outline-offset: 2px; }
+    .slide-tap-hint {
+      position: absolute;
+      right: 12px;
+      bottom: -22px;
+      font: 400 10px var(--font);
+      letter-spacing: .03em;
+      color: #667e73;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    @media (max-width: 800px) {
+      .slide-controls { right: 0; bottom: -16px; }
+      .slide-tap-hint { display: none; }
+    }
+    @media (max-width: 500px) {
+      .slide-controls { right: 0; bottom: -25px; }
+      .slide-count { font-size: 10px; }
+      .slide-dot { width: 26px; height: 26px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide-copy, .slide-dot::before { transition: none !important; }
+      .slide-tap-hint { display: none; }
+    }
+  </style>
+</head>
 <body>
-  <div class="site-background" aria-hidden="true"></div>
-  <header>
-    <div class="wrap bar">
-     <a class="brand" href="#top"><img src="3PromisesThailand_Logo_Horizontal_Refined.svg" alt="3PromisesThailand" class="brand-logo"></a>
-      <nav>
-        <a class="hide" href="#promises">Promises</a>
-        <a class="hide" href="#how">How it works</a>
-        <a class="hide" href="#pricing">Pricing</a>
-        <a class="hide" href="#faq">FAQ</a>
-        <a class="btn" href="#enroll">Join the waitlist</a>
-      </nav>
-    </div>
-  </header>
-  <main id="top">
-    <section class="hero">
-      <div class="wrap">
-        <p class="kicker hero-eyebrow">THREE PROMISES. ONE MISSION: PEACE OF MIND.</p>
-<p class="kicker hero-eyebrow hero-eyebrow-2">A US COMPANY SERVING EXPATRIATES IN THAILAND</p>
-        <h1>3PromisesThailand</h1>
-<div class="hero-intro">
-<p class="hero-intro-opening">Something happens to you. You're thousands of miles from home. Will the people trying to help you have the information they need?</p>
-<p>Living abroad means your life is constantly changing. Your address, phone number, friends, emergency contacts, insurance, and other important details may change without your family or friends knowing.</p>
-<p>3PromisesThailand gives you a secure, convenient place to keep that information organized and up to date.</p>
-<p>If you pass away in Thailand, our professional stewardship helps ensure that your designated contacts and authorized representatives have accurate, up-to-date information about you.</p>
-<p class="hero-intro-closing">When it matters most, the people who matter to you should have the information they need.</p>
-</div>
-      </div>
-    </section>
-    <section id="promises">
-      <div class="wrap">
-        <div class="promises-title-row">
-  <img src="3PromisesThailand_Icon_Light.svg" alt="" aria-hidden="true" class="promises-emblem">
-  <h2>The Three Promises</h2>
-</div>
-       <p class="sub" style="color: #a67c45;">Our service is built around three promises.</p>
-        <div class="grid">
-          <article class="card">
-            <p class="kicker">Promise one</p>
-            <h3><strong>Do everything online</strong></h3>
-            <p>Sign up and manage your 3Promises account from anywhere, anytime. No office visits. No appointments required to get started. Just simple, convenient, and secure 24/7 access through our website or mobile app.</p>
-          </article>
-          <article class="card">
-            <p class="kicker">Promise two</p>
-            <h3><strong>We notify the right people and follow through.</strong></h3>
-            <p>After your death is verified, your important information and documents are delivered to your designated contacts. We also make relevant information available to your embassy, consulate, and local authorities when appropriate and legally permitted.</p>
-          </article>
-          <article class="card">
-            <p class="kicker">Promise three</p>
-            <h3><strong>You stay in control while you're alive. We provide professional stewardship when you're gone.</strong></h3>
-            <p>We notify the service providers you've independently contracted and paid for, request that they begin work, monitor their progress, and document what has been completed—or remains unfinished. We keep your designated contacts informed throughout the process.</p>
-          </article>
+  <main class="page">
+    <img class="brand" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgdmlld0JveD0iMCAwIDk4MCAyNDUiCiAgIHJvbGU9ImltZyIKICAgYXJpYS1sYWJlbGxlZGJ5PSJsb2dvLXRpdGxlIGxvZ28tZGVzYyIKICAgdmVyc2lvbj0iMS4xIgogICBpZD0ic3ZnMSIKICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcwogICAgIGlkPSJkZWZzMSIgLz4KICA8dGl0bGUKICAgICBpZD0ibG9nby10aXRsZSI+M1Byb21pc2VzVGhhaWxhbmQgaG9yaXpvbnRhbCBsb2dvPC90aXRsZT4KICA8ZGVzYwogICAgIGlkPSJsb2dvLWRlc2MiPkhvcml6b250YWwgM1Byb21pc2VzVGhhaWxhbmQgd29yZG1hcmsgcGFpcmVkIHdpdGggaHVtYW4tYW5kLW9hayBlbWJsZW0gYW5kIHRocmVlIGFjb3Jucy48L2Rlc2M+CiAgPGcKICAgICBpZD0iaG9yaXpvbnRhbC1sb2NrdXAiPgogICAgPGcKICAgICAgIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xMDggLTQ2KSBzY2FsZSgwLjM0OCkiCiAgICAgICBpZD0iZzEiPgogICAgICA8ZwogICAgICAgICBpZD0idGhyZWUtcHJvbWlzZXMtZW1ibGVtIj4KICAgICAgICA8cGF0aAogICAgICAgICAgIGlkPSJvYWstbGVhZi1odW1hbi1wcm9maWxlLWFuZC10aW1lIgogICAgICAgICAgIGZpbGw9IiNDQzg5MzgiCiAgICAgICAgICAgZmlsbC1ydWxlPSJldmVub2RkIgogICAgICAgICAgIGQ9Ik0gODU0LDY1NCBMIDg0Nyw2NjAgTCA4NDcsNjczIEwgODU0LDY5NSBMIDg1OSw3MDMgTCA4NzAsNzE0IEwgODg0LDcyMSBMIDg5MCw3MjYgTCA4OTUsNzI2IEwgOTAwLDcyMCBMIDkwOCw3MTYgTCA5MTksNzA1IEwgOTI0LDY5NyBMIDkzMCw2NzkgTCA5MzAsNjU2IEwgOTE4LDY0OSBMIDkwNCw2NDYgTCA4NzUsNjQ3IFogTSA4MjIsNjAzIEwgODA2LDU5NyBMIDc5NSw1OTUgTCA3NzgsNTk1IEwgNzYzLDU5OSBMIDc1OSw2MTYgTCA3NTksNjMxIEwgNzYxLDY0MSBMIDc2Nyw2NTQgTCA3ODMsNjcyIEwgODA2LDY2MyBMIDgxMiw2NTkgTCA4MjcsNjQzIEwgODM0LDYyOCBMIDgzNyw2MTUgWiBNIDkxMCw1NzEgTCA5MDcsNTc3IEwgOTEzLDU4OSBMIDkyNiw2MDQgTCA5NDMsNjE0IEwgOTU4LDYxOCBMIDk3MSw2MTggTCA5ODAsNjIwIEwgOTk0LDU5OSBMIDk5OSw1ODQgTCA5OTksNTY1IEwgOTk2LDU1NCBMIDk5MCw1NDEgTCA5ODMsNTM5IEwgOTYwLDU0MSBMIDk0MCw1NDggTCA5MjMsNTU4IFogTSA4MjEsMTYyIEwgODEzLDE2MSBMIDgwNywxNjUgTCA4MDYsMTkyIEwgODAxLDE5OSBMIDc5NiwxOTkgTCA3ODcsMTkyIEwgNzY4LDE2OSBMIDc1MywxNTggTCA3NDAsMTUyIEwgNzI4LDE0OSBMIDcwOSwxNTAgTCA3MDQsMTU0IEwgNzA1LDE2NSBMIDcxMSwxODEgTCA3MTEsMTkxIEwgNzA4LDE5NSBMIDcwNCwxOTcgTCA2OTQsMTk3IEwgNjYxLDE4OSBMIDYyMiwxODggTCA2MDYsMTkxIEwgNTg4LDE5NyBMIDU2MCwyMTMgTCA1NDMsMjI5IEwgNTI4LDI1MCBMIDUxNiwyNzcgTCA1MTQsMjg2IEwgNTQwLDI2NiBMIDU1NywyNTggTCA1NzksMjUyIEwgNjEzLDI1MSBMIDYzNCwyNTYgTCA2MjEsMjc3IEwgNjE2LDI5MyBMIDYxNSwzMTAgTCA2MTgsMzIxIEwgNjE4LDMzMCBMIDU4NiwzNzggTCA1ODcsMzg0IEwgNTkyLDM5MCBMIDYwNSwzOTUgTCA2MDksMzk5IEwgNjA5LDQwNSBMIDYwNCw0MTQgTCA2MDQsNDE4IEwgNjEwLDQyNiBMIDYwNiw0MzcgTCA2MTQsNDUxIEwgNjA4LDQ3MiBMIDYwOSw0ODEgTCA2MTcsNDkzIEwgNjI5LDQ5OSBMIDYzOSw1MDEgTCA2ODAsNTAxIEwgNjkyLDUwNiBMIDcwMSw1MTQgTCA3MDcsNTI1IEwgNzA5LDUzMiBMIDcwOSw1NDUgTCA3MTksNTQxIEwgNzI2LDUzMCBMIDcyNiw1MTUgTCA3MjMsNTA3IEwgNzE1LDQ5NyBMIDcwNSw0OTEgTCA2OTMsNDg4IEwgNjQ0LDQ5MCBMIDYzNiw0ODggTCA2MjYsNDgxIEwgNjIzLDQ3MCBMIDYyOSw0NTUgTCA2MjksNDQ3IEwgNjIxLDQzOCBMIDYyMSw0MzIgTCA2MjgsNDI1IEwgNjIzLDQyMyBMIDYxOCw0MTcgTCA2MTgsNDEzIEwgNjI0LDQwMyBMIDYyNCwzOTYgTCA2MTgsMzkxIEwgNjA3LDM4OCBMIDYwMSwzODMgTCA2MDAsMzgwIEwgNjAyLDM3NCBMIDYzMywzMzUgTCA2MzYsMzI1IEwgNjM2LDMxMCBMIDY1MCwyODAgTCA2NjIsMjYzIEwgNjc4LDI1MCBMIDY3OCwyODAgTCA2ODQsMjk0IEwgNjk1LDMwNiBMIDcxMSwzMTMgTCA3NTUsMzEyIEwgNzY0LDMxNSBMIDc2OCwzMTkgTCA3NjksMzI1IEwgNzYyLDMzMyBMIDczOCwzNDMgTCA3MzUsMzQ3IEwgNzM3LDM1NiBMIDc0NiwzNjYgTCA3NTYsMzcyIEwgNzY5LDM3NiBMIDgxNywzNzYgTCA4MjcsMzgwIEwgODMwLDM4MyBMIDgzMCwzOTAgTCA4MjQsMzk2IEwgODA3LDQwMyBMIDgwMyw0MDcgTCA4MDMsNDEyIEwgODEyLDQyMiBMIDgyNCw0MjggTCA4NDAsNDMxIEwgOTAyLDQzMSBMIDk0OCw0NDMgTCA5MzAsNDMxIEwgOTEzLDQxNCBMIDg2MSwzMzggTCA4MzgsMzEwIEwgODA4LDI4MiBMIDc4MywyNjQgTCA3NDgsMjQ2IEwgNzEzLDIzNSBMIDY4MSwyMzAgTCA2NDAsMjMwIEwgNjI4LDIzMiBMIDYyOCwyMzAgTCA2NjEsMjI1IEwgNjg0LDIyNSBMIDcxMSwyMjggTCA3NTAsMjM5IEwgNzc2LDI1MSBMIDc5NiwyNjMgTCA4MjEsMjgyIEwgODQ4LDMwOCBMIDg3MywzMzkgTCA5MDcsMzkwIEwgOTIzLDQxMSBMIDk0Miw0MjggTCA5NTksNDM3IEwgOTM4LDQxNyBMIDkzMSw0MDUgTCA5MjYsMzg4IEwgOTI1LDM2MiBMIDkzNSwzMTMgTCA5MzYsMjk1IEwgOTMzLDI3NiBMIDkyNSwyNTcgTCA5MTMsMjQ0IEwgOTA4LDI0MSBMIDkwMiwyNDEgTCA4OTUsMjUxIEwgODg5LDI2OSBMIDg4MywyNzQgTCA4NzYsMjczIEwgODcxLDI2OCBMIDg2NywyNTYgTCA4NjUsMjIyIEwgODU5LDE5OSBMIDg0OSwxODIgTCA4MzksMTcyIEwgODI5LDE2NSBaIiAvPgogICAgICAgIDxwYXRoCiAgICAgICAgICAgaWQ9Im9hay1icmFuY2gtbGVhdmVzLWFuZC1hY29ybi1jYXBzIgogICAgICAgICAgIGZpbGw9IiMxRDY5NUMiCiAgICAgICAgICAgZmlsbC1ydWxlPSJldmVub2RkIgogICAgICAgICAgIGQ9Ik0gMTAzNSw0MjYgTCAxMDIwLDQzNSBMIDk5NCw0NDcgTCA5NzQsNDUzIEwgOTMwLDQ2MiBMIDg4Miw0NzcgTCA4MzUsNDk5IEwgNzUwLDU0OCBMIDcyMiw1NTggTCA3MDEsNTYyIEwgNjY5LDU2MiBMIDY0Miw1NTQgTCA2MTMsNTM3IEwgNTcxLDUwMSBMIDU0NSw0ODcgTCA1MjUsNDgyIEwgNTA2LDQ4MiBMIDQ5Nyw0ODQgTCA0OTAsNDg4IEwgNDkwLDQ5MiBMIDUwOSw1MTYgTCA1MTAsNTI2IEwgNTA2LDUzMCBMIDQ5NCw1MzEgTCA0NTksNTIxIEwgNDMxLDUyMSBMIDQxNyw1MjUgTCA0MDMsNTMyIEwgMzk1LDUzOCBMIDM4Niw1NDkgTCAzODUsNTU0IEwgMzg3LDU1NiBMIDQwNSw1NjEgTCA0MTUsNTY2IEwgNDI2LDU3NiBMIDQyNyw1ODAgTCA0MjUsNTg1IEwgNDE5LDU5MCBMIDM5NSw1OTggTCAzODQsNjA1IEwgMzcyLDYxOSBMIDM2NSw2MzUgTCAzNjIsNjUwIEwgMzYyLDY3MCBMIDM2NSw2ODUgTCAzNjksNjg2IEwgMzgwLDY3MyBMIDM5Miw2NjYgTCA0MTQsNjYxIEwgNDM2LDY1MiBMIDQ0MSw2NTMgTCA0NDUsNjU3IEwgNDQ1LDY2MiBMIDQ0MSw2NzMgTCA0NDIsNjgwIEwgNDQ4LDY4MiBMIDQ2MSw2ODEgTCA0NzcsNjc0IEwgNTA2LDY0OSBMIDUxNCw2NDUgTCA1MjUsNjQ0IEwgNTMyLDY1MCBMIDUzMyw2NTggTCA1MjEsNjgxIEwgNTE4LDY5MSBMIDUwOCw3MDggTCA1MDgsNzEyIEwgNTE1LDcxNiBMIDUzNCw3MjAgTCA1NTUsNzE5IEwgNTcyLDcxNCBMIDU5Miw3MDIgTCA2MDQsNjkwIEwgNjIwLDY2NyBMIDYyOCw2NjEgTCA2MzMsNjYxIEwgNjM3LDY2NSBMIDYzOSw2ODEgTCA2NDIsNjg1IEwgNjQ1LDY4NiBMIDY1NCw2ODIgTCA2NjQsNjcyIEwgNjcxLDY1OSBMIDY3OSw2MjkgTCA2ODcsNjEyIEwgNzAzLDU5MyBMIDcyNyw1NzYgTCA3NzIsNTUzIEwgODI1LDUyMyBMIDgyNiw1MjUgTCA4MTcsNTM4IEwgODA5LDU1NSBMIDgwNiw1NTcgTCA3OTIsNTU3IEwgNzg0LDU1OSBMIDc3NCw1NjQgTCA3NjQsNTczIEwgNzU4LDU4NCBMIDc1OCw1OTIgTCA3NjAsNTkzIEwgNzY4LDU4OCBMIDc3OCw1ODYgTCA4MDMsNTg3IEwgODE3LDU5MSBMIDgyOSw1OTcgTCA4MzcsNjAzIEwgODQzLDYxMSBMIDg0NSw2MTEgTCA4NDksNjAzIEwgODQ5LDU5MyBMIDg0Niw1ODMgTCA4NDEsNTc1IEwgODMzLDU2NyBMIDgxOSw1NTkgTCA4MTksNTUxIEwgODI1LDUzOCBMIDgzOSw1MjMgTCA4NDEsNTM2IEwgODQ2LDU0NyBMIDg2Nyw1NzEgTCA4NzcsNTkxIEwgODc2LDYwNCBMIDg1NCw2MTUgTCA4NDQsNjI2IEwgODM4LDYzOSBMIDgzOSw2NTMgTCA4NDEsNjU0IEwgODQ5LDY0NyBMIDg1OSw2NDIgTCA4ODcsNjM2IEwgOTE2LDYzOSBMIDkyOCw2NDQgTCA5MzYsNjUwIEwgOTM5LDY0NSBMIDkzOSw2MzggTCA5MzcsNjMxIEwgOTMwLDYyMCBMIDkxMyw2MDggTCA4OTksNjA0IEwgODkyLDYwNCBMIDg4OCw2MDAgTCA4NzgsNTc1IEwgODU2LDU0OSBMIDg0OSw1MzcgTCA4NDcsNTMwIEwgODQ5LDUxNSBMIDg1NSw1MDggTCA4ODEsNDk3IEwgODk3LDQ5OCBMIDkwNyw1MDIgTCA5MTQsNTA5IEwgOTE0LDUxNCBMIDg5OSw1MjcgTCA4OTAsNTQ2IEwgODkwLDU2MyBMIDg5Niw1NzMgTCA5MDAsNTczIEwgOTAxLDU2OSBMIDkwNyw1NjEgTCA5MTksNTUwIEwgOTQyLDUzNyBMIDk2OCw1MzAgTCA5ODQsNTMwIEwgOTkzLDUzMyBMIDk5NCw1MjYgTCA5ODksNTE3IEwgOTgxLDUxMCBMIDk3MSw1MDUgTCA5NTksNTAyIEwgOTQ1LDUwMiBMIDkyNyw1MDcgTCA5MTgsNDk5IEwgOTA0LDQ5MiBMIDkwMyw0OTAgTCA5MTIsNDg2IEwgOTY0LDQ3NSBMIDk4OSw0NjcgTCAxMDEzLDQ1MyBMIDEwMjcsNDM5IFogTSA0NDQsNjIyIEwgNDc1LDYwNSBMIDQ5Niw1OTcgTCA1MjUsNTg5IEwgNTU5LDU4NCBMIDUxOSw1NzMgTCA0ODYsNTYxIEwgNDg0LDU1OSBMIDQ4NSw1NTggTCA1NDEsNTc1IEwgNTkwLDU4MiBMIDYyOSw1ODIgTCA2NDksNTgwIEwgNjg1LDU3MyBMIDcxNyw1NjIgTCA3MTksNTY0IEwgNzE5LDU2OCBMIDcxMCw1NzQgTCA2ODAsNTg1IEwgNjUxLDYwMiBMIDYxNCw2MzcgTCA1ODksNjY1IEwgNTg3LDY2NCBMIDYyNCw2MTkgTCA2NDQsNjAwIEwgNjYxLDU4OCBMIDYzMCw1OTIgTCA1NjQsNTkyIEwgNTMzLDU5NSBMIDQ5Myw2MDQgTCA0NTksNjE2IEwgNDQ2LDYyMyBaIiAvPgogICAgICA8L2c+CiAgICA8L2c+CiAgICA8cGF0aAogICAgICAgZD0ibSAzOTMuNTE1NjIsMTgwLjc4MTI1IGMgMTAuMTk1MzIsMCAxNy4yNjU2MywtNi45NTMxMyAxNy4yNjU2MywtMTUuODU5MzggMCwtNy40MjE4NyAtNC44ODI4MSwtMTMuMDA3ODEgLTEyLjUsLTE0LjkyMTg3IHYgLTAuMjM0MzggYyA2LjYwMTU2LC0xLjg3NSAxMC43ODEyNSwtNy4wMzEyNSAxMC43ODEyNSwtMTMuODI4MTIgMCwtOC41NTQ2OSAtNi41MjM0NCwtMTQuOTIxODcgLTE1LjYyNSwtMTQuOTIxODcgLTkuMTc5NjksMCAtMTUuODIwMzEsNi4zNjcxOCAtMTUuODU5MzgsMTUuMzEyNDkgaCAxLjg3NSBjIDAsLTcuOTI5NjggNS44MjAzMiwtMTMuNTE1NjIgMTMuOTg0MzgsLTEzLjUxNTYyIDguMTY0MDYsMCAxMy44MjgxMiw1LjYyNSAxMy44MjgxMiwxMy4xMjUgMCw4LjA0Njg3IC02LjcxODc1LDEzLjE2NDA2IC0xNS40Njg3NSwxMy4xMjUgaCAtMC44NTkzNyB2IDEuODc1IGggMC44NTkzNyBjIDkuOTYwOTQsMCAxNy4xODc1LDUuNTg1OTQgMTcuMTg3NSwxMy45ODQzNyAwLDcuNzM0MzggLTYuMjEwOTMsMTQuMDYyNSAtMTUuNDY4NzUsMTQuMDYyNSAtOC43MTA5MywwIC0xNS40Mjk2OCwtNS43MDMxMiAtMTUuNDY4NzUsLTEzLjUxNTYyIEggMzc2LjI1IGMgMCw4Ljg2NzE5IDcuNDYwOTQsMTUuMzEyNSAxNy4yNjU2MiwxNS4zMTI1IHogTSA0MjUuNjI1LDE4MCBoIDEuNzk2ODcgdiAtMjQuMjE4NzUgaCAxNS4zMTI1IGMgOS43MjY1NywwIDE2LjY0MDYzLC02Ljk5MjE5IDE2LjY0MDYzLC0xNi45NTMxMyAwLC05LjkyMTg3IC02LjkxNDA2LC0xNy4wMzEyNCAtMTYuNjQwNjMsLTE3LjAzMTI0IEggNDI1LjYyNSBaIG0gMS43OTY4NywtMjYuMDE1NjMgdiAtMzAuMzkwNjIgaCAxNS4zMTI1IGMgOC42NzE4OCwwIDE0Ljg0Mzc1LDYuMzY3MTkgMTQuODQzNzUsMTUuMjM0MzcgMCw4LjkwNjI1IC02LjE3MTg3LDE1LjE1NjI1IC0xNC44NDM3NSwxNS4xNTYyNSB6IE0gNDcyLjgxMjUsMTgwIGggMS43OTY4NyB2IC0yOS4yOTY4OCBjIDAsLTcuNjE3MTggNS41ODU5NCwtMTMuMTI1IDEzLjI4MTI1LC0xMy4xMjUgaCAwLjkzNzUgdiAtMS43OTY4NyBoIC0wLjkzNzUgYyAtNS45NzY1NiwwIC0xMC45NzY1NiwyLjk2ODc1IC0xMy4wNDY4Nyw3LjUgaCAtMC4yMzQzOCB2IC02Ljk1MzEzIGggLTEuNzk2ODcgeiBtIDQwLjE1NjI1LDAuOTM3NSBjIDEwLjI3MzQ0LDAgMTguMDQ2ODcsLTkuNzY1NjMgMTguMDQ2ODcsLTIyLjY1NjI1IDAsLTEyLjgxMjUgLTcuODEyNSwtMjIuNTc4MTMgLTE4LjA0Njg3LC0yMi41NzgxMyAtMTAuMzEyNSwwIC0xOC4xMjUsOS43MjY1NyAtMTguMTI1LDIyLjU3ODEzIDAsMTIuODkwNjIgNy44MTI1LDIyLjY1NjI1IDE4LjEyNSwyMi42NTYyNSB6IG0gMCwtMS43OTY4OCBjIC05LjI5Njg4LDAgLTE2LjMyODEzLC04Ljk4NDM3IC0xNi4zMjgxMywtMjAuODU5MzcgMCwtMTEuNzU3ODEgNy4xMDkzOCwtMjAuNzgxMjUgMTYuMzI4MTMsLTIwLjc4MTI1IDkuMjE4NzUsMCAxNi4yNSw4Ljk4NDM3IDE2LjI1LDIwLjc4MTI1IDAsMTEuODc1IC02Ljk5MjE5LDIwLjg1OTM3IC0xNi4yNSwyMC44NTkzNyB6IE0gNTQzLjgyODEyLDE4MCBoIDEuNzk2ODggdiAtMjkuMjk2ODggYyAwLC03LjY5NTMxIDUuNjI1LC0xMy4yMDMxMiAxMi45Njg3NSwtMTMuMjAzMTIgNi44MzU5NCwwIDExLjI1LDQuNzY1NjIgMTEuMjUsMTMuMjAzMTIgViAxODAgaCAxLjc5Njg3IHYgLTI5LjI5Njg4IGMgMCwtOC40Mzc1IDUuNjY0MDcsLTEzLjIwMzEyIDEyLjczNDM4LC0xMy4yMDMxMiA3LjAzMTI1LDAgMTEuNDg0MzcsNC43NjU2MiAxMS40ODQzNywxMy4yMDMxMiBWIDE4MCBoIDEuNzk2ODggdiAtMjkuMjk2ODggYyAwLC05LjI1NzgxIC01LjExNzE5LC0xNSAtMTMuMjgxMjUsLTE1IC02LjM2NzE5LDAgLTExLjY0MDYzLDMuNjcxODggLTEzLjU1NDY5LDEwIC0xLjU2MjUsLTYuMzI4MTIgLTYuMjUsLTEwIC0xMi4yMjY1NiwtMTAgLTUuMjM0MzgsMCAtMTAuNjY0MDYsMi42NTYyNSAtMTIuOTY4NzUsOC44NjcxOSB2IC04LjI0MjE5IGggLTEuNzk2ODggeiBtIDY5LjI5Njg4LDAgaCAxLjc5Njg3IFYgMTM2LjMyODEyIEggNjEzLjEyNSBaIG0gMC44NTkzNywtNTMuNjMyODEgYyAxLjAxNTYzLDAgMS44MzU5NCwtMC44MjAzMSAxLjgzNTk0LC0xLjgzNTk0IDAsLTEuMDE1NjIgLTAuODIwMzEsLTEuODM1OTQgLTEuODM1OTQsLTEuODM1OTQgLTEuMDE1NjIsMCAtMS44MzU5MywwLjgyMDMyIC0xLjgzNTkzLDEuODM1OTQgMCwxLjAxNTYzIDAuODIwMzEsMS44MzU5NCAxLjgzNTkzLDEuODM1OTQgeiBtIDI4LjM1OTM4LDU0LjU3MDMxIGMgOC41MTU2MiwwIDE0LjUzMTI1LC00Ljg0Mzc1IDE0LjUzMTI1LC0xMS45NTMxMyAwLC01LjM5MDYyIC0zLjQ3NjU2LC05LjIxODc1IC05Ljg0Mzc1LC0xMC44MjAzMSBsIC02Ljg3NSwtMS43MTg3NSBjIC01Ljg5ODQ0LC0xLjQ4NDM3IC04Ljc1LC00LjcyNjU2IC04Ljc1LC05LjI1NzgxIDAsLTUuODIwMzEgNC43MjY1NiwtOS42ODc1IDExLjcxODc1LC05LjY4NzUgNS45NzY1NiwwIDkuODA0NjksMi44NTE1NiAxMS41NjI1LDguNTE1NjIgbCAxLjc5Njg3LC0wLjQ2ODc1IGMgLTIuMTA5MzcsLTYuNTIzNDMgLTYuNjQwNjIsLTkuODQzNzUgLTEzLjM1OTM3LC05Ljg0Mzc1IC03Ljk2ODc1LDAgLTEzLjUxNTYzLDQuNjA5MzggLTEzLjUxNTYzLDExLjQ4NDM4IDAsNS40Mjk2OSAzLjUxNTYzLDkuMzM1OTQgMTAuMjM0MzgsMTEuMDE1NjIgbCA2Ljc5Njg3LDEuNzE4NzUgYyA1LjU4NTk0LDEuNDA2MjUgOC40Mzc1LDQuNTMxMjUgOC40Mzc1LDkuMDYyNSAwLDYuMDU0NjkgLTUuMTk1MzEsMTAuMTU2MjUgLTEyLjczNDM3LDEwLjE1NjI1IC02Ljk1MzEzLDAgLTExLjI4OTA2LC0zLjM1OTM3IC0xMi41NzgxMywtOS41NzAzMSBMIDYyNy45Njg3NSwxNzAgYyAxLjUyMzQ0LDYuOTUzMTIgNi42MDE1NiwxMC45Mzc1IDE0LjM3NSwxMC45Mzc1IHogbSA0My44MjgxMiwwIGMgOC41MTU2MywwIDEzLjIwMzEzLC01LjM1MTU2IDE1LjE1NjI1LC04LjY3MTg4IEwgNjk5Ljg0Mzc1LDE3MS4yNSBjIC0xLjYwMTU2LDIuNjE3MTkgLTUuNTg1OTQsNy44OTA2MiAtMTMuNjcxODgsNy44OTA2MiAtMTAuOTM3NSwwIC0xNy4xNDg0MywtOS41MzEyNSAtMTcuMTg3NSwtMjAuOTM3NSBIIDcwMy4xMjUgdiAtMS4wMTU2MiBjIDAsLTEyLjI2NTYzIC03LjYxNzE5LC0yMS40ODQzOCAtMTcuODEyNSwtMjEuNDg0MzggLTEwLjM1MTU2LDAgLTE4LjEyNSw5Ljc2NTYzIC0xOC4xMjUsMjIuNTc4MTMgMCwxMi44NTE1NiA3LjU3ODEyLDIyLjY1NjI1IDE4Ljk4NDM3LDIyLjY1NjI1IHogTSA2NjkuMDIzNDQsMTU2LjQwNjI1IEMgNjY5LjU3MDMxLDE0NS41NDY4NyA2NzYuNjc5NjksMTM3LjUgNjg1LjMxMjUsMTM3LjUgYyA5LjAyMzQ0LDAgMTUuNzQyMTksOC4zMjAzMSAxNi4wNTQ2OSwxOC45MDYyNSB6IG0gNTguNTU0NjgsMjQuNTMxMjUgYyA4LjUxNTYzLDAgMTQuNTMxMjUsLTQuODQzNzUgMTQuNTMxMjUsLTExLjk1MzEzIDAsLTUuMzkwNjIgLTMuNDc2NTYsLTkuMjE4NzUgLTkuODQzNzUsLTEwLjgyMDMxIGwgLTYuODc1LC0xLjcxODc1IGMgLTUuODk4NDMsLTEuNDg0MzcgLTguNzUsLTQuNzI2NTYgLTguNzUsLTkuMjU3ODEgMCwtNS44MjAzMSA0LjcyNjU3LC05LjY4NzUgMTEuNzE4NzUsLTkuNjg3NSA1Ljk3NjU3LDAgOS44MDQ2OSwyLjg1MTU2IDExLjU2MjUsOC41MTU2MiBsIDEuNzk2ODgsLTAuNDY4NzUgYyAtMi4xMDkzOCwtNi41MjM0MyAtNi42NDA2MywtOS44NDM3NSAtMTMuMzU5MzgsLTkuODQzNzUgLTcuOTY4NzUsMCAtMTMuNTE1NjIsNC42MDkzOCAtMTMuNTE1NjIsMTEuNDg0MzggMCw1LjQyOTY5IDMuNTE1NjIsOS4zMzU5NCAxMC4yMzQzNywxMS4wMTU2MiBsIDYuNzk2ODgsMS43MTg3NSBjIDUuNTg1OTQsMS40MDYyNSA4LjQzNzUsNC41MzEyNSA4LjQzNzUsOS4wNjI1IDAsNi4wNTQ2OSAtNS4xOTUzMSwxMC4xNTYyNSAtMTIuNzM0MzgsMTAuMTU2MjUgLTYuOTUzMTIsMCAtMTEuMjg5MDYsLTMuMzU5MzcgLTEyLjU3ODEyLC05LjU3MDMxIEwgNzEzLjIwMzEyLDE3MCBjIDEuNTIzNDQsNi45NTMxMiA2LjYwMTU3LDEwLjkzNzUgMTQuMzc1LDEwLjkzNzUgeiBtIDE4Ljg2NzE5LC01Ny4zNDM3NSBoIDE4Ljc1IFYgMTgwIGggMS43OTY4OCB2IC01Ni40MDYyNSBoIDE4Ljc1IHYgLTEuNzk2ODcgaCAtMzkuMjk2ODggeiBtIDUzLjgyODEzLDI3LjEwOTM3IGMgMCwtNy42NTYyNSA2LjA5Mzc1LC0xMy4yMDMxMiAxNC4yMTg3NSwtMTMuMjAzMTIgNy45Mjk2OCwwIDEzLjQzNzUsNS4yNzM0NCAxMy40Mzc1LDEzLjIwMzEyIFYgMTgwIGggMS43OTY4NyB2IC0yOS4yOTY4OCBjIDAsLTguOTQ1MzEgLTYuMjg5MDYsLTE1IC0xNS4yMzQzNywtMTUgLTYuMTcxODgsMCAtMTEuOTE0MDcsMi44NTE1NyAtMTQuMjE4NzUsOC42MzI4MiB2IC0yMi41MzkwNiBoIC0xLjc5Njg4IFYgMTgwIGggMS43OTY4OCB6IG0gNTQuODQzNzUsMzAuMjM0MzggYyA2LjU2MjUsMCAxMS45MTQwNiwtMy45MDYyNSAxNC42MDkzNywtOS43NjU2MyBoIDAuMjM0MzggViAxODAgaCAxLjc5Njg3IHYgLTMxLjMyODEzIGMgMCwtNy40MjE4NyAtNS4zMTI1LC0xMi45Njg3NSAtMTQuMTQwNjIsLTEyLjk2ODc1IC02LjgzNTk0LDAgLTEyLjUzOTA3LDMuMzk4NDQgLTE0LjYwOTM4LDguODI4MTMgbCAxLjcxODc1LDAuNzAzMTIgYyAxLjgzNTk0LC00Ljg4MjgxIDYuNzE4NzUsLTcuNzM0MzcgMTIuODkwNjMsLTcuNzM0MzcgNy40NjA5MywwIDEyLjM0Mzc1LDQuNDE0MDYgMTIuMzQzNzUsMTEuMTcxODcgViAxNTEuMjUgYyAwLDMuMzk4NDQgLTUuNjY0MDcsNC4xMDE1NiAtMTEuNzE4NzUsNC43NjU2MiAtMTMuMzk4NDQsMS42MDE1NyAtMTYuNDg0MzgsNi4yNSAtMTYuNDg0MzgsMTIuMTg3NSAwLDguMTY0MDcgNi4xNzE4OCwxMi43MzQzOCAxMy4zNTkzOCwxMi43MzQzOCB6IG0gMCwtMS43OTY4OCBjIC02LjUyMzQ0LDAgLTExLjU2MjUsLTQuMzc1IC0xMS41NjI1LC0xMC45Mzc1IDAsLTUuNTg1OTMgMy42NzE4NywtOS4xMDE1NiAxNS4zOTA2MiwtMTAuNDY4NzUgNSwtMC41ODU5MyA4Ljg2NzE5LC0xLjM2NzE4IDExLjAxNTYzLC0yLjk2ODc1IHYgNi41NjI1IGMgMCwxMC41ODU5NCAtNi42MDE1NywxNy44MTI1IC0xNC44NDM3NSwxNy44MTI1IHogTSA4ODcuMjI2NTYsMTgwIGggMS43OTY4OCB2IC00My42NzE4OCBoIC0xLjc5Njg4IHogbSAwLjg1OTM4LC01My42MzI4MSBjIDEuMDE1NjIsMCAxLjgzNTkzLC0wLjgyMDMxIDEuODM1OTMsLTEuODM1OTQgMCwtMS4wMTU2MiAtMC44MjAzMSwtMS44MzU5NCAtMS44MzU5MywtMS44MzU5NCAtMS4wMTU2MywwIC0xLjgzNTk0LDAuODIwMzIgLTEuODM1OTQsMS44MzU5NCAwLDEuMDE1NjMgMC44MjAzMSwxLjgzNTk0IDEuODM1OTQsMS44MzU5NCB6IG0gMTguMjAzMTIsLTQuNTcwMzEgaCAtMS43OTY4NyBWIDE4MCBoIDEuNzk2ODcgeiBtIDI1LjM5MDYzLDU5LjE0MDYyIGMgNi41NjI1LDAgMTEuOTE0MDYsLTMuOTA2MjUgMTQuNjA5MzcsLTkuNzY1NjMgaCAwLjIzNDM4IFYgMTgwIGggMS43OTY4NyB2IC0zMS4zMjgxMyBjIDAsLTcuNDIxODcgLTUuMzEyNSwtMTIuOTY4NzUgLTE0LjE0MDYyLC0xMi45Njg3NSAtNi44MzU5NCwwIC0xMi41MzkwNywzLjM5ODQ0IC0xNC42MDkzOCw4LjgyODEzIGwgMS43MTg3NSwwLjcwMzEyIGMgMS44MzU5NCwtNC44ODI4MSA2LjcxODc1LC03LjczNDM3IDEyLjg5MDYzLC03LjczNDM3IDcuNDYwOTMsMCAxMi4zNDM3NSw0LjQxNDA2IDEyLjM0Mzc1LDExLjE3MTg3IFYgMTUxLjI1IGMgMCwzLjM5ODQ0IC01LjY2NDA3LDQuMTAxNTYgLTExLjcxODc1LDQuNzY1NjIgLTEzLjM5ODQ0LDEuNjAxNTcgLTE2LjQ4NDM4LDYuMjUgLTE2LjQ4NDM4LDEyLjE4NzUgMCw4LjE2NDA3IDYuMTcxODgsMTIuNzM0MzggMTMuMzU5MzgsMTIuNzM0MzggeiBtIDAsLTEuNzk2ODggYyAtNi41MjM0NCwwIC0xMS41NjI1LC00LjM3NSAtMTEuNTYyNSwtMTAuOTM3NSAwLC01LjU4NTkzIDMuNjcxODcsLTkuMTAxNTYgMTUuMzkwNjIsLTEwLjQ2ODc1IDUsLTAuNTg1OTMgOC44NjcxOSwtMS4zNjcxOCAxMS4wMTU2MywtMi45Njg3NSB2IDYuNTYyNSBjIDAsMTAuNTg1OTQgLTYuNjAxNTcsMTcuODEyNSAtMTQuODQzNzUsMTcuODEyNSB6IG0gMzMuOTA2MjUsLTI4LjQzNzUgYyAwLC03LjY1NjI1IDYuMDkzNzUsLTEzLjIwMzEyIDE0LjIxODc1LC0xMy4yMDMxMiA3LjkyOTY4LDAgMTMuNDM3NSw1LjI3MzQ0IDEzLjQzNzUsMTMuMjAzMTIgViAxODAgaCAxLjc5Njg3IHYgLTI5LjI5Njg4IGMgMCwtOC45NDUzMSAtNi4yODkwNiwtMTUgLTE1LjIzNDM3LC0xNSAtNi4xNzE4OCwwIC0xMS45MTQwNywyLjg1MTU3IC0xNC4yMTg3NSw4LjYzMjgyIHYgLTguMDA3ODIgaCAtMS43OTY4OCBWIDE4MCBoIDEuNzk2ODggeiBtIDU5LjA2MjQ2LDMwLjIzNDM4IGMgNy4wMzEzLDAgMTIuNTM5MSwtNC42MDkzOCAxNC44NDM4LC0xMS44NzUgaCAwLjIzNDQgViAxODAgaCAxLjc5NjggdiAtNTguMjAzMTIgaCAtMS43OTY4IFYgMTQ3LjUgaCAtMC4yMzQ0IGMgLTIuMjI2NiwtNy4yNjU2MyAtNy44OTA2LC0xMS43OTY4OCAtMTQuODQzOCwtMTEuNzk2ODggLTEwLjE5NTMsMCAtMTYuNzk2OCw5Ljc2NTYzIC0xNi43OTY4LDIyLjU3ODEzIDAsMTIuOTI5NjkgNi41MjM0LDIyLjY1NjI1IDE2Ljc5NjgsMjIuNjU2MjUgeiBtIDAsLTEuNzk2ODggYyAtOS4yMTg3LDAgLTE1LC05LjAyMzQzIC0xNSwtMjAuODU5MzcgMCwtMTEuNzk2ODggNS44MjAzLC0yMC43ODEyNSAxNSwtMjAuNzgxMjUgOS4yMTg4LDAgMTUuMDc4Miw4Ljk4NDM3IDE1LjA3ODIsMjAuNzgxMjUgMCwxMS44MzU5NCAtNS43ODEzLDIwLjg1OTM3IC0xNS4wNzgyLDIwLjg1OTM3IHoiCiAgICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtODcgMCkiCiAgICAgICBpZD0iYnJhbmQtbmFtZSIKICAgICAgIHN0eWxlPSJmb250LXdlaWdodDoxMDA7Zm9udC1zaXplOjgwcHg7Zm9udC1mYW1pbHk6SW50ZXIsICdIZWx2ZXRpY2EgTmV1ZScsIHNhbnMtc2VyaWY7bGV0dGVyLXNwYWNpbmc6MDtmaWxsOiMwNzNiNDYiCiAgICAgICBhcmlhLWxhYmVsPSIzUHJvbWlzZXNUaGFpbGFuZCIgLz4KICA8L2c+Cjwvc3ZnPgo="
+         alt="3PromisesThailand — oak emblem and wordmark" width="680" height="170">
+    <section class="slide-headline" id="rotating-slide" aria-label="Slide One" title="Click to advance to the next slide">
+      <div class="slide-copy" id="slide-copy">
+        <h1 id="slide-heading" aria-live="polite">Living abroad means your life is constantly changing.</h1>
+        <div class="changing" aria-label="Information examples: address, phone number, friends, emergency contacts, insurance, banking, important documents and wishes">
+          <span class="changing-word" id="changing-word" aria-hidden="true">your address</span>
         </div>
       </div>
-        </section>
-    <section class="roots-section">
-      <div class="wrap">
-        <h2 class="roots-heading">American roots. International understanding. Professional stewardship.</h2>
-        <p class="roots-text">We understand where you came from, where you are today, and the challenges of building a life far from home. We provide English-language service, clear communication, and the professionalism and accountability you expect—wherever life takes you.</p>
+      <div class="slide-controls" role="group" aria-label="Choose a slide">
+        <span class="slide-count" id="slide-count" aria-live="off">01 / 03</span>
+        <button class="slide-dot" type="button" aria-label="Show Slide One" aria-current="true" data-slide="0"></button>
+        <button class="slide-dot" type="button" aria-label="Show Slide Two" aria-current="false" data-slide="1"></button>
+        <button class="slide-dot" type="button" aria-label="Show Slide Three" aria-current="false" data-slide="2"></button>
       </div>
+      <span class="slide-tap-hint" aria-hidden="true">Click anywhere to advance</span>
     </section>
-    <section id="how">
-      <div class="wrap">
-        <h2>How it works</h2>
-        <p class="sub">Four simple steps to organize your important information, document your wishes, and prepare for professional stewardship.</p>
-     <div class="how-timeline">
-<div class="how-step"><div class="how-num">1</div><div class="how-text"><h3>Sign Up & Verify Your Identity</h3><p>Create your secure account, verify your passport, phone and email, and make your initial $49.99 payment.</p></div></div>
-<div class="how-step"><div class="how-num">2</div><div class="how-text"><h3>Organize Your Important Information</h3><p>Start with the essentials. Then add your contacts, financial institutions, personal belongings, and other important details at your own pace. Update them whenever you wish.</p></div></div>
-<div class="how-step"><div class="how-num">3</div><div class="how-text"><h3>Leave Personal Messages and Special Instructions</h3><p>Leave personal messages for loved ones, friends, or anyone you choose. Share words of love, gratitude, apologies, or things left unsaid. Provide special instructions, including how designated individuals can access important accounts or information after your death. Take your time. Add, edit, or delete your messages and instructions whenever you wish.</p></div></div>
-<div class="how-step"><div class="how-num">4</div><div class="how-text"><h3>Upload Your Contracts & Receipts</h3><p>Securely store your independently arranged service agreements and receipts for future stewardship oversight.</p></div></div>
-</div>        </div>
-    </section>
-    <section id="pricing">
-      <div class="wrap">
-        <h2>Pricing</h2>
-       <p class="pricing-intro">One simple payment plan. Long-term peace of mind.</p>
-<div class="pricing-panel">
-  <p class="pricing-label">SECURE REPOSITORY & PROFESSIONAL STEWARDSHIP</p>
-  <div class="pricing-cols">
-    <div class="pricing-left">
-      <div class="pricing-amount">$49.99</div>
-      <p class="pricing-caption">To get started</p>
-      <div class="pricing-monthly">$19.99/month</div>
-      <p class="pricing-caption2">For 36 months</p>
-      <hr class="pricing-divider">
-      <p class="pricing-total-label">Total payment</p>
-      <div class="pricing-total">$769.63</div>
-    </div>
-    <div class="pricing-right">
-      <div class="pricing-benefit"><span class="check">✓</span><span>Secure 24/7 online repository</span></div>
-      <div class="pricing-benefit"><span class="check">✓</span><span>Professional stewardship when the time comes</span></div>
-      <div class="pricing-benefit"><span class="check">✓</span><span>Update your information anytime</span></div>
-      <div class="pricing-benefit"><span class="check">✓</span><span>No further scheduled installments after 36 monthly payments</span></div>
-      <div class="pricing-benefit"><span class="check">✓</span><span>Your Three Promises Begin on Day One.</span></div>
-    </div>
-  </div>
-  <hr class="pricing-bottom-divider">
-  <p class="pricing-foot">Your initial payment activates all Three Promises after basic enrollment and acceptance of the terms. If you pass away before your final payment, our commitment to you remains unchanged</p>
-  <p class="pricing-foot">Funeral, cremation, transportation, repatriation, and other third-party services are arranged and paid for separately through your chosen providers.</p>
-</div>
-      </div>
-    </section>
-   <section id="enroll">
-  <div class="wrap">
-    <h2>Waitlist</h2>
-    <p class="sub waitlist-intro"><strong>Interested in 3PromisesThailand?</strong><br>Leave your name and email address to be notified when enrollment opens. Have a question? Leave us a note, and we'll be happy to help.</p>
-    <form id="waitlist-form">
-      <label class="waitlist-label">Name<input type="text" name="name" autocomplete="name" required maxlength="100" placeholder="Your name"></label>
-      <label class="waitlist-label">Email address<input type="email" name="email" autocomplete="email" required placeholder="you@example.com"></label>
-      <label class="waitlist-label">Note / Question<textarea name="note" rows="4" maxlength="2000" placeholder="Optional — your question or note"></textarea></label>
-      <input type="text" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;" aria-hidden="true">
-      <label class="waitlist-consent"><input type="checkbox" id="waitlist-consent" required> <span>By submitting this form, you agree that 3PromisesThailand may contact you regarding your inquiry and notify you when enrollment opens. <br> See our <a href="privacy.html" id="privacy-link">Privacy Policy</a></span></label>
-      <button class="btn" type="submit" id="waitlist-btn">Join the Waitlist</button>
-      <p class="waitlist-msg" id="waitlist-msg" role="status" aria-live="polite"></p>
-    </form>
-  </div>
-</section>
+    <nav class="bento-grid" aria-label="Explore 3PromisesThailand">
+      <button class="tile" type="button" data-title="The Three Promises"><span>The Three Promises</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="tile" type="button" data-title="Try the demo free"><span>Try the demo free</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="tile" type="button" data-title="How it works"><span>How it works</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="tile" type="button" data-title="Pricing"><span>Pricing</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="tile" type="button" data-title="Sign up now"><span>Sign up now</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="tile" type="button" data-title="Contact us"><span>Contact us</span><span class="arrow" aria-hidden="true">→</span></button>
+    </nav>
   </main>
-  <footer>
-    <div class="wrap">
-      <img src="3PromisesThailand_Logo_Horizontal_Footer.svg" alt="3PromisesThailand" class="footer-logo">
-      <p>Contact: <a href="mailto:info@3promisesthailand.com">info@3promisesthailand.com</a> 3PromisesThailand American roots. International understanding. Professional stewardship for expats in Thailand</p>
-      <p>This preview is not an offer to enroll, not legal advice, and not a funeral contract. Eligibility and authorizations must be confirmed before any payment.</p>
-    </div>
-  </footer>
+  <dialog id="preview-dialog" aria-labelledby="preview-title">
+    <h2 id="preview-title"></h2>
+    <p>This is an animated homepage design preview. Each bento card can be linked to its own page when those pages are ready.</p>
+    <form method="dialog"><button class="modal-close">Close</button></form>
+  </dialog>
   <script>
-(function(){
-  var form = document.getElementById('waitlist-form');
-  if(!form) return;
-  var msg = document.getElementById('waitlist-msg');
-  var btn = document.getElementById('waitlist-btn');
-  var SUPA_URL = 'https://igiotdsfolmftkexbwmx.supabase.co';
-  var SUPA_ANON = 'sb_publishable_MTZ0EdQ7i1Hrx7sefVdRnQ_CPmjnJOY';
-  var lastSubmit = 0;
-  var startTime = Date.now();
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    msg.style.color = '#123E42';
-    msg.textContent = '';
-    if(form.company && form.company.value){ return; }
-    if(Date.now() - startTime < 3000){ msg.textContent = 'Please wait a moment and try again.'; return; }
-    if(Date.now() - lastSubmit < 30000){ msg.textContent = 'Please wait before submitting again.'; return; }
-    var name = form.name.value.trim();
-    var email = form.email.value.trim().toLowerCase();
-    var note = form.note.value.trim();
-    var consent = document.getElementById('waitlist-consent').checked;
-    if(!name || !email || !consent){ msg.textContent = 'Please add your name, email, and consent.'; return; }
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ msg.textContent = 'Please enter a valid email address.'; return; }
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-    try{
-      var res = await fetch(SUPA_URL + '/rest/v1/waitlist_signups', {
-        method: 'POST',
-        headers: { 'apikey': SUPA_ANON, 'Authorization': 'Bearer ' + SUPA_ANON, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify({ name: name, email: email, note: note || null, consent_ack: true, consent_version: 'v1-2026-11-22', status: note ? 'has_question' : 'new' })
-      });
-      lastSubmit = Date.now();
-      if(res.ok || res.status === 201){
-        msg.textContent = "Thank you for your interest in 3PromisesThailand. We've received your information and will contact you when enrollment opens.";
-        form.name.value = ''; form.email.value = ''; form.note.value = '';
-      } else {
-        var t = await res.text();
-        if(t.indexOf('duplicate') > -1 || t.indexOf('unique') > -1 || res.status === 409){
-          msg.textContent = "Thank you for your interest in 3PromisesThailand. We've received your information and will contact you when enrollment opens.";
+    (() => {
+      'use strict';
+      // Adjust this one number to control how long each slide remains on screen.
+      const SLIDE_DURATION_MS = 20000;
+      const WORD_DURATION_MS = 2740;
+      const TRANSITION_MS = 330;
+      const slides = [
+        { name: 'Slide One', heading: 'Living abroad means your life is constantly changing.', prefix: 'your ' },
+        { name: 'Slide Two', heading: 'If something happens to you, who will know', prefix: 'your ' },
+        { name: 'Slide Three', heading: '3PromisesThailand keeps a record of', prefix: 'your ' }
+      ];
+      const phrases = [
+        'address', 'phone number', 'friends', 'emergency contacts',
+        'insurance', 'banking', 'important documents', 'wishes'
+      ];
+      const heading = document.getElementById('slide-heading');
+      const word = document.getElementById('changing-word');
+      const copy = document.getElementById('slide-copy');
+      const region = document.getElementById('rotating-slide');
+      const dots = [...document.querySelectorAll('.slide-dot')];
+      const counter = document.getElementById('slide-count');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let slideIndex = 0;
+      let wordIndex = 0;
+      let slideTimer = null;
+      let wordTimer = null;
+      let transitionTimer = null;
+      let isChanging = false;
+
+      function currentPhrase() {
+        return slides[slideIndex].prefix + phrases[wordIndex];
+      }
+
+      function setSlide(next, forced = false) {
+        if (isChanging || next === slideIndex) {
+          if (forced) scheduleSlide();
+          return;
+        }
+        isChanging = true;
+        clearTimeout(transitionTimer);
+        clearTimeout(wordTimer);
+        clearTimeout(slideTimer);
+        const update = () => {
+          slideIndex = (next + slides.length) % slides.length;
+          heading.textContent = slides[slideIndex].heading;
+          word.textContent = currentPhrase();
+          word.classList.remove('out');
+          region.setAttribute('aria-label', slides[slideIndex].name);
+          dots.forEach((dot, index) => dot.setAttribute('aria-current', String(index === slideIndex)));
+          counter.textContent = String(slideIndex + 1).padStart(2,'0') + ' / 03';
+          copy.classList.remove('is-switching');
+          isChanging = false;
+          scheduleWord();
+          scheduleSlide();
+        };
+        if (reduceMotion.matches) {
+          update();
         } else {
-          msg.textContent = 'Something did not save. Please check your entries and try again.';
+          copy.classList.add('is-switching');
+          transitionTimer = setTimeout(update, TRANSITION_MS);
         }
       }
-    } catch(err){
-      msg.textContent = 'Something did not save. Please check your connection and try again.';
-    }
-    btn.disabled = false;
-    btn.textContent = 'Join the Waitlist';
-  });
-})();
-</script>
+
+      function nextSlide() {
+        setSlide((slideIndex + 1) % slides.length, true);
+      }
+
+      function scheduleSlide() {
+        clearTimeout(slideTimer);
+        if (!document.hidden && !reduceMotion.matches) {
+          slideTimer = setTimeout(nextSlide, SLIDE_DURATION_MS);
+        }
+      }
+
+      function scheduleWord() {
+        clearTimeout(wordTimer);
+        if (document.hidden || reduceMotion.matches) return;
+        wordTimer = setTimeout(() => {
+          if (isChanging) return;
+          word.classList.add('out');
+          wordTimer = setTimeout(() => {
+            wordIndex = (wordIndex + 1) % phrases.length;
+            word.textContent = currentPhrase();
+            word.classList.remove('out');
+            scheduleWord();
+          }, TRANSITION_MS);
+        }, WORD_DURATION_MS);
+      }
+
+      // Click or tap anywhere except an interactive control to advance immediately.
+      document.addEventListener('click', (event) => {
+        if (document.getElementById('preview-dialog').open) return;
+        if (event.target.closest('button, a, dialog, input, select, textarea')) return;
+        nextSlide();
+      });
+      region.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+          event.preventDefault();
+          setSlide(slideIndex + (event.key === 'ArrowRight' ? 1 : -1), true);
+        }
+      });
+      dots.forEach(dot => {
+        dot.addEventListener('click', event => {
+          event.stopPropagation();
+          setSlide(Number(dot.dataset.slide), true);
+        });
+      });
+      document.addEventListener('keydown', event => {
+        if (document.getElementById('preview-dialog').open) return;
+        if (event.target.closest('button, input, textarea, select')) return;
+        if (event.key === 'ArrowRight') setSlide(slideIndex + 1, true);
+        if (event.key === 'ArrowLeft') setSlide(slideIndex - 1, true);
+      });
+      document.addEventListener('visibilitychange', () => {
+        clearTimeout(slideTimer);
+        clearTimeout(wordTimer);
+        if (!document.hidden) {
+          scheduleSlide();
+          scheduleWord();
+        }
+      });
+      if (reduceMotion.addEventListener) {
+        reduceMotion.addEventListener('change', () => {
+          clearTimeout(slideTimer);
+          clearTimeout(wordTimer);
+          if (!reduceMotion.matches) {
+            scheduleSlide();
+            scheduleWord();
+          }
+        });
+      }
+      scheduleSlide();
+      scheduleWord();
+
+      // Keep the bento cards unchanged from the approved preview.
+      const modal = document.getElementById('preview-dialog');
+      const title = document.getElementById('preview-title');
+      document.querySelectorAll('.tile').forEach(tile => {
+        tile.addEventListener('click', () => {
+          title.textContent = tile.dataset.title;
+          clearTimeout(slideTimer); // pause progression while modal is open
+          if (modal.showModal) modal.showModal();
+        });
+      });
+      modal.addEventListener('close', scheduleSlide);
+    })();
+  </script>
 </body>
 </html>
