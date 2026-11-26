@@ -7,6 +7,18 @@
 header.app { background: #EFE2CF; }
 .header-divider { border-top: 1px solid #C5D0C8; }
 body { background: #EFE2CF; }
+nav.app-nav a.back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(32,63,53,.22);
+  background: rgba(255,255,255,.57);
+  border-radius: 999px;
+  padding: 12px 18px;
+  color: #203f35;
+  text-decoration: none;
+  font-size: 13px;
+}
 </style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,7 +27,7 @@ body { background: #EFE2CF; }
 <body>
 <header class="app"><div class="wrap bar">
 <a class="brand-mini" href="dashboard.html"><img src="3PromisesThailand_Icon.svg" alt=""> 3PromisesThailand</a>
-<nav class="app-nav"><a href="dashboard.html">Dashboard</a></nav>
+<nav class="app-nav"><a href="dashboard.html" class="back-home">← Back to Dashboard</a></nav>
 </div><div class="wrap"><hr class="header-divider"></div></header>
 <main class="page"><div class="wrap">
 <p class="crumb">Customer Dashboard / Special Requests</p>
