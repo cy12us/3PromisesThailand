@@ -8,8 +8,6 @@
 <style>
 body { background: #344D46; color: #F7F3EA; }
 header.app { background: #344D46; }
-header.app .brand-mini { color: #F7F3EA; }
-nav.app-nav a { color: #F7F3EA; }
 .header-divider { border: 0; border-top: 1px solid rgba(247,243,234,0.22); margin: 22px 0 0 0; }
 .acct-wrap { width: min(760px, calc(100% - 40px)); margin: 0 auto; padding: 32px 0 72px; }
 .acct-eyebrow { font-size: 11px; letter-spacing: 0.18em; color: #D5DED5; margin: 28px 0 8px; }
@@ -35,25 +33,25 @@ nav.app-nav a { color: #F7F3EA; }
 .row-link { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #223E35; text-decoration: none; padding: 10px 0; }
 .set-row { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid #E1E4DE; }
 .set-row:first-of-type { border-top: 0; }
-  nav.app-nav a.back-home {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  border: 1px solid rgba(32,63,53,.22);
-  background: rgba(255,255,255,.57);
-  border-radius: 999px;
-  padding: 12px 18px;
-  color: #203f35;
-  text-decoration: none;
-  font-size: 13px;
-}
+.page-topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:112px;padding:20px 0 22px;margin-bottom:35px;border-bottom:1px solid rgba(247,243,234,0.22)}
+.brand-home{display:inline-flex;align-items:center;flex:0 1 auto;text-decoration:none;border-radius:7px}
+.brand-home:focus-visible{outline:3px solid #7da99a;offset:5px}
+.page-logo{display:block;width:clamp(300px,42vw,440px);height:auto;max-width:100%;min-width:300px}
+.dashboard-return{display:inline-flex;gap:10px;align-items:center;justify-content:center;white-space:nowrap;border:1px solid #c8d7cd;border-radius:999px;padding:13px 23px;min-height:46px;color:#264a3e;text-decoration:none;font-size:14px;font-weight:600;background:#fff;box-shadow:0 1px 5px #203d2f08}
+.dashboard-return:hover{background:#eef5ef;border-color:#a6c4b1}
+@media(max-width:700px){.page-topbar{min-height:auto;margin-bottom:26px;gap:14px;padding:22px 0 20px}.page-logo{width:clamp(160px,42vw,235px);min-width:0}.dashboard-return{font-size:12px;padding:10px 12px;min-height:42px}}
 </style>
 </head>
 <body>
-<header class="app"><div class="wrap bar">
-<a class="brand-mini" href="dashboard.html"><img src="3PromisesThailand_Icon.svg" alt=""> 3PromisesThailand</a>
-<nav class="app-nav"><a href="dashboard.html" class="back-home">← Back to Dashboard</a></nav>
-</div><div class="wrap"><hr class="header-divider"></div></header>
+<header class="app"><div class="wrap">
+<div class="page-topbar" aria-label="Page navigation">
+<a class="brand-home" href="index.html" aria-label="3PromisesThailand home">
+<img class="page-logo" alt="3PromisesThailand" src="3PromisesThailand_Logo_Horizontal_Refined.svg">
+</a>
+<a class="dashboard-return" href="dashboard.html" aria-label="Back to Dashboard"><span aria-hidden="true">←</span> Back to Dashboard</a>
+</div>
+<hr class="header-divider">
+</div></header>
 
 <div class="acct-wrap">
 <p class="acct-eyebrow">3PROMISESTHAILAND</p>
