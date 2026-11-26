@@ -35,12 +35,24 @@ nav.app-nav a { color: #F7F3EA; }
 .row-link { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #223E35; text-decoration: none; padding: 10px 0; }
 .set-row { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid #E1E4DE; }
 .set-row:first-of-type { border-top: 0; }
+  nav.app-nav a.back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(32,63,53,.22);
+  background: rgba(255,255,255,.57);
+  border-radius: 999px;
+  padding: 12px 18px;
+  color: #203f35;
+  text-decoration: none;
+  font-size: 13px;
+}
 </style>
 </head>
 <body>
 <header class="app"><div class="wrap bar">
 <a class="brand-mini" href="dashboard.html"><img src="3PromisesThailand_Icon.svg" alt=""> 3PromisesThailand</a>
-<nav class="app-nav"><a href="dashboard.html">Dashboard</a></nav>
+<nav class="app-nav"><a href="dashboard.html" class="back-home">← Back to Dashboard</a></nav>
 </div><div class="wrap"><hr class="header-divider"></div></header>
 
 <div class="acct-wrap">
