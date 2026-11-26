@@ -9,6 +9,16 @@
 header.app { background: #E0E8E1; }
 .header-divider { border-top: 1px solid #C5D0C8; }
 body { background: #E0E8E1; }
+  /* Branded page navigation — shares the approved oak logo with the public homepage. */
+.page-topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:112px;padding:20px 0 22px;margin-bottom:35px;border-bottom:1px solid #e6e6e1}
+.brand-home{display:inline-flex;align-items:center;flex:0 1 auto;text-decoration:none;border-radius:7px}
+.brand-home:focus-visible{outline:3px solid #7da99a;outline-offset:5px}
+.page-logo{display:block;width:clamp(228px,30vw,355px);height:auto;max-width:100%}
+.dashboard-return{display:inline-flex;gap:10px;align-items:center;justify-content:center;white-space:nowrap;border:1px solid #c8d7cd;border-radius:999px;padding:13px 23px;min-height:46px;color:#264a3e;text-decoration:none;font-size:14px;font-weight:600;background:#fff;box-shadow:0 1px 5px #203d2f08;transition:background .18s,border-color .18s,transform .18s}
+.dashboard-return:hover{background:#eef5ef;border-color:#a6c4b1;transform:translateY(-1px)}
+.dashboard-return:focus-visible{outline:3px solid #88b39f;outline-offset:3px}
+@media(max-width:700px){.page-topbar{min-height:auto;margin-bottom:26px;gap:14px;padding:22px 0 20px}.page-logo{width:clamp(160px,42vw,235px)}.dashboard-return{font-size:12px;padding:10px 12px;min-height:42px;gap:6px}}
+@media(max-width:380px){.page-logo{width:145px}.dashboard-return{font-size:11px;padding:9px 10px}}
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Personal Information - Customer Dashboard</title>
