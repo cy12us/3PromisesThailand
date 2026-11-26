@@ -1,3 +1,4 @@
+<!-- 3PromisesThailand_Logo_Horizontal_Refined.svg -->
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    viewBox="0 0 980 245"
@@ -19,7 +20,8 @@
        transform="translate(-108 -46) scale(0.348)"
        id="g1">
       <g
-         id="three-promises-emblem">
+         id="three-promises-emblem"
+         transform="translate(1390 0) scale(-1 1)">
         <path
            id="oak-leaf-human-profile-and-time"
            fill="#CC8938"
