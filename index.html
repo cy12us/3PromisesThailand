@@ -1,0 +1,96 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#073B46">
+<title>3PromisesUS | Lifetime Personal Information Stewardship</title>
+<meta name="description" content="3PromisesUS — a proposed lifetime service for organizing, protecting and securely delivering your important personal information.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+:root{--font:'Helvetica Neue',Helvetica,Inter,Arial,sans-serif}
+*{box-sizing:border-box}html{min-height:100%;background:#073B46}
+body{margin:0;min-height:100vh;color:#F5F1E9;font-family:var(--font);font-weight:300;line-height:1.35;overflow-x:hidden;background:radial-gradient(ellipse 67% 64% at 16% 22%,rgba(22,146,145,.64) 0%,rgba(15,111,117,.39) 43%,transparent 82%),radial-gradient(ellipse 63% 67% at 74% 41%,rgba(200,165,107,.52) 0%,rgba(152,142,99,.34) 45%,transparent 85%),linear-gradient(112deg,#073B46 0%,#104F53 43%,#173D45 100%)}
+.page{width:min(100% - 64px,1294px);margin:0 auto;padding:60px 0 76px}
+.brand-lockup{width:clamp(420px,51vw,680px);max-width:100%}
+.brand{display:block;width:100%;height:auto}
+.hero-message{margin:42px 0 0;max-width:1120px}
+.hero-message h1{margin:0;color:#F5F1E9;font:200 clamp(22px,2.65vw,36px)/1.18 var(--font);letter-spacing:-.036em}
+.hero-message p{margin:24px 0 0;padding-left:24px;border-left:1px solid #EFD2A5aa;color:#EFCBA5;font:300 clamp(19px,2.1vw,30px)/1.35 var(--font)}
+.promise-explorer{margin-top:48px}
+.promise-selector-row{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+.promise-track{position:relative;width:132px;height:30px;border-radius:999px;background:linear-gradient(155deg,#EED7AC 0%,#C8AB75 24%,#B99A61 56%,#79603A 77%,#B99A61 100%);border:1px solid #EED7AC}
+.promise-numbers{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 12px;color:#fff;font:400 12px var(--font)}
+.promise-range{position:absolute;inset:0;margin:0;width:100%;height:30px;background:transparent;cursor:pointer}
+.promise-selected-number{position:absolute;top:50%;left:15px;transform:translate(-50%,-50%);color:#51432D;font:500 12px var(--font)}
+.promise-hint{color:#EFCBA5;font:400 14px/1.4 var(--font)}
+.promise-panel{max-width:950px}
+.promise-title{margin:0;color:#F3F0E8;font:700 clamp(19px,1.65vw,25px)/1.23 var(--font)}
+.promise-body{color:#E4EAE4;font:300 clamp(16px,1.5vw,20px)/1.6 var(--font);max-width:850px;margin-top:14px}
+.bento-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:15px 18px;margin:55px 20px 0}
+.tile{position:relative;display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(255,255,255,.14);border-radius:22px;width:100%;color:#0a3b31;padding:0 35px 0 46px;min-height:91px;background:#fff;text-decoration:none;font-weight:250;font-size:clamp(19px,1.65vw,25px);letter-spacing:-.033em}
+.tile .arrow{font-size:30px}
+.tile:nth-child(-n+2){grid-column:span 6}.tile:nth-child(n+3){grid-column:span 4}
+.tile[data-t="demo"]{background:#134C3F;color:#F8F7F0}.tile[data-t="how"]{background:#D9E8F0}.tile[data-t="price"]{background:#f8e8d8}.tile[data-t="signup"]{background:#F2ECF7}.tile[data-t="contact"]{background:#D7DDD7;grid-column:1/-1}
+.brand-message{margin:70px 20px 0;max-width:875px}
+.brand-message::before{content:'';display:block;width:86px;height:1px;margin-bottom:27px;background:rgba(241,209,165,.48)}
+.brand-message h2{margin:0;color:#EFCBA5;font:200 clamp(25px,2.55vw,34px)/1.28 var(--font)}
+.brand-message p{color:#E4EAE4;font:300 clamp(14px,1.2vw,16px)/1.82 var(--font);max-width:740px;margin:16px 0 0}
+.vision-closing{color:#EFCBA5!important;font-size:clamp(18px,1.65vw,23px)!important;margin-top:32px!important}
+@media(max-width:500px){.page{width:calc(100% - 40px)}.bento-grid{grid-template-columns:repeat(6,minmax(0,1fr));margin:38px 0 0}.tile:nth-child(-n+2){grid-column:span 3!important}.tile:nth-child(n+3){grid-column:span 2!important;font-size:15px}.tile[data-t="contact"]{grid-column:1/-1!important}}
+</style>
+</head>
+<body>
+<main class="page">
+<div class="brand-lockup">
+<a href="/" aria-label="3PromisesUS home"><img class="brand" src="logo-v26.svg" alt="3PromisesUS — oak emblem and wordmark" width="680" height="170"></a>
+</div>
+<section class="hero-message" aria-label="About 3PromisesUS">
+<h1>Securely store your important information and prepare personal messages online.</h1>
+<p>We deliver them according to your instructions after your death.</p>
+</section>
+<section class="promise-explorer" aria-label="Explore the Three Promises">
+<div class="promise-selector-row">
+<div class="promise-track">
+<div class="promise-numbers"><span>1</span><span>2</span><span>3</span></div>
+<input class="promise-range" id="promise-range" type="range" min="1" max="3" step="1" value="1" aria-label="Choose a promise">
+<span class="promise-selected-number" id="promise-num">1</span>
+</div>
+<span class="promise-hint">Explore our Three Promises</span>
+</div>
+<div class="promise-panel" aria-live="polite">
+<h1 class="promise-title" id="promise-title"></h1>
+<div class="promise-body" id="promise-body"></div>
+</div>
+</section>
+<nav class="bento-grid" aria-label="Explore 3PromisesUS">
+<a class="tile" data-t="how" href="/how-it-works"><span>How it works</span><span class="arrow">→</span></a>
+<a class="tile" data-t="demo" href="/demo"><span>Try the demo free</span><span class="arrow">→</span></a>
+<a class="tile" data-t="price" href="/pricing"><span>Pricing</span><span class="arrow">→</span></a>
+<a class="tile" data-t="signup" href="/signup"><span>Sign up now</span><span class="arrow">→</span></a>
+<a class="tile" data-t="contact" href="/contact"><span>Contact us</span><span class="arrow">→</span></a>
+</nav>
+<section class="brand-message" aria-label="Our mission and vision">
+<h2>Our Mission</h2>
+<p>To empower individuals to securely and confidentially preserve, manage and protect their important personal information throughout their lifetime, and ensure that, upon official verification of their death, the information they have chosen to share is securely delivered to the people they have designated.</p>
+<h2 style="margin-top:32px">Our Vision</h2>
+<p>To become America's most trusted personal information stewardship company, establishing a new standard for lifelong convenience, personal privacy and responsible post-death information delivery.</p>
+<p class="vision-closing">We protect what matters today and preserve it for tomorrow.</p>
+</section>
+</main>
+<script>
+(function(){
+var promises=[
+{title:'Promise one - Your Information. Your Privacy.',body:['Your private information is yours. Our encryption architecture is designed so that only you and your designated recipients can decrypt and read the information intended for them. Neither 3PromisesUS employees nor system administrators hold the keys to your private information.']},
+{title:'Promise two - Do Everything Online.',body:['Sign up, verify your identity, and manage your account through our website or mobile app. As life changes, add, edit or update your records, documents, personal messages and designated recipients anytime, from anywhere.','Your account remains active throughout your lifetime. Upon official verification of your death, we securely deliver your files according to your instructions.']},
+{title:'Promise three - Service Begins on Day One.',body:['Your service begins upon successful enrollment and initial payment. If you pass away before completing your payment plan, we still honor all Three Promises and securely deliver your files according to your instructions, following official verification of your death.']}
+];
+var range=document.getElementById('promise-range'),title=document.getElementById('promise-title'),body=document.getElementById('promise-body'),num=document.getElementById('promise-num');
+function show(){var i=Number(range.value)-1;num.textContent=String(i+1);num.style.left='calc('+(i*50)+'% + '+(15-i*15)+'px)';title.textContent=promises[i].title;body.innerHTML='';promises[i].body.forEach(function(t){var p=document.createElement('p');p.textContent=t;body.appendChild(p);});}
+range.addEventListener('input',show);range.addEventListener('change',show);show();
+})();
+</script>
+</body>
+</html>
