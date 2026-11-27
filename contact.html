@@ -1,0 +1,118 @@
+<!-- contact.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Contact 3PromisesUS by email or Facebook. Live chat and telephone support are being prepared.">
+<title>Contact Us | 3PromisesUS</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+:root{--ink:#203f35;--quiet:#526c60;--sage:#e3ece4;--forest:#315448;--forest-strong:#24483b;--paper:#fbfaf7;--sand:#f7eddf;--line:rgba(44,82,63,.16);--font:'Helvetica Neue',Helvetica,Inter,Arial,sans-serif}
+*{box-sizing:border-box}html{min-height:100%;background:#e4efed}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:var(--font);font-weight:300;background:radial-gradient(ellipse 35% 24% at 93% 22%,rgba(216,155,75,.30),transparent 77%),radial-gradient(ellipse 39% 40% at 98% 8%,rgba(50,179,166,.53),transparent 78%),#e4efed}
+.wrap{max-width:1190px;width:min(calc(100% - 72px),1190px);margin:auto;padding:36px 0 61px}
+header{display:flex;align-items:center;justify-content:space-between;gap:22px}
+.brand{display:block;width:min(440px,65vw);flex:0 1 440px;margin-left:-8px}
+.brand img{width:100%;height:auto;display:block}
+.quiet-link{display:inline-flex;align-items:center;gap:9px;justify-content:center;border-radius:999px;padding:12px 18px;border:1px solid rgba(32,63,53,.22);background:rgba(255,255,255,.57);text-decoration:none;font:400 13px/1.2 var(--font)}
+.intro{padding:66px 0 32px}
+.eyebrow{font:450 11px/1.5 var(--font);letter-spacing:.20em;color:#416454;text-transform:uppercase;margin:0 0 18px}
+h1{font-weight:250;letter-spacing:-.04em;font-size:clamp(26px,2.75vw,38px);line-height:1.16;margin:0}
+.subtitle{font-size:clamp(17px,1.5vw,20px);font-weight:300;color:#4d685b;margin:17px 0 0;line-height:1.52;max-width:810px}
+.rule{height:1px;background:var(--line);margin:29px 0 31px}
+.grid{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);gap:17px}
+.contact-card{border-radius:28px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.email-card{background:rgba(252,251,248,.96);border:1px solid rgba(45,82,63,.075);padding:35px 39px 36px;min-height:310px}
+.facebook-card{background:var(--forest-strong);color:#f7f5ec;padding:35px 36px 36px;min-height:310px}
+.contact-label{font:500 10.5px/1.5 var(--font);letter-spacing:.17em;text-transform:uppercase;margin:0 0 22px;color:#708474}
+.facebook-card .contact-label{color:#d2e1d4}
+.contact-card h2{font:250 clamp(24px,2.4vw,32px)/1.19 var(--font);letter-spacing:-.036em;margin:0 0 13px}
+.contact-card p{font-size:15px;line-height:1.66;color:#526c60;margin:0;max-width:460px}
+.facebook-card p{color:#dce6df}
+.email-address{display:block;overflow-wrap:anywhere;font:300 clamp(20px,2.14vw,28px)/1.28 var(--font);margin-top:25px;text-decoration:none}
+.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:30px}
+.primary{display:inline-flex;align-items:center;gap:19px;border-radius:999px;min-height:51px;padding:13px 24px;text-decoration:none;font:400 14px/1.2 var(--font);border:1px solid #2e5145;background:#2e5145;color:#fff}
+.on-dark{display:inline-flex;align-items:center;gap:16px;padding:12px 21px;min-height:51px;color:#fafaf4;border:1px solid rgba(247,245,236,.58);border-radius:999px;text-decoration:none;font:400 14px/1.2 var(--font)}
+.small-card{border-radius:24px;padding:29px 33px;min-height:192px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:18px;border:1px solid rgba(45,82,63,.055)}
+.chat-card{background:rgba(225,235,225,.92)}
+.phone-card{background:rgba(247,237,223,.86)}
+.small-card h2{font:250 clamp(19px,1.8vw,24px)/1.3 var(--font);margin:0 0 9px;color:#254638}
+.small-card p{font:300 14px/1.55 var(--font);color:#5b7165;margin:0}
+.inline-action{display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:9px 14px;border:1px solid rgba(42,82,59,.22);background:rgba(255,255,255,.47);color:#254638;font:400 12px/1.3 var(--font)}
+.small-status{font:400 12px/1.4 var(--font);color:#746854}
+.bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:28px 2px 0;flex-wrap:wrap}
+.bottom p{font:300 14px/1.5 var(--font);color:#637b6e;margin:0}
+.bottom nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bottom a{font:400 13px/1.5 var(--font);color:#36594b;text-decoration:none;border-bottom:1px solid rgba(49,84,72,.25);padding-bottom:2px}
+dialog{color:var(--ink);background:var(--paper);width:min(470px,calc(100vw - 34px));border:1px solid rgba(32,63,53,.14);border-radius:24px;padding:34px}
+dialog::backdrop{background:rgba(10,35,30,.35)}
+.dialog-close{border:1px solid rgba(32,63,53,.22);border-radius:999px;padding:12px 20px;background:#fff;font:400 13px/1.2 var(--font);cursor:pointer}
+@media(max-width:830px){.wrap{width:min(calc(100% - 44px),720px)}.grid{grid-template-columns:1fr}.email-card,.facebook-card{min-height:265px;padding:31px}}
+@media(max-width:540px){.wrap{width:calc(100% - 34px)}.email-card,.facebook-card{min-height:262px;padding:26px 23px;border-radius:22px}.small-card{padding:25px 23px;border-radius:22px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+<a class="brand" href="/" aria-label="3PromisesUS home"><img src="logo-v26-dark.svg" alt="3PromisesUS oak emblem and wordmark" width="440" height="110"></a>
+<a class="quiet-link" href="/">Back to Home</a>
+</header>
+<section class="intro">
+<p class="eyebrow">3PromisesUS - Support</p>
+<h1>Contact us.</h1>
+<p class="subtitle">Questions about our service or getting started? We're here to help you find the right answers.</p>
+</section>
+<div class="rule"></div>
+<section class="grid">
+<article class="contact-card email-card">
+<div>
+<p class="contact-label">01 · Email</p>
+<h2>Write to us.</h2>
+<p>For questions about our service, your membership, or getting started with 3PromisesUS.</p>
+<a class="email-address" href="mailto:info@3promisesus.com">info@3promisesus.com</a>
+</div>
+<div class="actions"><a class="primary" href="mailto:info@3promisesus.com?subject=Question%20about%203PromisesUS">Send an email →</a></div>
+</article>
+<article class="contact-card facebook-card">
+<div>
+<p class="contact-label">02 · Facebook</p>
+<h2>Find us on<br>Facebook.</h2>
+<p>Our 3PromisesUS Facebook page will be linked when available.</p>
+</div>
+<div class="actions"><a class="on-dark" style="pointer-events:none" aria-disabled="true">Facebook page coming soon →</a></div>
+</article>
+<article class="small-card chat-card">
+<div>
+<p class="contact-label">03 · Live chat</p>
+<h2>Chat with us.</h2>
+<p>We're preparing live chat. Until it opens, please contact us by email.</p>
+</div>
+<button class="inline-action" type="button" id="chat-link">Live chat details →</button>
+</article>
+<article class="small-card phone-card">
+<div>
+<p class="contact-label">04 · Telephone</p>
+<h2>Prefer to speak with someone?</h2>
+<p>Our telephone contact number will be added when available.</p>
+</div>
+<span class="small-status">Phone number: TBD</span>
+</article>
+</section>
+<footer class="bottom">
+<p>We protect what matters today and preserve it for tomorrow.</p>
+<nav><a href="/demo" aria-disabled="true" style="pointer-events:none;opacity:.55">Try the demo free</a><a href="/pricing">View pricing</a></nav>
+</footer>
+</main>
+<dialog id="chat-dialog">
+<p class="contact-label">Live chat</p>
+<h2>We're preparing live chat.</h2>
+<p>Live chat isn't connected yet. For now, contact us at <a href="mailto:info@3promisesus.com">info@3promisesus.com</a>.</p>
+<div style="margin-top:24px;display:flex;gap:12px"><a class="primary" href="mailto:info@3promisesus.com">Email us</a><button class="dialog-close" type="button" id="close-chat-dialog">Close</button></div>
+</dialog>
+<script>
+(()=>{const chat=document.getElementById('chat-dialog');document.getElementById('chat-link').addEventListener('click',()=>{if(typeof chat.showModal==='function')chat.showModal();else chat.setAttribute('open','');});document.getElementById('close-chat-dialog').addEventListener('click',()=>chat.close());chat.addEventListener('click',(e)=>{if(e.target===chat)chat.close();});})();
+</script>
+</body>
+</html>
