@@ -5,83 +5,133 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="3PromisesUS pricing is forthcoming. Your Three Promises begin on Day One after successful enrollment and payment.">
-<title>Pricing | 3PromisesUS</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="description" content="3PromisesThailand pricing: $49.99 to begin, followed by $19.99 per month for 36 months. Your Three Promises begin on Day One after successful enrollment and payment.">
+<title>Pricing | 3PromisesThailand</title>
 <style>
-:root{--ink:#203f35;--quiet:#526c60;--forest:#315448;--forest-strong:#24483b;--paper:#fbfaf7;--line:rgba(44,82,63,.16);--font:'Helvetica Neue',Helvetica,Inter,Arial,sans-serif}
-*{box-sizing:border-box}html{min-height:100%;background:#f9f3eb}
-body{margin:0;min-height:100vh;color:var(--ink);font-family:var(--font);font-weight:300;background:radial-gradient(ellipse 35% 24% at 93% 22%,rgba(216,155,75,.30),transparent 77%),radial-gradient(ellipse 39% 40% at 98% 8%,rgba(50,179,166,.53),transparent 78%),#f9f3eb}
+:root {
+  --ink:#203f35; --quiet:#526c60; --sage:#e3ece4; --forest:#315448; --forest-strong:#24483b;
+  --paper:#fbfaf7; --sand:#f7eddf; --line:rgba(44,82,63,.16);
+  --font:'Helvetica Neue',Helvetica,Inter,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{min-height:100%;background:#f9f3eb}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:var(--font);font-weight:300;-webkit-font-smoothing:antialiased;
+  background:
+        radial-gradient(ellipse 35% 24% at 93% 22%, rgba(216, 155, 75, 0.30), transparent 77%),
+        radial-gradient(ellipse 39% 40% at 98% 8%, rgba(50, 179, 166, .53), transparent 78%),
+        radial-gradient(ellipse 24% 20% at 77% 19%, rgba(162, 222, 211, .25), transparent 88%),
+        radial-gradient(ellipse 67% 58% at 30% 78%, rgba(247, 243, 242, .82), transparent 89%),
+        #f9f3eb;}
+a{color:inherit}
+a:focus-visible{outline:2px solid #b27c47;outline-offset:4px}
 .wrap{max-width:1190px;width:min(calc(100% - 72px),1190px);margin:auto;padding:36px 0 61px}
 header{display:flex;align-items:center;justify-content:space-between;gap:22px}
 .brand{display:block;width:min(440px,65vw);flex:0 1 440px;margin-left:-8px}
 .brand img{width:100%;height:auto;display:block}
-.quiet-link{display:inline-flex;align-items:center;gap:9px;justify-content:center;border-radius:999px;padding:12px 18px;border:1px solid rgba(32,63,53,.22);background:rgba(255,255,255,.57);text-decoration:none;font:400 13px/1.2 var(--font)}
+.quiet-link{display:inline-flex;align-items:center;gap:9px;justify-content:center;flex:0 0 auto;
+  border-radius:999px;padding:12px 18px;border:1px solid rgba(32,63,53,.22);background:rgba(255,255,255,.57);
+  text-decoration:none;font:400 13px/1.2 var(--font);box-shadow:0 3px 16px rgba(32,63,53,.04);
+  transition:background .25s,transform .25s,border-color .25s,box-shadow .25s;backdrop-filter:blur(8px)}
+.quiet-link:hover{background:#fff;transform:translateY(-2px);border-color:rgba(32,63,53,.35);box-shadow:0 8px 26px rgba(32,63,53,.07)}
+.quiet-link svg{width:15px;height:15px;stroke:currentColor;transition:transform .25s}
+.quiet-link:hover svg{transform:translateX(-3px)}
 .intro{padding:66px 0 32px}
 .eyebrow{font:450 11px/1.5 var(--font);letter-spacing:.20em;color:#416454;text-transform:uppercase;margin:0 0 18px}
 h1{font-weight:250;letter-spacing:-.04em;font-size:clamp(26px,2.75vw,38px);line-height:1.16;margin:0}
 .subtitle{font-size:clamp(17px,1.5vw,20px);font-weight:300;color:#4d685b;margin:19px 0 0;line-height:1.52;max-width:850px}
 .rule{height:1px;background:var(--line);margin:29px 0 31px}
 .pricing-layout{display:grid;grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr);gap:16px;align-items:stretch}
-.plan{background:rgba(252,251,248,.94);border:1px solid rgba(45,82,63,.085);border-radius:28px;padding:40px 42px 36px}
+.plan{background:rgba(252,251,248,.94);border:1px solid rgba(45,82,63,.085);border-radius:28px;padding:40px 42px 36px;box-shadow:0 14px 46px rgba(31,66,48,.03)}
 .section-label{font:500 10.5px/1.5 var(--font);color:#648071;letter-spacing:.17em;text-transform:uppercase;margin:0 0 21px}
-.amount{font-weight:250;font-size:clamp(30px,2.5vw,34px);letter-spacing:-.04em;line-height:1.16;margin:0}
-.price-copy{font-size:15px;line-height:1.6;color:#48665a;margin:10px 0 0}
-.commitment{background:#dfe9e0;border-radius:28px;padding:40px 42px 36px;display:flex;flex-direction:column;justify-content:space-between;gap:29px}
-.commitment h2{font-weight:250;font-size:clamp(26px,2.75vw,34px);line-height:1.16;letter-spacing:-.04em;margin:0 0 17px}
+.plan-row{display:flex;justify-content:space-between;align-items:start;gap:18px}
+.amount{font-weight:250;font-size:clamp(34px,2.75vw,38px);letter-spacing:-.04em;line-height:1.16;white-space:nowrap;margin:0}
+.amount sup{font-size:.42em;letter-spacing:-.03em;vertical-align:top;position:relative;top:.28em;margin-right:1px;font-weight:250}
+.amount sub{font:300 clamp(16px,1.6vw,22px)/1.2 var(--font);letter-spacing:-.02em;vertical-align:baseline;margin-left:5px}
+.price-copy{font-size:15px;line-height:1.5;color:#48665a;margin:10px 0 0}
+.price-rule{display:flex;align-items:center;gap:18px;margin:32px 0 25px;color:#a77b50;letter-spacing:.15em;font:500 10px var(--font)}
+.price-rule::before,.price-rule::after{content:'';height:1px;background:var(--line);flex:1}
+.terms{font-size:13px;line-height:1.7;color:#718477;margin-top:23px;padding-top:16px;border-top:1px solid var(--line)}
+.commitment{background:#dfe9e0;border-radius:28px;padding:40px 42px 36px;display:flex;flex-direction:column;justify-content:space-between;gap:29px;border:1px solid rgba(45,82,63,.045)}
+.commitment .section-label{color:#537663}
+.commitment h2{font-weight:250;font-size:clamp(26px,2.75vw,38px);line-height:1.16;letter-spacing:-.04em;margin:0 0 17px;max-width:480px}
 .commitment p{font-size:16px;line-height:1.66;color:#46675a;margin:0;max-width:465px}
 .guarantee{padding:23px 24px;background:rgba(255,255,255,.48);border:1px solid rgba(48,83,66,.10);border-radius:19px}
-.guarantee strong{display:block;font:450 16px/1.4 var(--font);color:#214737;margin-bottom:8px}
+.guarantee strong{display:block;font:450 16px/1.4 var(--font);letter-spacing:-.01em;color:#214737;margin-bottom:8px}
+.guarantee p{font-size:15px;line-height:1.60;color:#31564a}
 .actions{display:flex;align-items:center;gap:14px;margin:28px 0 0;flex-wrap:wrap}
-.cta{display:inline-flex;align-items:center;gap:16px;min-height:56px;background:#2e5145;color:#fff;border-radius:999px;padding:14px 25px 14px 29px;text-decoration:none;font:400 15px/1.2 var(--font)}
-.secondary{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:45px;font:400 13px/1.2 var(--font);color:#284d40;background:rgba(255,255,255,.56);border:1px solid rgba(32,63,53,.19);padding:12px 19px;border-radius:999px}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:23px;min-height:56px;background:#2e5145;color:white;
+  border:1px solid #2e5145;border-radius:999px;padding:14px 25px 14px 29px;text-decoration:none;
+  font:400 15px/1.2 var(--font);box-shadow:0 8px 21px rgba(36,72,59,.13);transition:transform .25s,background .25s,box-shadow .25s}
+.cta svg{width:18px;height:18px;stroke:currentColor;transition:transform .25s}
+.cta:hover{transform:translateY(-3px);background:#234638;box-shadow:0 13px 27px rgba(36,72,59,.2)}
+.cta:hover svg{transform:translateX(4px)}
+.secondary{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:45px;
+  font:400 13px/1.2 var(--font);color:#284d40;background:rgba(255,255,255,.56);
+  border:1px solid rgba(32,63,53,.19);padding:12px 19px;border-radius:999px;
+  transition:background .25s,transform .25s,border-color .25s}
+.secondary:hover{background:#fff;border-color:rgba(32,63,53,.4);transform:translateY(-2px)}
+.fineprint{margin:13px 0 0;font:400 12px/1.65 var(--font);color:#74877a}
 .details{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:23px 0 0}
-.detail{padding:26px 30px 24px;border-radius:22px;border:1px solid rgba(46,84,62,.07);background:rgba(255,255,255,.56)}
-.detail h3{font:400 16px/1.3 var(--font);margin:0 0 11px;color:#234737}
+.detail{padding:26px 30px 24px;border-radius:22px;min-height:161px;border:1px solid rgba(46,84,62,.07)}
+.detail.included{background:rgba(255,255,255,.56)}
+.detail.separate{background:rgba(247,237,223,.76)}
+.detail h3{font:400 16px/1.3 var(--font);letter-spacing:-.01em;margin:0 0 11px;color:#234737}
 .detail p{font-size:14px;line-height:1.65;color:#53695d;margin:0}
-.footer{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin:26px 3px 0}
-@media(max-width:900px){.pricing-layout{grid-template-columns:1fr}.details{grid-template-columns:1fr}}
-@media(max-width:600px){.wrap{width:calc(100% - 32px)}.plan,.commitment{padding:28px 25px;border-radius:22px}}
+.footer{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin:26px 3px 0;color:#5c7569}
+.footer p{margin:0;font:300 14px/1.5 var(--font)}
+.footer nav{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:900px){.pricing-layout{grid-template-columns:1fr}.commitment{min-height:300px}.intro{padding-top:44px}}
+@media(max-width:600px){.wrap{width:calc(100% - 32px);padding:20px 0 35px}header{flex-wrap:wrap;align-items:flex-start;gap:6px}
+  .brand{width:min(365px,90vw);flex:0 1 auto}.quiet-link{margin-left:auto;padding:10px 13px;font-size:12px}
+  .intro{padding:35px 2px 23px}h1{font-size:clamp(26px,7.1vw,36px)}.subtitle{font-size:16px}
+  .rule{margin:22px 0}.plan,.commitment{padding:28px 25px;border-radius:22px}
+  .amount{font-size:clamp(32px,7.3vw,38px)}.commitment h2{font-size:clamp(26px,7.1vw,36px)}
+  .details{grid-template-columns:1fr}.detail{min-height:0}.footer{margin-top:20px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
 <main class="wrap">
-<header>
-<a class="brand" href="/" aria-label="3PromisesUS homepage"><img src="logo-v26-dark.svg" alt="3PromisesUS oak emblem and wordmark" width="440" height="110"></a>
-<a class="quiet-link" href="/">Back to Home</a>
-</header>
-<section class="intro">
-<p class="eyebrow">One straightforward payment plan</p>
-<h1>Pricing.</h1>
-<p class="subtitle">US pricing is forthcoming. Your Three Promises begin on Day One after successful enrollment.</p>
-</section>
-<div class="rule"></div>
-<section class="pricing-layout">
-<div class="plan">
-<p class="section-label">Your payment plan</p>
-<p class="amount">Coming soon</p>
-<p class="price-copy">US enrollment pricing and terms are not yet approved. This preview does not offer paid enrollment.</p>
-<p class="price-copy" style="margin-top:16px;font-size:13px;color:#718477">No payment is collected on this page. No Stripe, no customer records, no passport collection in this preview.</p>
-</div>
-<div class="commitment">
-<div>
-<p class="section-label">The Day One commitment</p>
-<h2>Your Three Promises begin immediately after enrollment.</h2>
-<p>Once you successfully complete enrollment, required verifications, acceptance of the terms, and your initial payment, all three promises are active. You can continue adding and updating the rest of your information at your own pace.</p>
-</div>
-<div class="guarantee">
-<strong>Our commitment doesn't depend on finishing the payment plan.</strong>
-<p>If you pass away before completing payments, we still honor all three promises, following official verification of death.</p>
-</div>
-</div>
-</section>
-<div class="actions">
-<a class="cta" href="/signup">Sign up now — coming soon</a>
-<a class="secondary" href="/demo">Try the demo free</a>
-</div>
+  <header>
+    <a class="brand" href="/" aria-label="3PromisesUS homepage"><img src="logo-v26-dark.svg" alt="3PromisesUS oak emblem and wordmark" width="440" height="110"></a>
+    <a class="quiet-link" href="/" aria-label="Back to Home"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7 7-7-7 7-7"/></svg>Back to Home</a>
+  </header>
+  <section class="intro" aria-labelledby="page-title">
+    <p class="eyebrow">One straightforward payment plan</p>
+    <h1 id="page-title">Pricing.</h1>
+    <p class="subtitle">Start with a simple payment. Your Three Promises begin on Day One.</p>
+  </section>
+  <div class="rule" aria-hidden="true"></div>
+  <section class="pricing-layout" aria-label="Payment plan and Day One commitment">
+    <div class="plan">
+      <p class="section-label">Your payment plan</p>
+      <div class="plan-row">
+        <div><p class="amount"><sup>$</sup>49.99</p><p class="price-copy">To sign up and get started.</p></div>
+      </div>
+      <div class="price-rule" aria-hidden="true">THEN</div>
+      <div><p class="amount"><sup>$</sup>19.99<sub>/month</sub></p><p class="price-copy">For 36 monthly payments after sign-up.</p></div>
+      <div class="terms">No further scheduled installments after the 36 monthly payments. Enrollment and billing are subject to the service terms.</div>
+    </div>
+    <div class="commitment">
+      <div>
+        <p class="section-label">The Day One commitment</p>
+        <h2>Your Three Promises begin immediately.</h2>
+        <p>Once you successfully complete enrollment, the required verifications, acceptance of the terms, and your initial $49.99 payment, all three promises are active. You can continue adding and updating the rest of your information at your own pace.</p>
+      </div>
+      <div class="guarantee">
+        <strong>Our commitment doesn't depend on finishing the payment plan.</strong>
+        <p>If you pass away before making all 36 monthly payments, we still honor all three promises.</p>
+      </div>
+    </div>
+  </section>
+  <div class="actions">
+    <a class="cta" href="/signup">Sign up now <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></a>
+    <a class="secondary" href="/demo">Try the demo free</a>
+  </div>
+  <p class="fineprint">The initial payment activates the 3PromisesThailand service after successful enrollment—not before required checks are completed.</p>
 
-<nav><a class="secondary" href="/contact">Contact us</a></nav>
-</footer>
 </main>
 </body>
 </html>
