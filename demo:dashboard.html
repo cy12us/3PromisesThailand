@@ -1,0 +1,220 @@
+<!-- demo/dashboard.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer Dashboard — 3PromisesUS</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F3F0;
+  --ink: #223733;
+  --forest: #223E35;
+  --secondary: #717B75;
+  --sage: #395950;
+  --copper: #A06F40;
+  --border: #E1E4DE;
+  --white: #FFFFFF;
+  --ivory: #F7F3EA;
+  --card-personal: #E0E8E1;
+  --card-account: #344D46;
+  --card-special: #EFE2CF;
+  --card-landlord: #D7DDD7;
+  --radius: 20px;
+  --pad: 28px;
+  --gap: 18px;
+  --shadow: 0 1px 2px rgba(34,55,51,0.05), 0 4px 14px rgba(34,55,51,0.06);
+  --shadow-hover: 0 2px 4px rgba(34,55,51,0.07), 0 8px 20px rgba(34,55,51,0.09);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Helvetica Neue", Inter, sans-serif;
+  font-weight: 400;
+  line-height: 1.55;
+}
+.wrap { width: min(1180px, calc(100% - 64px)); margin: 0 auto; }
+header.app {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 72px;
+}
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand-logo { width: 190px; height: auto; display: block; }
+nav.app-nav { display: flex; align-items: center; gap: 18px; }
+nav.app-nav a {
+  color: var(--secondary);
+  text-decoration: none;
+  font-size: 14px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.hero { padding: 56px 0 28px; }
+.eyebrow {
+  margin: 0 0 14px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--secondary);
+}
+h1 {
+  margin: 0;
+  color: var(--forest);
+  font-weight: 100;
+  font-size: 46px;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+.subtitle { margin: 12px 0 0; color: var(--secondary); font-size: 17px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: var(--gap);
+  padding-bottom: 72px;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 240px;
+  padding: var(--pad);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.card:focus-visible { outline: 3px solid var(--sage); outline-offset: 3px; }
+.card .icon { width: 28px; height: 28px; flex: 0 0 auto; }
+.card .body { margin-top: auto; padding-top: 40px; }
+.card h2 { margin: 0 0 8px; font-family: "Helvetica Neue", Inter, sans-serif; font-weight: 500; line-height: 1.25; }
+.card p { margin: 0; line-height: 1.5; }
+.c-personal h2 { font-size: 24px; }
+.c-special h2 { font-size: 23px; }
+.c-financial h2 { font-size: 21px; }
+.c-account h2, .c-contracts h2, .c-landlord h2 { font-size: 19px; }
+.c-personal p, .c-special p, .c-financial p { font-size: 14px; }
+.c-account p, .c-contracts p, .c-landlord p { font-size: 13px; }
+@media (max-width: 640px) {
+  .c-personal h2 { font-size: 21px; }
+  .c-special h2 { font-size: 20px; }
+  .c-financial h2 { font-size: 19px; }
+}
+.card .arrow {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  font-size: 18px;
+  line-height: 1;
+}
+.span2 { grid-column: span 2; }
+.c-personal { background: var(--card-personal); }
+.c-personal p { color: #587064; }
+.c-personal .icon { color: var(--sage); }
+.c-account { background: var(--card-account); color: var(--ivory); border-color: transparent; }
+.c-account h2 { color: var(--ivory); }
+.c-account p { color: #D5DED5; }
+.c-account .icon { color: var(--ivory); }
+.c-contracts { background: var(--white); }
+.c-contracts .icon { color: var(--copper); }
+.c-special { background: var(--card-special); }
+.c-special h2 { color: #493B2D; }
+.c-special p { color: #75614D; }
+.c-special .icon { color: var(--copper); }
+.c-financial { background: var(--white); }
+.c-financial .icon { color: var(--sage); }
+.c-landlord { background: var(--card-landlord); }
+.c-landlord p { color: #60726B; }
+.c-landlord .icon { color: var(--sage); }
+footer.app { border-top: 1px solid var(--border); padding: 28px 0 40px; color: var(--secondary); font-size: 13px; }
+footer.app a { color: var(--forest); }
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .span2 { grid-column: span 2; }
+  .c-contracts, .c-account, .c-landlord { grid-column: span 1; }
+}
+@media (max-width: 640px) {
+  .wrap { width: calc(100% - 40px); }
+  h1 { font-size: 34px; }
+  .grid { grid-template-columns: 1fr; }
+  .span2, .c-contracts, .c-account, .c-landlord { grid-column: span 1; }
+  .card { min-height: 0; padding: 20px; }
+}
+nav.app-nav a.back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(32,63,53,.22);
+  background: rgba(255,255,255,.57);
+  border-radius: 999px;
+  padding: 12px 18px;
+  color: #203f35;
+  text-decoration: none;
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+<header class="app"><div class="wrap bar">
+<a class="brand" href="/"><img src="../logo-v26.svg" alt="3PromisesUS" class="brand-logo"></a>
+<nav class="app-nav"><a href="/" class="back-home">← Back to Home</a></nav>
+</div></header>
+<main><div class="wrap">
+  <section class="hero">
+    <p class="eyebrow">3PROMISESUS</p>
+    <h1>Your personal space.</h1>
+    <p class="subtitle">Everything important, in one place.</p>
+  </section>
+  <section class="grid" aria-label="Customer sections">
+    <a class="card span2 c-personal" href="personal-information.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.3c2.3.2 3.9 1.8 4.4 4.2"/></svg>
+      <div class="body"><h2>Personal Information</h2><p>Keep your personal details, loved ones, emergency contacts, and representatives up to date.</p></div>
+      <span class="arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="card c-account" href="my-account.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M9.5 12l2 2 3.5-4"/></svg>
+      <div class="body"><h2>My Account</h2><p>Review your membership and manage your account settings.</p></div>
+      <span class="arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="card c-contracts" href="contracts-and-receipts.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12h5M10 16h5"/></svg>
+      <div class="body"><h2>Contracts &amp; Receipts</h2><p>Store agreements and receipts for services you've arranged and paid for independently.</p></div>
+      <span class="arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="card span2 c-special" href="special-requests.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v10H9l-5 4z"/><path d="M12 10.5c-1.8-1.8-4.7-.6-4.7 1.4 0 1.5 2.4 3 4.7 4.4 2.3-1.4 4.7-2.9 4.7-4.4 0-2-2.9-3.2-4.7-1.4z"/></svg>
+      <div class="body"><h2>Personal Messages</h2><p>Leave personal messages for loved ones, friends, or anyone you choose. Share words of love, gratitude, apologies, or things left unsaid.</p></div>
+      <span class="arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="card span2 c-financial" href="financial-institutional-contacts.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 4l9 5.5"/><path d="M5 10v9M9.5 10v9M14.5 10v9M19 10v9"/><path d="M3.5 20.5h17"/></svg>
+      <div class="body"><h2>Financial, Insurance &amp; Benefits Contacts</h2><p>Record your banks, insurers, pensions, and government benefits—and choose who receives each institution's information.</p></div>
+      <span class="arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="card c-landlord" href="landlord-local-contacts.html">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 9.5V20h12V9.5"/></svg>
+      <div class="body"><h2>Landlord &amp; Local Contacts</h2><p>Keep your landlord, property manager, and trusted local contacts easy to find.</p></div>
+      <span class="arrow" aria-hidden="true">↗</span>
+    </a>
+  </section>
+</div></main>
+<footer class="app"><div class="wrap">
+  <p>Contact: <a href="mailto:info@3promisesus.com">info@3promisesus.com</a></p>
+  <p><a href="dashboard.html">Customer Dashboard</a> · <a href="privacy.html">Privacy Policy</a></p>
+</div></footer>
+</body>
+</html>
