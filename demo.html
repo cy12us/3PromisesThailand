@@ -1,0 +1,145 @@
+<!-- demo.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#0C5842">
+  <meta name="description" content="Explore the 3PromisesUS customer dashboard in a hands-on, non-saving demonstration.">
+  <title>Try the Demo Free | 3PromisesUS</title>
+  <style>
+    :root {
+      --ink:#203f35; --ink-sub:#526c60; --sage:#e4ece5; --paper:#fbfaf7;
+      --sand:#f7eddf; --forest:#315448; --forest-strong:#24483b;
+      --line:rgba(44,82,63,.16); --font:'Helvetica Neue',Helvetica,Inter,Arial,sans-serif;
+    }
+    * {box-sizing:border-box}
+    html {background:#edf4ee; min-height:100%}
+    body {margin:0; min-height:100vh; color:var(--ink); font-family:var(--font); font-weight:300; -webkit-font-smoothing:antialiased;
+      background:
+        radial-gradient(ellipse 35% 24% at 93% 22%, rgba(216, 155, 75, 0.30), transparent 77%),
+        radial-gradient(ellipse 39% 40% at 98% 8%, rgba(50, 179, 166, .53), transparent 78%),
+        radial-gradient(ellipse 24% 20% at 77% 19%, rgba(162, 222, 211, .25), transparent 88%),
+        radial-gradient(ellipse 67% 58% at 30% 78%, rgba(247, 243, 242, .82), transparent 89%),
+        #edf4ee;}
+    a {color:inherit}
+    a:focus-visible {outline:2px solid #b27c47; outline-offset:4px}
+    .wrap {max-width:1190px; width:min(calc(100% - 72px),1190px); margin:auto; padding:36px 0 60px}
+    header {display:flex; align-items:center; justify-content:space-between; gap:22px}
+    .brand {display:block; width:min(440px,65vw); flex:0 1 440px; margin-left:-8px}
+    .brand img {width:100%; display:block}
+    .quiet-link {display:inline-flex;align-items:center;gap:9px;justify-content:center;flex:0 0 auto;
+      border-radius:999px; padding:12px 18px; border:1px solid rgba(32,63,53,.22);background:rgba(255,255,255,.57);
+      text-decoration:none; font:400 13px/1.2 var(--font);box-shadow:0 3px 16px rgba(32,63,53,.04)}
+    .quiet-link:hover {background:white; transform:translateY(-2px); border-color:rgba(32,63,53,.35)}
+    .intro {padding:65px 0 33px}
+    .eyebrow {font-weight:450; letter-spacing:.20em; font-size:11px; color:#436456; text-transform:uppercase; margin:0 0 20px}
+    h1 {font-weight:200; letter-spacing:-.058em; font-size:clamp(43px,5.4vw,70px); line-height:1.12; margin:0; max-width:950px}
+    .subtitle {font-size:clamp(17px,1.6vw,21px);font-weight:300;color:#4d685b;margin:20px 0 0;max-width:850px;line-height:1.52}
+    .rule {height:1px;background:var(--line);margin:31px 0}
+    .doorway {background:rgba(252,251,248,.93);border:1px solid rgba(45,82,63,.07);border-radius:28px;
+      padding:42px;display:grid;grid-template-columns:minmax(0,1.14fr) minmax(300px,.86fr);gap:44px; box-shadow:0 14px 46px rgba(31,66,48,.035)}
+    .copy h2 {font-weight:250;letter-spacing:-.04em;font-size:clamp(26px,2.75vw,38px);line-height:1.16;margin:0 0 16px}
+    .copy .lead {font-size:17px;line-height:1.68;font-weight:300;color:#405e51;margin:0;max-width:555px}
+    .meta {display:grid;gap:0;margin:23px 0 28px;border-top:1px solid var(--line)}
+    .meta-row {display:grid;grid-template-columns:34px 1fr;gap:15px;padding:16px 0;border-bottom:1px solid var(--line)}
+    .num {font-size:11px;color:#9a6c43;letter-spacing:.1em;padding-top:4px}
+    .meta-row strong {display:block;font-size:15px;font-weight:450;color:#24483b;margin-bottom:3px}
+    .meta-row span:last-child {color:#536b60;font-size:14px;line-height:1.5;display:block}
+    .cta {display:flex;align-items:center;justify-content:center;gap:18px;width:fit-content;max-width:100%;min-height:58px;
+      background:#2e5145;color:#fff;border:1px solid #2e5145;border-radius:999px;padding:15px 25px 15px 28px;
+      text-decoration:none;font-weight:400;font-size:15px}
+    .cta:hover {transform:translateY(-3px);background:#234638}
+    .note {color:#718477;font:400 12px/1.5 var(--font);margin:11px 0 0}
+    .dashboard-peek {align-self:center; background:#f2f2ee;border:1px solid #e7e8e3; border-radius:23px;padding:23px 20px 19px}
+    .peek-top {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 2px 17px}
+    .peek-eyebrow {font:400 10px/1.2 var(--font);letter-spacing:.18em;color:#718477}
+    .peek-title {font-weight:250;font-size:25px;letter-spacing:-.052em;margin-top:6px}
+    .peek-dots {display:flex;gap:4px}
+    .peek-dots i {display:block;width:5px;height:5px;border-radius:50%;background:#bbc9bf}
+    .preview-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+    .preview-card {padding:11px 12px;border-radius:14px;min-height:108px;display:flex;align-items:flex-end;font:400 12px/1.3 var(--font);color:#345348}
+    .preview-card.large {grid-column:span 2}
+    .preview-card.sage {background:#e0e8e1}
+    .preview-card.deep {background:#344d46;color:#f7f3ea}
+    .preview-card.white {background:white}
+    .preview-card.sand {background:#efe2cf;color:#584b3b}
+    .preview-card.grey {background:#d7ddd7}
+    .peek-foot {font:400 11px/1.5 var(--font);color:#788b7d;padding:14px 2px 0}
+    .bottom {display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin:25px 6px 0}
+    .bottom p {margin:0;color:#557065;font-size:14px;line-height:1.6}
+    .actions {display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .secondary {display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
+      font:400 13px/1.2 var(--font);color:#284d40;background:rgba(255,255,255,.56);
+      border:1px solid rgba(32,63,53,.19);padding:12px 18px;border-radius:999px;min-height:42px}
+    .secondary:hover {background:#fff}
+    html { background: #0C5842; }
+    body { background:
+      radial-gradient(ellipse 35% 24% at 93% 22%, rgba(216,155,75,.35), transparent 77%),
+      radial-gradient(ellipse 39% 40% at 98% 8%, rgba(50,179,166,.39), transparent 78%),
+      radial-gradient(ellipse 24% 20% at 77% 19%, rgba(162,222,211,.18), transparent 88%),
+      radial-gradient(ellipse 67% 58% at 30% 78%, rgba(247,243,242,.06), transparent 89%),
+      #0C5842;
+    }
+    :root { --ink:#F7F3EA; --line:rgba(244,246,240,.22); }
+    .intro .eyebrow { color:#F0C998; }
+    .intro .subtitle { color:#E3EFEA; }
+    .quiet-link { color:#F8F4EC; background:rgba(255,255,255,.09); border-color:rgba(255,255,255,.38); }
+    .quiet-link:hover { background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.68); }
+    .doorway { color:#203F35; --line:rgba(44,82,63,.16); }
+    .bottom p {color:#E3EFEA;}
+    .bottom .secondary {color:#F8F4EC;background:rgba(255,255,255,.10); border-color:rgba(255,255,255,.42);}
+    .bottom .secondary:hover {background:rgba(255,255,255,.22);}
+    @media(max-width:900px){.doorway{grid-template-columns:1fr;padding:30px;gap:30px}.intro{padding-top:44px}}
+    @media(max-width:600px){.wrap{width:calc(100% - 32px);padding:20px 0 40px}.doorway{padding:25px 21px;border-radius:21px}.cta{width:100%}.bottom{flex-direction:column;align-items:stretch}.secondary{width:100%}}
+  </style>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+ <main class="wrap">
+   <header>
+     <a class="brand" href="/" aria-label="3PromisesUS homepage"><img src="logo-v26-dark.svg" alt="3PromisesUS — oak emblem and wordmark"></a>
+     <a class="quiet-link" href="/">Back to Home</a>
+   </header>
+   <section class="intro">
+     <p class="eyebrow">Explore before you enroll</p>
+     <h1>Your personal space.<br>Take a look inside.</h1>
+     <p class="subtitle">Experience the 3PromisesUS customer dashboard for yourself. No account or payment required.</p>
+   </section>
+   <div class="rule"></div>
+   <section class="doorway">
+     <div class="copy">
+       <h2>See how it works.<br>Try it yourself.</h2>
+       <p class="lead">Explore every section, move between pages, and enter sample information into the forms. Discover how easy it is to keep everything important organized in one place.</p>
+       <div class="meta">
+         <div class="meta-row"><span class="num">01</span><div><strong>Explore the entire interface</strong><span>Personal information, contacts, financial institutions, service arrangements, messages, and more.</span></div></div>
+         <div class="meta-row"><span class="num">02</span><div><strong>Try the fields and controls</strong><span>Type into fields, select options, and navigate freely. Use sample information rather than real personal details.</span></div></div>
+         <div class="meta-row"><span class="num">03</span><div><strong>Nothing is saved or sent</strong><span>Save, Add Another, and Attach controls are disabled. Entries disappear when you reload or leave the demo.</span></div></div>
+       </div>
+       <a class="cta" href="/demo">Enter free demo mode →</a>
+       <p class="note">Demo experience only · No registration · No records created</p>
+     </div>
+     <div class="dashboard-peek">
+       <div class="peek-top"><div><div class="peek-eyebrow">3PROMISESUS</div><div class="peek-title">Your personal space.</div></div><div class="peek-dots"><i></i><i></i><i></i></div></div>
+       <div class="preview-grid">
+         <div class="preview-card sage large">Personal Information</div>
+         <div class="preview-card deep">My Account</div>
+         <div class="preview-card white">Contracts &amp; Receipts</div>
+         <div class="preview-card sand large">Special Requests</div>
+         <div class="preview-card white large">Financial &amp; Institutional Contacts</div>
+         <div class="preview-card grey">Landlord &amp; Local Contacts</div>
+       </div>
+       <div class="peek-foot">A preview of the real customer interface — not a customer account.</div>
+     </div>
+   </section>
+   <section class="bottom">
+      <p>Want your own secure space when enrollment opens?</p>
+      <div class="actions">
+         <a class="secondary" href="/signup">Sign up now</a>
+         <a class="secondary" href="/contact">Contact us</a>
+      </div>
+   </section>
+ </main>
+</body>
+</html>
