@@ -1,0 +1,92 @@
+<!-- pricing.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="3PromisesUS pricing is forthcoming. Your Three Promises begin on Day One after successful enrollment and payment.">
+<title>Pricing | 3PromisesUS</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+:root{--ink:#203f35;--quiet:#526c60;--forest:#315448;--forest-strong:#24483b;--paper:#fbfaf7;--line:rgba(44,82,63,.16);--font:'Helvetica Neue',Helvetica,Inter,Arial,sans-serif}
+*{box-sizing:border-box}html{min-height:100%;background:#f9f3eb}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:var(--font);font-weight:300;background:radial-gradient(ellipse 35% 24% at 93% 22%,rgba(216,155,75,.30),transparent 77%),radial-gradient(ellipse 39% 40% at 98% 8%,rgba(50,179,166,.53),transparent 78%),#f9f3eb}
+.wrap{max-width:1190px;width:min(calc(100% - 72px),1190px);margin:auto;padding:36px 0 61px}
+header{display:flex;align-items:center;justify-content:space-between;gap:22px}
+.brand{display:block;width:min(440px,65vw);flex:0 1 440px;margin-left:-8px}
+.brand img{width:100%;height:auto;display:block}
+.quiet-link{display:inline-flex;align-items:center;gap:9px;justify-content:center;border-radius:999px;padding:12px 18px;border:1px solid rgba(32,63,53,.22);background:rgba(255,255,255,.57);text-decoration:none;font:400 13px/1.2 var(--font)}
+.intro{padding:66px 0 32px}
+.eyebrow{font:450 11px/1.5 var(--font);letter-spacing:.20em;color:#416454;text-transform:uppercase;margin:0 0 18px}
+h1{font-weight:250;letter-spacing:-.04em;font-size:clamp(26px,2.75vw,38px);line-height:1.16;margin:0}
+.subtitle{font-size:clamp(17px,1.5vw,20px);font-weight:300;color:#4d685b;margin:19px 0 0;line-height:1.52;max-width:850px}
+.rule{height:1px;background:var(--line);margin:29px 0 31px}
+.pricing-layout{display:grid;grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr);gap:16px;align-items:stretch}
+.plan{background:rgba(252,251,248,.94);border:1px solid rgba(45,82,63,.085);border-radius:28px;padding:40px 42px 36px}
+.section-label{font:500 10.5px/1.5 var(--font);color:#648071;letter-spacing:.17em;text-transform:uppercase;margin:0 0 21px}
+.amount{font-weight:250;font-size:clamp(30px,2.5vw,34px);letter-spacing:-.04em;line-height:1.16;margin:0}
+.price-copy{font-size:15px;line-height:1.6;color:#48665a;margin:10px 0 0}
+.commitment{background:#dfe9e0;border-radius:28px;padding:40px 42px 36px;display:flex;flex-direction:column;justify-content:space-between;gap:29px}
+.commitment h2{font-weight:250;font-size:clamp(26px,2.75vw,34px);line-height:1.16;letter-spacing:-.04em;margin:0 0 17px}
+.commitment p{font-size:16px;line-height:1.66;color:#46675a;margin:0;max-width:465px}
+.guarantee{padding:23px 24px;background:rgba(255,255,255,.48);border:1px solid rgba(48,83,66,.10);border-radius:19px}
+.guarantee strong{display:block;font:450 16px/1.4 var(--font);color:#214737;margin-bottom:8px}
+.actions{display:flex;align-items:center;gap:14px;margin:28px 0 0;flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;gap:16px;min-height:56px;background:#2e5145;color:#fff;border-radius:999px;padding:14px 25px 14px 29px;text-decoration:none;font:400 15px/1.2 var(--font)}
+.secondary{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:45px;font:400 13px/1.2 var(--font);color:#284d40;background:rgba(255,255,255,.56);border:1px solid rgba(32,63,53,.19);padding:12px 19px;border-radius:999px}
+.details{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:23px 0 0}
+.detail{padding:26px 30px 24px;border-radius:22px;border:1px solid rgba(46,84,62,.07);background:rgba(255,255,255,.56)}
+.detail h3{font:400 16px/1.3 var(--font);margin:0 0 11px;color:#234737}
+.detail p{font-size:14px;line-height:1.65;color:#53695d;margin:0}
+.footer{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin:26px 3px 0}
+@media(max-width:900px){.pricing-layout{grid-template-columns:1fr}.details{grid-template-columns:1fr}}
+@media(max-width:600px){.wrap{width:calc(100% - 32px)}.plan,.commitment{padding:28px 25px;border-radius:22px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+<a class="brand" href="/" aria-label="3PromisesUS homepage"><img src="logo-v26-dark.svg" alt="3PromisesUS oak emblem and wordmark" width="440" height="110"></a>
+<a class="quiet-link" href="/">Back to Home</a>
+</header>
+<section class="intro">
+<p class="eyebrow">One straightforward payment plan</p>
+<h1>Pricing.</h1>
+<p class="subtitle">US pricing is forthcoming. Your Three Promises begin on Day One after successful enrollment.</p>
+</section>
+<div class="rule"></div>
+<section class="pricing-layout">
+<div class="plan">
+<p class="section-label">Your payment plan</p>
+<p class="amount">Coming soon</p>
+<p class="price-copy">US enrollment pricing and terms are not yet approved. This preview does not offer paid enrollment.</p>
+<p class="price-copy" style="margin-top:16px;font-size:13px;color:#718477">No payment is collected on this page. No Stripe, no customer records, no passport collection in this preview.</p>
+</div>
+<div class="commitment">
+<div>
+<p class="section-label">The Day One commitment</p>
+<h2>Your Three Promises begin immediately after enrollment.</h2>
+<p>Once you successfully complete enrollment, required verifications, acceptance of the terms, and your initial payment, all three promises are active. You can continue adding and updating the rest of your information at your own pace.</p>
+</div>
+<div class="guarantee">
+<strong>Our commitment doesn't depend on finishing the payment plan.</strong>
+<p>If you pass away before completing payments, we still honor all three promises, following official verification of death.</p>
+</div>
+</div>
+</section>
+<div class="actions">
+<a class="cta" href="/signup">Sign up now — coming soon</a>
+<a class="secondary" href="/demo">Try the demo free</a>
+</div>
+<section class="details">
+<div class="detail"><h3>What your plan will include</h3><p>Your secure, updatable online information repository; notifications and information sharing with designated contacts after official verification; and professional stewardship of personal messages and documents.</p></div>
+<div class="detail"><h3>What is paid separately</h3><p>Independent provider services you choose and arrange directly are not included. No estate administration, transfer of assets or distribution of belongings.</p></div>
+</section>
+<footer class="footer">
+<p>Three promises. One mission: Peace of mind.</p>
+<nav><a class="secondary" href="/contact">Contact us</a></nav>
+</footer>
+</main>
+</body>
+</html>
