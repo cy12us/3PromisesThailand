@@ -1,0 +1,89 @@
+<!-- contracts-and-receipts.html -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="app.css">
+<style>
+header.app { background: #FFFFFF; }
+.header-divider { border-top: 1px solid #E1E4DE; }
+body { background: #FFFFFF; }
+  nav.app-nav a.back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(32,63,53,.22);
+  background: rgba(255,255,255,.57);
+  border-radius: 999px;
+  padding: 12px 18px;
+  color: #203f35;
+  text-decoration: none;
+  font-size: 13px;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contracts and Receipts - Customer Dashboard</title>
+</head>
+<body>
+<header class="app"><div class="wrap bar">
+<a class="brand-mini" href="dashboard.html"><img src="3PromisesThailand_Icon.svg" alt=""> 3PromisesThailand</a>
+<nav class="app-nav"><a href="dashboard.html" class="back-home">← Back to Dashboard</a></nav>
+</div><div class="wrap"><hr class="header-divider"></div></header>
+<main class="page"><div class="wrap">
+<p class="crumb">Customer Dashboard / Contracts and Receipts</p>
+<h1>Contracts and Receipts</h1>
+<p><a class="back" href="dashboard.html">← Back to Dashboard</a></p>
+<div class="panel" id="arrangements-panel">
+<h3>Your Service Arrangements</h3>
+<p class="panel-desc">Keep a record of services you've arranged and paid for with independent providers.</p>
+
+<div class="arrangement" data-arrangement="1">
+<h4>Arrangement 1</h4>
+<label>Company name<input type="text" name="arr1-company" autocomplete="off"></label>
+<label>Company address<textarea name="arr1-address" rows="2"></textarea></label>
+<label>Salesperson / Contact name<input type="text" name="arr1-contact" autocomplete="off"></label>
+<label>Contact phone number<input type="tel" name="arr1-phone" autocomplete="off"></label>
+
+<label>Description of contracted service<textarea name="arr1-service" rows="3" placeholder="What the provider agreed to deliver"></textarea></label>
+
+<div class="check-group">
+<h5>Payment 1</h5>
+<label>Amount paid<input type="number" name="arr1-amount-1" step="0.01" min="0" placeholder="0.00"></label>
+<label>Currency<select name="arr1-currency-1"><option>THB</option><option>USD</option><option>Other</option></select></label>
+<label>Date paid<input type="date" name="arr1-date-1"></label>
+<label>Payment method<select name="arr1-method-1" class="pay-method"><option value="">Select method</option><option>Bank Transfer</option><option>Cashier's Check</option><option>Cash</option><option>Credit / Debit Card</option><option>Other</option></select></label>
+<label class="other-method" style="display:none;">Please specify payment method<input type="text" name="arr1-method-other-1"></label>
+<label>Payment reference / transaction number (optional)<input type="text" name="arr1-ref-1" placeholder="Transfer ref, check number"></label>
+<label>Payment receipt<input type="file" name="arr1-receipt-1" accept=".pdf,.jpg,.jpeg,.png,.webp" multiple></label>
+</div>
+
+<button type="button" class="btn-add add-payment">+ Add Another Payment</button>
+
+<div class="check-group">
+<h5>Contracts</h5>
+<label>Signed contract (optional)<input type="file" name="arr1-contract" accept=".pdf,.jpg,.jpeg,.png,.webp" multiple></label>
+</div>
+
+<label>Notes<textarea name="arr1-notes" rows="3" placeholder="Notes about this transaction"></textarea></label>
+
+<div class="action-row">
+<div class="action-main">
+<button type="button" class="btn-save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg> Save Arrangement</button>
+<button type="button" class="btn-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add Another</button>
+</div>
+<button type="button" class="btn-delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"/></svg> Delete Arrangement</button>
+</div>
+</div>
+
+<p class="panel-foot">3PromisesThailand does not collect payments for independent providers. These records help verify what was arranged, what was paid, and what documents are available.</p>
+</div>
+</div></main>
+<script>
+document.querySelectorAll('.pay-method').forEach(function(sel){
+  sel.addEventListener('change', function(){
+    var other = sel.closest('.check-group').querySelector('.other-method');
+    if(other) other.style.display = sel.value === 'Other' ? 'block' : 'none';
+  });
+});
+</script>
+</body>
+</html>

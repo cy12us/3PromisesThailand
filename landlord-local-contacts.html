@@ -1,0 +1,128 @@
+<!-- landlord-local-contacts.html -->
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="app.css">
+<style>
+header.app { background: #D7DDD7; }
+.header-divider { border-top: 1px solid #C5D0C8; }
+body { background: #D7DDD7; }
+  nav.app-nav a.back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(32,63,53,.22);
+  background: rgba(255,255,255,.57);
+  border-radius: 999px;
+  padding: 12px 18px;
+  color: #203f35;
+  text-decoration: none;
+  font-size: 13px;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landlord & Local Contacts - Customer Dashboard</title>
+</head>
+<body>
+<header class="app"><div class="wrap bar">
+<a class="brand-mini" href="dashboard.html"><img src="3PromisesThailand_Icon.svg" alt=""> 3PromisesThailand</a>
+<nav class="app-nav"><a href="dashboard.html" class="back-home">← Back to Dashboard</a></nav>
+</div><div class="wrap"><hr class="header-divider"></div></header>
+<main class="page"><div class="wrap">
+<p class="crumb">Customer Dashboard / Landlord & Local Contacts</p>
+<h1>Landlord & Local Contacts</h1>
+<p class="panel-desc"><strong>The people, places, and activities that make up your life in Thailand.</strong><br>Keep a record of the people you know, places you frequent, and activities you enjoy in Thailand. If something happens to you, this information may help your designated contacts and appropriate authorities understand your local connections, identify people who know you, and know where to begin.</p>
+<p><a class="back" href="dashboard.html">← Back to Dashboard</a></p>
+
+<div class="sage-note"><strong>Your information. Your choice.</strong><br>All information is optional. The customer decides how much information to provide, and can update or delete it at any time.</div>
+
+<div class="ll-tabs">
+<button type="button" class="ll-tab active" data-tab="people">People</button>
+<button type="button" class="ll-tab" data-tab="places">Places</button>
+<button type="button" class="ll-tab" data-tab="activities">Activities</button>
+</div>
+
+<div class="panel" id="tab-people">
+<h3>People You Know</h3>
+<label>Type of contact<select class="financial-select" name="p-type"><option value="">Select type</option><option>Landlord</option><option>Property Manager</option><option>Roommate / Housemate</option><option>Neighbor</option><option>Local Friend</option><option>Girlfriend / Boyfriend / Romantic Partner</option><option>Recent Acquaintance / Someone Recently Met</option><option>Other</option></select></label>
+<label>Full name or nickname<input class="financial-input" name="p-name" autocomplete="off"></label>
+<label>Relationship / Connection<input class="financial-input" name="p-rel" autocomplete="off"></label>
+<label>Address or general location<textarea class="financial-textarea" name="p-addr" rows="2"></textarea></label>
+<div class="fin-grid">
+<label>Phone number<input class="financial-input" name="p-phone"></label>
+<label>Email address<input class="financial-input" name="p-email"></label>
+<label>LINE ID<input class="financial-input" name="p-line"></label>
+<label>WhatsApp<input class="financial-input" name="p-wa"></label>
+</div>
+<label>Where or how you met<input class="financial-input" name="p-met"></label>
+<label>Additional notes<textarea class="financial-textarea" name="p-notes" rows="3"></textarea></label>
+<label>Photo uploads (optional)<input type="file" name="p-photos" accept=".jpg,.jpeg,.png,.webp" multiple></label>
+<div class="action-row"><div class="action-main">
+<button type="button" class="btn-save">Save</button>
+<button type="button" class="btn-add">Add Another</button>
+</div><button type="button" class="btn-delete">Delete</button></div>
+<h4>Saved People</h4>
+<div class="saved-grid"><p class="saved-sub">No people saved yet.</p></div>
+</div>
+
+<div class="panel" id="tab-places" style="display:none;">
+<h3>Places You Visit</h3>
+<label>Type of place<select class="financial-select" name="pl-type"><option value="">Select type</option><option>Restaurant</option><option>Café / Coffee Shop</option><option>Bar / Pub</option><option>Shopping Center / Store</option><option>Market</option><option>Gym / Fitness Center</option><option>Social Club</option><option>Entertainment Venue</option><option>Regular Gathering Place</option><option>Other</option></select></label>
+<label>Business or place name<input class="financial-input" name="pl-name"></label>
+<label>Address or general location<textarea class="financial-textarea" name="pl-addr" rows="2"></textarea></label>
+<label>Contact person<input class="financial-input" name="pl-contact"></label>
+<div class="fin-grid">
+<label>Phone number<input class="financial-input" name="pl-phone"></label>
+<label>Email address<input class="financial-input" name="pl-email"></label>
+<label>LINE ID<input class="financial-input" name="pl-line"></label>
+<label>WhatsApp<input class="financial-input" name="pl-wa"></label>
+</div>
+<label>Website<input class="financial-input" name="pl-web" placeholder="https://"></label>
+<label>Additional notes<textarea class="financial-textarea" name="pl-notes" rows="3"></textarea></label>
+<label>Photo uploads (optional)<input type="file" name="pl-photos" accept=".jpg,.jpeg,.png,.webp" multiple></label>
+<div class="action-row"><div class="action-main">
+<button type="button" class="btn-save">Save</button>
+<button type="button" class="btn-add">Add Another</button>
+</div><button type="button" class="btn-delete">Delete</button></div>
+<h4>Saved Places</h4>
+<div class="saved-grid"><p class="saved-sub">No places saved yet.</p></div>
+</div>
+
+<div class="panel" id="tab-activities" style="display:none;">
+<h3>Activities & Interests</h3>
+<label>Activity or interest<input class="financial-input" name="a-name"></label>
+<label>Organization, club, or group<input class="financial-input" name="a-org"></label>
+<label>Meeting place or address<textarea class="financial-textarea" name="a-addr" rows="2"></textarea></label>
+<label>Contact person<input class="financial-input" name="a-contact"></label>
+<div class="fin-grid">
+<label>Phone number<input class="financial-input" name="a-phone"></label>
+<label>Email address<input class="financial-input" name="a-email"></label>
+<label>LINE ID<input class="financial-input" name="a-line"></label>
+<label>WhatsApp<input class="financial-input" name="a-wa"></label>
+</div>
+<label>Additional notes<textarea class="financial-textarea" name="a-notes" rows="3"></textarea></label>
+<label>Photo uploads (optional)<input type="file" name="a-photos" accept=".jpg,.jpeg,.png,.webp" multiple></label>
+<div class="action-row"><div class="action-main">
+<button type="button" class="btn-save">Save</button>
+<button type="button" class="btn-add">Add Another</button>
+</div><button type="button" class="btn-delete">Delete</button></div>
+<h4>Saved Activities</h4>
+<div class="saved-grid"><p class="saved-sub">No activities saved yet.</p></div>
+</div>
+
+<div class="cream-note"><strong>Why this information matters</strong><p>If something happens to you in Thailand, the people trying to help may not know your local connections or familiar places. Keeping this information current may help authorized individuals and authorities identify useful contacts and locations when appropriate.</p></div>
+
+</div></main>
+<script>
+document.querySelectorAll('.ll-tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.ll-tab').forEach(function(x){ x.classList.remove('active'); });
+    t.classList.add('active');
+    ['people','places','activities'].forEach(function(k){
+      document.getElementById('tab-'+k).style.display = (k === t.dataset.tab) ? 'block' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

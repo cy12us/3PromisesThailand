@@ -1,0 +1,103 @@
+<!-- my-account.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="app.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Account - Customer Dashboard</title>
+<style>
+body { background: #344D46; color: #F7F3EA; }
+header.app { background: #344D46; }
+.header-divider { border: 0; border-top: 1px solid rgba(247,243,234,0.22); margin: 22px 0 0 0; }
+.acct-wrap { width: min(760px, calc(100% - 40px)); margin: 0 auto; padding: 32px 0 72px; }
+.acct-eyebrow { font-size: 11px; letter-spacing: 0.18em; color: #D5DED5; margin: 28px 0 8px; }
+.acct-wrap h1 { color: #F7F3EA; font-weight: 100; font-size: 38px; margin: 0; }
+.acct-sub { color: #D5DED5; font-size: 15px; margin: 8px 0 22px; }
+.sage-panel { background: #E0E8E1; color: #223E35; border-radius: 20px; padding: 22px; }
+.sage-panel .lbl { font-size: 11px; letter-spacing: 0.14em; color: #395950; margin: 0; }
+.sage-panel h2 { margin: 4px 0; font-size: 20px; }
+.sage-panel p { margin: 6px 0 0; font-size: 14px; color: #395950; }
+.fin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+@media(max-width:640px){ .fin-grid { grid-template-columns: 1fr; } }
+.fin-card { background: #F7F3EA; color: #223E35; border-radius: 20px; padding: 18px; }
+.fin-card h4 { margin: 0; font-size: 13px; font-weight: 500; color: #717B75; }
+.fin-card .big { font-size: 22px; font-weight: 600; margin: 6px 0 2px; }
+.fin-card .sm { font-size: 12px; color: #717B75; margin: 0; }
+.ivory-panel { background: #F7F3EA; color: #223E35; border-radius: 20px; padding: 22px; margin-top: 12px; }
+.ivory-panel h3 { margin: 0; font-size: 17px; }
+.ivory-panel p { font-size: 14px; color: #587064; margin: 6px 0 0; }
+.progress-track { height: 8px; background: #D9DDD8; border-radius: 9999px; margin-top: 14px; }
+.progress-fill { height: 8px; background: #344D46; border-radius: 9999px; width: 0%; }
+.divider { border: 0; border-top: 1px solid #E1E4DE; margin: 16px 0; }
+.row-line { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; }
+.row-link { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #223E35; text-decoration: none; padding: 10px 0; }
+.set-row { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid #E1E4DE; }
+.set-row:first-of-type { border-top: 0; }
+.page-topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:112px;padding:20px 0 22px;margin-bottom:35px;border-bottom:1px solid rgba(247,243,234,0.22)}
+.brand-home{display:inline-flex;align-items:center;flex:0 1 auto;text-decoration:none;border-radius:14px;background:#F7F3EA;padding:10px 14px}
+.page-logo{display:block;width:clamp(300px,42vw,440px);height:auto;max-width:100%;min-width:300px}
+.dashboard-return{display:inline-flex;gap:10px;align-items:center;justify-content:center;white-space:nowrap;border:1px solid #c8d7cd;border-radius:999px;padding:13px 23px;min-height:46px;color:#264a3e;text-decoration:none;font-size:14px;font-weight:600;background:#fff;box-shadow:0 1px 5px #203d2f08}
+.dashboard-return:hover{background:#eef5ef;border-color:#a6c4b1}
+@media(max-width:700px){.page-topbar{min-height:auto;margin-bottom:26px;gap:14px;padding:22px 0 20px}.page-logo{width:clamp(160px,42vw,235px);min-width:0}.dashboard-return{font-size:12px;padding:10px 12px;min-height:42px}}
+</style>
+</head>
+<body>
+<header class="app"><div class="wrap">
+<div class="page-topbar" aria-label="Page navigation">
+<a class="brand-home" href="index.html" aria-label="3PromisesThailand home">
+<img class="page-logo" alt="3PromisesThailand" src="3PromisesThailand_Logo_Horizontal_Refined.svg">
+</a>
+<a class="dashboard-return" href="dashboard.html" aria-label="Back to Dashboard"><span aria-hidden="true">←</span> Back to Dashboard</a>
+</div>
+<hr class="header-divider">
+</div></header>
+
+<div class="acct-wrap">
+<p class="acct-eyebrow">3PROMISESTHAILAND</p>
+<h1>My Account</h1>
+<p class="acct-sub">Your membership, payments, and account details. All in one place.</p>
+
+<div class="sage-panel">
+<p class="lbl">MEMBERSHIP STATUS</p>
+<h2>Your account status</h2>
+<p><strong id="acct-status">Not available</strong> — <span id="acct-status-note">Your current membership status and activation date will appear here.</span></p>
+</div>
+
+<div class="fin-grid">
+<div class="fin-card"><h4>Monthly payment</h4><div class="big" id="acct-monthly">—</div><p class="sm">USD · Approved plan</p></div>
+<div class="fin-card"><h4>Next payment due</h4><div class="big" id="acct-next">—</div><p class="sm">From your billing records</p></div>
+<div class="fin-card"><h4>Total paid to date</h4><div class="big" id="acct-paid">—</div><p class="sm">Successful payments, adjusted for refunds</p></div>
+<div class="fin-card"><h4>Payments remaining</h4><div class="big" id="acct-remaining">— of 36</div><p class="sm">Based on completed installments</p></div>
+</div>
+
+<div class="ivory-panel">
+<h3>Payment Progress</h3>
+<p id="acct-progress-label">Your completed payments out of 36 will appear here.</p>
+<div class="progress-track"><div class="progress-fill" id="acct-bar"></div></div>
+<hr class="divider">
+<div class="row-line"><span>Initial enrollment payment</span><strong>$49.99</strong></div>
+<div class="row-line"><span>Monthly installment</span><strong>$19.99</strong></div>
+<div class="row-line"><span>Payment schedule</span><strong>36 monthly payments</strong></div>
+</div>
+
+<div class="ivory-panel">
+<h3>Payment History</h3>
+<p>View the dates, amounts, and receipts for your actual payments.</p>
+<a class="row-link" href="#" id="acct-history-link"><span>View all transactions</span><span>›</span></a>
+</div>
+
+<div class="ivory-panel">
+<h3>Billing &amp; Account Settings</h3>
+<div class="set-row"><span>▭</span><div><strong>Manage payment method</strong><p style="margin:0;">Update your card and billing information via our secure payment portal.</p></div></div>
+<div class="set-row"><span>◯</span><div><strong>Account and security settings</strong><p style="margin:0;">Update your email, phone, password and verification details.</p></div></div>
+<div class="set-row"><span>⚙</span><div><strong>Notification preferences</strong><p style="margin:0;">Choose the emails and reminders you would like to receive.</p></div></div>
+</div>
+
+<div class="sage-panel" style="margin-top:12px;">
+<h2 style="font-size:16px;">Need help with your account?</h2>
+<p>Contact our support team if you have questions about your membership or payments.</p>
+</div>
+
+</div>
+</body>
+</html>
