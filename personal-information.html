@@ -49,8 +49,13 @@ header.app { background: #E0E8E1; }
   <div class="pi-row pi-row-4">
     <div class="field field-wide"><label for="last-name">Legal last name</label><input id="last-name" name="last-name" type="text" autocomplete="family-name"></div>
     <div class="field"><label for="dob">Date of birth</label><input id="dob" name="dob" type="date"></div>
-    <div class="field"><label for="nationality">Nationality</label><select id="nationality" name="nationality"><option value="">Select</option><option>American</option><option>Thai</option><option>British</option><option>Canadian</option><option>Australian</option><option>German</option><option>French</option><option>Other</option></select></div>
-    <div class="field"><label for="passport">Passport number</label><input id="passport" name="passport" type="text"></div>
+    <div class="field"><label for="nationality">Nationality</label>
+<select id="nationality" name="nationality" onchange="document.getElementById('nationality-other').style.display = this.value==='Other' ? 'block' : 'none'">
+<option value="">Select</option>
+<option>American</option><option>Thai</option><option>British</option><option>Canadian</option><option>Australian</option><option>German</option><option>French</option><option>Dutch</option><option>Belgian</option><option>Swiss</option><option>Swedish</option><option>Norwegian</option><option>Danish</option><option>Finnish</option><option>Irish</option><option>Italian</option><option>Spanish</option><option>Portuguese</option><option>Greek</option><option>Polish</option><option>Austrian</option><option>Russian</option><option>Ukrainian</option><option>Turkish</option><option>Israeli</option><option>South African</option><option>Nigerian</option><option>Egyptian</option><option>Indian</option><option>Pakistani</option><option>Bangladeshi</option><option>Sri Lankan</option><option>Nepalese</option><option>Chinese</option><option>Japanese</option><option>South Korean</option><option>Taiwanese</option><option>Vietnamese</option><option>Cambodian</option><option>Laotian</option><option>Myanmar</option><option>Malaysian</option><option>Singaporean</option><option>Indonesian</option><option>Filipino</option><option>New Zealander</option><option>Mexican</option><option>Brazilian</option><option>Argentinian</option><option>Chilean</option><option>Colombian</option><option>Other</option>
+</select>
+<input id="nationality-other" name="nationality-other" type="text" placeholder="Please specify nationality" style="display:none;margin-top:8px">
+</div><div class="field"><label for="passport">Passport number</label><input id="passport" name="passport" type="text"></div>
   </div>
 
   <!-- Row 3 -->
