@@ -24,11 +24,16 @@ header.app { background: #E0E8E1; }
 .ec-label h3{margin:0 0 8px}
 .ec-row .thumb-grid{flex:1;margin-top:0}
 @media(max-width:700px){.thumb-grid{grid-template-columns:repeat(3,1fr)}.ec-row{flex-direction:column}.ec-label{flex:none}}
-dialog{border:1px solid #E1E4DE;border-radius:20px;padding:0;max-width:560px;width:calc(100% - 40px)}
+dialog{border:1px solid #E1E4DE;border-radius:20px;padding:0;max-width:620px;width:calc(100% - 40px)}
 dialog .dlg-body{padding:24px}
-dialog label{display:block;margin:12px 0 4px;font-size:13px;color:#223E35}
-dialog input,dialog textarea{width:100%;padding:12px;border:1px solid #E1E4DE;border-radius:12px;font-size:15px}
+dialog .fld{display:block;margin:18px 0 8px;font-size:13px;font-weight:600;color:#223E35;padding-top:2px}
+dialog .fld:first-of-type{margin-top:8px}
+dialog input[type=text],dialog input[type=email],dialog input[type=date],dialog textarea{display:block;width:100%;padding:12px;border:1px solid #E1E4DE;border-radius:12px;font-size:15px;margin:0;background:#fff}
 dialog textarea{min-height:80px}
+dialog input:focus,dialog textarea:focus{outline:3px solid #395950;outline-offset:2px}
+dialog .row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+dialog .row2{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+.check{display:flex;gap:8px;align-items:center;font-weight:400;font-size:14px;margin:8px 0}
 </style>
 </head>
 <body>
@@ -43,10 +48,14 @@ dialog textarea{min-height:80px}
 <h1>Personal Information</h1>
 
 <div class="panel">
+<div class="ec-row">
+<div class="ec-label">
 <h3>Your Information</h3>
-<div class="row"><div><label>Full legal name</label><input></div><div><label>Date of birth</label><input type="date"></div></div>
-<label>Current address</label><textarea rows="2"></textarea>
-<div class="action-row"><div class="action-main"><button type="button" class="btn-save">Save</button></div></div>
+<p class="panel-desc">Your profile details. Click to view / edit. Demo only.</p>
+<button type="button" class="btn-save" id="yi-new">+ Edit Info</button>
+</div>
+<div class="thumb-grid" id="yi-thumbs"></div>
+</div>
 </div>
 
 <div class="panel">
@@ -73,14 +82,42 @@ dialog textarea{min-height:80px}
 
 </div></main>
 
+<dialog id="yi-dialog">
+<div class="dlg-body">
+<h3>Your Information</h3>
+<div class="row">
+<div><label class="fld" for="yi-first">Legal first name</label><input type="text" id="yi-first"></div>
+<div><label class="fld" for="yi-middle">Legal middle name if any</label><input type="text" id="yi-middle"></div>
+<div><label class="fld" for="yi-nick">Nickname if any</label><input type="text" id="yi-nick"></div>
+</div>
+<div class="row2">
+<div><label class="fld" for="yi-last">Legal last name</label><input type="text" id="yi-last"></div>
+<div><label class="fld" for="yi-dob">Date of birth</label><input type="date" id="yi-dob"></div>
+<div><label class="fld" for="yi-nat">Nationality</label><input type="text" id="yi-nat"></div>
+<div><label class="fld" for="yi-pass">Passport number</label><input type="text" id="yi-pass"></div>
+</div>
+<label class="fld" for="yi-cur">Current address in Thailand</label><textarea id="yi-cur" rows="2"></textarea>
+<label class="fld" for="yi-prev">Previous address in Thailand (add dates if known)</label><textarea id="yi-prev" rows="2"></textarea>
+<label class="fld" for="yi-home">Home address in home country</label><textarea id="yi-home" rows="2"></textarea>
+<label class="fld">Share personal info if requested (check all that apply)</label>
+<label class="check"><input type="checkbox" id="yi-s1"> Embassy</label>
+<label class="check"><input type="checkbox" id="yi-s2"> Local authorities</label>
+<label class="check"><input type="checkbox" id="yi-s3"> Emergency contacts</label>
+<div class="action-row"><div class="action-main">
+<button type="button" class="btn-save" id="yi-save">Save</button>
+<button type="button" class="btn-add" id="yi-close">Close</button>
+</div></div>
+</div>
+</dialog>
+
 <dialog id="ec-dialog">
 <div class="dlg-body">
 <h3 id="ec-title">Emergency contact</h3>
-<label>Name<input id="ec-name"></label>
-<label>Relationship<input id="ec-rel"></label>
-<label>Phone<input id="ec-phone"></label>
-<label>Email<input id="ec-email" type="email"></label>
-<label>Note<textarea id="ec-note"></textarea></label>
+<label class="fld" for="ec-name">Name</label><input type="text" id="ec-name">
+<label class="fld" for="ec-rel">Relationship</label><input type="text" id="ec-rel">
+<label class="fld" for="ec-phone">Phone</label><input type="text" id="ec-phone">
+<label class="fld" for="ec-email">Email</label><input type="email" id="ec-email">
+<label class="fld" for="ec-note">Note</label><textarea id="ec-note"></textarea>
 <div class="action-row"><div class="action-main">
 <button type="button" class="btn-save" id="ec-save">Save</button>
 <button type="button" class="btn-add" id="ec-delete">Delete</button>
@@ -92,11 +129,11 @@ dialog textarea{min-height:80px}
 <dialog id="sc-dialog">
 <div class="dlg-body">
 <h3 id="sc-title">Secondary contact</h3>
-<label>Name<input id="sc-name"></label>
-<label>Relationship<input id="sc-rel"></label>
-<label>Phone<input id="sc-phone"></label>
-<label>Email<input id="sc-email" type="email"></label>
-<label>Note<textarea id="sc-note"></textarea></label>
+<label class="fld" for="sc-name">Name</label><input type="text" id="sc-name">
+<label class="fld" for="sc-rel">Relationship</label><input type="text" id="sc-rel">
+<label class="fld" for="sc-phone">Phone</label><input type="text" id="sc-phone">
+<label class="fld" for="sc-email">Email</label><input type="email" id="sc-email">
+<label class="fld" for="sc-note">Note</label><textarea id="sc-note"></textarea>
 <div class="action-row"><div class="action-main">
 <button type="button" class="btn-save" id="sc-save">Save</button>
 <button type="button" class="btn-add" id="sc-delete">Delete</button>
@@ -106,6 +143,32 @@ dialog textarea{min-height:80px}
 </dialog>
 
 <script>
+let yiData={first:"",middle:"",nick:"",last:"",dob:"",nat:"",pass:"",cur:"",prev:"",home:""};
+const yiThumbs=document.getElementById('yi-thumbs');
+const yiDlg=document.getElementById('yi-dialog');
+function yiRender(){
+yiThumbs.innerHTML="";
+const has=yiData.first||yiData.last;
+for(let i=0;i<6;i++){
+const b=document.createElement('button');
+if(i===0&&has){b.className="thumb filled";b.innerHTML="<strong>"+(yiData.first+" "+yiData.last)+"</strong><span>View</span>";b.onclick=yiOpen;}
+else if(i===0){b.className="thumb empty";b.innerHTML="<strong>&nbsp;</strong><span>Empty</span>";b.onclick=yiOpen;}
+else{b.className="thumb empty";b.innerHTML="<strong>&nbsp;</strong><span>Empty</span>";}
+yiThumbs.appendChild(b);
+}
+}
+function yiOpen(){
+['first','middle','nick','last','dob','nat','pass','cur','prev','home'].forEach(k=>document.getElementById('yi-'+k).value=yiData[k]||"");
+yiDlg.showModal();
+}
+document.getElementById('yi-new').onclick=yiOpen;
+document.getElementById('yi-close').onclick=()=>yiDlg.close();
+document.getElementById('yi-save').onclick=()=>{
+['first','middle','nick','last','dob','nat','pass','cur','prev','home'].forEach(k=>yiData[k]=document.getElementById('yi-'+k).value);
+yiRender();yiDlg.close();
+};
+yiRender();
+
 const ecSamples = [
 {name:"Sarah Williams",rel:"Sister",phone:"+1-415-555-0142",email:"sarah.w@example.com",note:"Notify first. Has house key and family contacts."},
 {name:"Michael Williams",rel:"Brother",phone:"+1-415-555-0198",email:"michael.w@example.com",note:"Notify second if Sarah unavailable."}
