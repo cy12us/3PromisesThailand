@@ -1,0 +1,87 @@
+<!-- waitlist.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Join the Waitlist | 3PromisesThailand</title>
+<meta name="description" content="Join the 3PromisesThailand waitlist to be notified when enrollment opens.">
+<style>
+:root{--ink:#203f35;--forest-strong:#24483b;--pale:#F2ECF7;--line:rgba(44,82,63,.16);--font:'Helvetica Neue',Helvetica,Inter,Arial,sans-serif}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--pale)}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:var(--font);font-weight:300;background:var(--pale)}
+.wrap{max-width:1190px;width:min(calc(100% - 72px),1190px);margin:auto;padding:36px 0 61px}
+header{display:flex;align-items:center;justify-content:space-between;gap:22px}
+.brand{display:block;width:min(440px,65vw);flex:0 1 440px;margin-left:-8px}
+.brand img{width:100%;height:auto;display:block}
+.quiet-link{display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:12px 18px;border:1px solid rgba(32,63,53,.22);background:rgba(255,255,255,.57);text-decoration:none;font:400 13px/1.2 var(--font);color:var(--ink)}
+.intro{padding:63px 0 29px}
+.eyebrow{font:450 11px/1.5 var(--font);letter-spacing:.20em;color:#416454;text-transform:uppercase;margin:0 0 18px}
+h1{font-weight:250;letter-spacing:-.04em;font-size:clamp(26px,2.75vw,38px);line-height:1.16;margin:0}
+.subtitle{font-size:clamp(17px,1.5vw,20px);color:#4d685b;margin:18px 0 0;line-height:1.52;max-width:810px}
+.rule{height:1px;background:var(--line);margin:27px 0 30px}
+.card{background:rgba(253,252,249,.94);border:1px solid rgba(45,82,63,.08);border-radius:28px;padding:36px 39px;max-width:640px}
+.card h2{font:250 clamp(25px,2.1vw,30px)/1.22 var(--font);letter-spacing:-.034em;margin:0 0 12px}
+.card p{font:300 15px/1.65 var(--font);color:#5b7367;margin:0 0 14px}
+label{display:block;font:400 13px/1.4 var(--font);color:#234838;margin:16px 0 6px}
+input,textarea{width:100%;border:1px solid rgba(32,63,53,.22);border-radius:14px;padding:13px 14px;font:300 15px/1.5 var(--font);color:var(--ink);background:#fff}
+textarea{min-height:110px;resize:vertical}
+.consent{font:300 13px/1.6 var(--font);color:#5b7367;margin:18px 0 0}
+.consent a{color:#234838}
+button.cta{display:inline-flex;align-items:center;gap:12px;margin-top:20px;min-height:56px;border:1px solid #2e5145;border-radius:999px;background:#2e5145;color:#fff;padding:14px 27px;font:400 15px/1.2 var(--font);cursor:pointer}
+#waitlist-msg{margin-top:16px;font-size:15px;display:none}
+#waitlist-msg.ok{display:block;color:#24483b}
+#waitlist-msg.err{display:block;color:#8a2f2f}
+@media(max-width:600px){.wrap{width:calc(100% - 32px)}.card{padding:27px 25px;border-radius:22px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header>
+<a class="brand" href="index.html" aria-label="3PromisesThailand homepage"><img src="3PromisesThailand_Logo_Horizontal_Refined.svg" alt="3PromisesThailand oak emblem and wordmark" width="440" height="110"></a>
+<a class="quiet-link" href="index.html">Back to Home</a>
+</header>
+<section class="intro">
+<p class="eyebrow">3PromisesThailand · Waitlist</p>
+<h1>Interested in 3PromisesThailand?</h1>
+<p class="subtitle">Leave your name and email address to be notified when enrollment opens. Have a question? Leave us a note, and we'll be happy to help.</p>
+</section>
+<div class="rule"></div>
+<section class="card">
+<h2>Join the waitlist</h2>
+<p>No payment required to join the waitlist.</p>
+<form id="waitlist-form">
+<label for="w-name">Name</label>
+<input id="w-name" name="name" type="text" required autocomplete="name">
+<label for="w-email">Email</label>
+<input id="w-email" name="email" type="email" required autocomplete="email">
+<label for="w-note">Note / Question (optional)</label>
+<textarea id="w-note" name="note" placeholder="Optional"></textarea>
+<p class="consent">By submitting this form, you agree that 3PromisesThailand may contact you regarding your inquiry and notify you when enrollment opens. <a href="privacy.html">See our Privacy Policy.</a></p>
+<button class="cta" type="submit">Join the waitlist</button>
+<p id="waitlist-msg" role="status"></p>
+</form>
+</section>
+</main>
+<script>
+(function(){
+var form=document.getElementById('waitlist-form');
+var msg=document.getElementById('waitlist-msg');
+form.addEventListener('submit',async function(e){
+e.preventDefault();
+msg.className='';msg.style.display='none';
+var name=document.getElementById('w-name').value.trim();
+var email=document.getElementById('w-email').value.trim();
+var note=document.getElementById('w-note').value.trim();
+if(!name||!email){show('err','Something did not save. Please check your entries and try again.');return;}
+// TODO: connect to your existing Supabase waitlist_signups table.
+// Use the same SUPABASE_URL and anon key from your original homepage backup (original-website-backup-nov-2026).
+// Until connected, entries are not saved.
+show('ok','Connect Supabase to save. Your entries: '+name+' / '+email);
+function show(cls,t){msg.textContent=t;msg.className=cls;msg.style.display='block';}
+});
+})();
+</script>
+</body>
+</html>
