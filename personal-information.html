@@ -48,6 +48,9 @@ header.app { background: #E0E8E1; }
 .emergency-bottom-actions .btn-save,.emergency-bottom-actions .btn-add,.emergency-bottom-actions .pi-cancel{min-height:44px;display:inline-flex;align-items:center;justify-content:center;text-align:center}
 .emergency-status{width:100%;margin:4px 0 0;font-size:13px;color:#526c60}
 .emergency-share{margin-top:20px}
+.secondary-notes{margin-top:16px}
+.secondary-notes label{display:block;font-size:14px;font-weight:600}
+.secondary-notes textarea{width:100%;margin-top:6px}
 [hidden]{display:none!important}
 @media(max-width:700px){
 .page-topbar{min-height:auto;margin-bottom:26px;gap:14px;padding:22px 0 20px}
@@ -196,6 +199,10 @@ header.app { background: #E0E8E1; }
 <label><input type="checkbox" name="secondary-share" value="embassy"> Embassy</label>
 <label><input type="checkbox" name="secondary-share" value="local-authorities"> Local authorities</label>
 </fieldset>
+<div class="field secondary-notes">
+<label for="secondary-notes">Notes</label>
+<textarea id="secondary-notes" name="secondary-notes" rows="3"></textarea>
+</div>
 <div class="emergency-bottom-actions">
 <button type="button" class="btn-save" id="save-secondary-contacts">Save</button>
 <button type="button" class="btn-add" id="add-secondary-contact">Add Another</button>
@@ -203,64 +210,6 @@ header.app { background: #E0E8E1; }
 <p class="emergency-status" id="secondary-save-status" role="status" aria-live="polite"></p>
 </div>
 </dialog>
-<div class="panel">
-<h3>Preferred Reps</h3>
-<label>Preferred representatives who may act on your behalf. Provide their name, relationship, phone number, email address, and briefly describe what you would like them to do. Important: Listing someone here expresses your wishes only. It does not grant them legal authority to act on your behalf. Any actions requiring legal authorization remain subject to applicable laws and documentation.</label>
-<textarea rows="3"></textarea>
-<div class="action-row">
-<div class="action-main">
-<button type="button" class="btn-save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg> Save</button>
-<span class="hint" style="align-self:center; font-size:13px; color:#717B75;">You can edit this field and save changes anytime.</span>
-</div>
-</div>
-</div>
-<div class="panel" id="recipients-panel">
-<h3>Document Recipients</h3>
-<p class="panel-desc">Choose who should receive your information and documents after your death has been verified.</p>
-<div class="recipient" data-recipient="1">
-<h4>Recipient 1</h4>
-<label>Full name<input type="text" name="recipient-1-name" placeholder="Recipient's full name" autocomplete="off"></label>
-<label>Phone number<input type="tel" name="recipient-1-phone" placeholder="Phone number" autocomplete="off"></label>
-<label>Email address<input type="email" name="recipient-1-email" placeholder="Email address" autocomplete="off"></label>
-<div class="check-group">
-<h5>Personal Information</h5>
-<p class="check-desc">Select which information from your Personal Information page you would like this recipient to receive.</p>
-<label class="check"><input type="checkbox" class="select-all" data-group="pi-1"> <strong>Select all Personal Information</strong></label>
-<hr>
-<label class="check"><input type="checkbox" name="r1-pi" value="name"> Full name and personal details</label>
-<label class="check"><input type="checkbox" name="r1-pi" value="passport"> Passport and nationality information</label>
-<label class="check"><input type="checkbox" name="r1-pi" value="address"> Residential address</label>
-<label class="check"><input type="checkbox" name="r1-pi" value="contact"> Phone numbers and email addresses</label>
-<label class="check"><input type="checkbox" name="r1-pi" value="emergency"> Emergency contacts</label>
-<label class="check"><input type="checkbox" name="r1-pi" value="preferred"> Preferred representatives</label>
-<label class="check"><input type="checkbox" name="r1-pi" value="other"> Other applicable personal information</label>
-</div>
-<div class="check-group">
-<h5>Official Reports and Documents</h5>
-<p class="check-desc">Select which official documents you would like this recipient to receive, if available and authorized for release.</p>
-<label class="check"><input type="checkbox" name="r1-docs" value="police"> Police reports</label>
-<label class="check"><input type="checkbox" name="r1-docs" value="hospital"> Hospital reports</label>
-<label class="check"><input type="checkbox" name="r1-docs" value="death-cert"> Death certificate</label>
-<label class="check"><input type="checkbox" name="r1-docs" value="other-docs"> Other available official documents</label>
-</div>
-<div class="check-group">
-<h5>Landlord &amp; Local Contacts</h5>
-<p class="check-desc">Choose which local contact information you would like this recipient to receive after your death has been verified.</p>
-<label class="check"><input type="checkbox" name="r1-local" value="landlord"> Landlord contact information</label>
-<label class="check"><input type="checkbox" name="r1-local" value="manager"> Property manager contact information</label>
-<label class="check"><input type="checkbox" name="r1-local" value="trusted"> Trusted local contacts</label>
-<label class="check"><input type="checkbox" class="select-all" data-group="local-1"> <strong>Select all Landlord &amp; Local Contacts information</strong></label>
-</div>
-<div class="action-row">
-<div class="action-main">
-<button type="button" class="btn-save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5 11-11"/></svg> Save Recipient</button>
-<button type="button" class="btn-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> Add Another</button>
-</div>
-<button type="button" class="btn-delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"/></svg> Delete Recipient</button>
-</div>
-</div>
-<p class="panel-foot">After your death is verified, 3PromisesThailand will work to provide the information you selected, subject to availability, applicable law, and any required authorization.</p>
-</div>
 </div>
 </main>
 <script>
