@@ -1,4 +1,4 @@
-<!-- personal-information.html -->
+<!-- demo/personal-information.html -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,295 +9,196 @@
 <style>
 body { background: #E0E8E1; }
 header.app { background: #E0E8E1; }
-.header-divider { border-top: 1px solid #C5D0C8; }
 .page-topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:112px;padding:20px 0 22px;margin-bottom:35px;border-bottom:1px solid #e6e6e1}
-.brand-home{display:inline-flex;align-items:center;flex:0 1 auto;text-decoration:none;border-radius:7px}
-.brand-home:focus-visible{outline:3px solid #7da99a;outline-offset:5px}
-.page-logo{display:block;width:clamp(228px,30vw,355px);height:auto;max-width:100%}
-.dashboard-return{display:inline-flex;gap:10px;align-items:center;justify-content:center;white-space:nowrap;border:1px solid #c8d7cd;border-radius:999px;padding:13px 23px;min-height:46px;color:#264a3e;text-decoration:none;font-size:14px;font-weight:600;background:#fff;box-shadow:0 1px 5px #203d2f08;transition:background .18s,border-color .18s,transform .18s}
-.dashboard-return:hover{background:#eef5ef;border-color:#a6c4b1;transform:translateY(-1px)}
-.dashboard-return:focus-visible{outline:3px solid #88b39f;outline-offset:3px}
-.section-title-button{padding:0;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
-.section-title-button:hover{text-decoration:underline;text-underline-offset:4px}
-.section-title-button:focus-visible{outline:3px solid #88b39f;outline-offset:5px}
-.pi-dialog{width:min(920px,calc(100vw - 32px));max-width:none;max-height:calc(100dvh - 32px);overflow:auto;padding:28px;border:1px solid #c8d7cd;border-radius:18px;background:#fff;color:#264a3e;box-shadow:0 20px 70px rgba(23,49,37,.25)}
-.pi-dialog::backdrop{background:rgba(22,39,31,.48)}
-.pi-dialog-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:22px}
-.pi-dialog-header h2{margin:0}
-.pi-dialog-close{flex:0 0 auto;width:40px;height:40px;border:1px solid #c8d7cd;border-radius:50%;background:#fff;color:#264a3e;font-size:24px;line-height:1;cursor:pointer}
-.pi-dialog-actions{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:22px}
-.pi-dialog-actions .pi-cancel,.pi-dialog-actions .btn-save{min-width:110px;min-height:44px;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;text-align:center}
-.pi-cancel{border:1px solid #c8d7cd;background:#fff;color:#264a3e;font:inherit;cursor:pointer}
-.pi-row{display:grid;gap:12px;margin-bottom:12px}
-.pi-row-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.pi-row-4{grid-template-columns:2fr 1fr 1fr 1fr}
-.share-box{margin-top:4px;border:1px solid #d8e0dc;border-radius:12px;padding:12px 14px}
-.share-box legend{padding:0 5px;font-size:14px;font-weight:600}
-.share-box label{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:14px;line-height:1.4}
-.share-box input[type="checkbox"]{margin:0;width:16px;height:16px;flex:0 0 auto}
-.emergency-intro{margin:0 0 18px;line-height:1.55}
-.emergency-list{display:grid;gap:16px}
-.emergency-contact{padding:18px;border:1px solid #d8e0dc;border-radius:14px;background:#f8faf8}
-.emergency-contact h3{margin:0 0 14px}
-.emergency-contact .field-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px}
-.emergency-contact label{display:block}
-.emergency-contact input,.emergency-contact select,.emergency-contact textarea{width:100%;margin-top:6px}
-.emergency-contact .address-field{grid-column:1/-1}
-.emergency-contact-actions{display:flex;justify-content:flex-end;margin-top:12px}
-.emergency-bottom-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
-.emergency-bottom-actions .btn-save,.emergency-bottom-actions .btn-add,.emergency-bottom-actions .pi-cancel{min-height:44px;display:inline-flex;align-items:center;justify-content:center;text-align:center}
-.emergency-status{width:100%;margin:4px 0 0;font-size:13px;color:#526c60}
-.emergency-share{margin-top:20px}
-.secondary-notes{margin-top:16px}
-.secondary-notes label{display:block;font-size:14px;font-weight:600}
-.secondary-notes textarea{width:100%;margin-top:6px}
-[hidden]{display:none!important}
-@media(max-width:700px){
-.page-topbar{min-height:auto;margin-bottom:26px;gap:14px;padding:22px 0 20px}
-.page-logo{width:clamp(160px,42vw,235px)}
-.dashboard-return{font-size:12px;padding:10px 12px;min-height:42px;gap:6px}
-.pi-row-3,.pi-row-4{grid-template-columns:1fr}
-.pi-dialog{padding:22px 18px}
-.emergency-contact .field-grid{grid-template-columns:1fr}
-.emergency-contact .address-field{grid-column:auto}
-}
-@media(max-width:380px){.page-logo{width:145px}.dashboard-return{font-size:11px;padding:9px 10px}}
+.brand-home{display:inline-flex;align-items:center;text-decoration:none}
+.page-logo{display:block;width:clamp(228px,30vw,355px);height:auto}
+.dashboard-return{display:inline-flex;gap:10px;align-items:center;justify-content:center;white-space:nowrap;border:1px solid #c8d7cd;border-radius:999px;padding:13px 23px;min-height:46px;color:#264a3e;text-decoration:none;font-size:14px;font-weight:600;background:#fff}
+.thumb-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:14px}
+.thumb{background:#F4F3F0;border:1px solid #E1E4DE;border-radius:10px;min-height:84px;padding:8px 7px;cursor:pointer;text-align:left;font-family:inherit;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.thumb.filled{background:#fff}
+.thumb.empty{border-style:dashed;color:#717B75;cursor:default}
+.thumb strong{display:block;color:#223E35;font-size:11px;line-height:1.3;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.thumb span{font-size:10px;line-height:1.3;color:#717B75}
+.ec-row{display:flex;gap:18px;align-items:flex-start}
+.ec-label{flex:0 0 190px}
+.ec-label h3{margin:0 0 8px}
+.ec-row .thumb-grid{flex:1;margin-top:0}
+@media(max-width:700px){.thumb-grid{grid-template-columns:repeat(3,1fr)}.ec-row{flex-direction:column}.ec-label{flex:none}}
+dialog{border:1px solid #E1E4DE;border-radius:20px;padding:0;max-width:560px;width:calc(100% - 40px)}
+dialog .dlg-body{padding:24px}
+dialog label{display:block;margin:12px 0 4px;font-size:13px;color:#223E35}
+dialog input,dialog textarea{width:100%;padding:12px;border:1px solid #E1E4DE;border-radius:12px;font-size:15px}
+dialog textarea{min-height:80px}
 </style>
 </head>
 <body>
-<main class="page">
-<div class="wrap">
+<main class="page"><div class="wrap">
 <header class="app">
-<div class="page-topbar" aria-label="Page navigation">
-<a class="brand-home" href="index.html" aria-label="3PromisesThailand home">
-<img class="page-logo" src="logo-v26-dark.svg" alt="3PromisesThailand">
-</a>
-<a class="dashboard-return" href="dashboard.html" aria-label="Back to Dashboard"><span aria-hidden="true">←</span> Back to Dashboard</a>
+<div class="page-topbar">
+<a class="brand-home" href="/"><img class="page-logo" alt="3PromisesUS" src="../logo-v26-dark.svg"></a>
+<a class="dashboard-return" href="dashboard.html">← Back to Dashboard</a>
 </div>
-<hr class="header-divider">
 </header>
 <p class="crumb">Customer Dashboard / Personal Information</p>
 <h1>Personal Information</h1>
+
 <div class="panel">
-<h3><button class="section-title-button" id="open-personal-info" type="button" aria-haspopup="dialog" aria-controls="personal-info-dialog">Your Information</button></h3>
+<h3>Your Information</h3>
+<div class="row"><div><label>Full legal name</label><input></div><div><label>Date of birth</label><input type="date"></div></div>
+<label>Current address</label><textarea rows="2"></textarea>
+<div class="action-row"><div class="action-main"><button type="button" class="btn-save">Save</button></div></div>
 </div>
-<dialog class="pi-dialog" id="personal-info-dialog" aria-labelledby="personal-info-dialog-title">
-<div class="pi-dialog-header">
-<h2 id="personal-info-dialog-title">Your Information</h2>
-<button class="pi-dialog-close" id="close-personal-info" type="button" aria-label="Close">×</button>
+
+<div class="panel">
+<div class="ec-row">
+<div class="ec-label">
+<h3>Emergency Contacts</h3>
+<p class="panel-desc">People to notify by email once death is verified. Click to view / edit. Demo only.</p>
+<button type="button" class="btn-save" id="ec-new">+ New Contact</button>
 </div>
-<div class="pi-grid">
-<div class="pi-row pi-row-3">
-<div class="field"><label for="first-name">Legal first name</label><input id="first-name" name="first-name" type="text" autocomplete="given-name"></div>
-<div class="field"><label for="middle-name">Legal middle name if any</label><input id="middle-name" name="middle-name" type="text" autocomplete="additional-name"></div>
-<div class="field"><label for="nickname">Nickname if any</label><input id="nickname" name="nickname" type="text"></div>
+<div class="thumb-grid" id="ec-thumbs"></div>
 </div>
-<div class="pi-row pi-row-4">
-<div class="field field-wide"><label for="last-name">Legal last name</label><input id="last-name" name="last-name" type="text" autocomplete="family-name"></div>
-<div class="field"><label for="dob">Date of birth</label><input id="dob" name="dob" type="date"></div>
-<div class="field">
-<label for="nationality">Nationality</label>
-<select id="nationality" name="nationality" onchange="document.getElementById('nationality-other').style.display = this.value==='Other' ? 'block' : 'none'">
-<option value="">Select</option>
-<option>American</option><option>Thai</option><option>British</option><option>Canadian</option><option>Australian</option><option>German</option><option>French</option><option>Dutch</option><option>Belgian</option><option>Swiss</option><option>Swedish</option><option>Norwegian</option><option>Danish</option><option>Finnish</option><option>Irish</option><option>Italian</option><option>Spanish</option><option>Portuguese</option><option>Greek</option><option>Polish</option><option>Austrian</option><option>Russian</option><option>Ukrainian</option><option>Turkish</option><option>Israeli</option><option>South African</option><option>Nigerian</option><option>Egyptian</option><option>Indian</option><option>Pakistani</option><option>Bangladeshi</option><option>Sri Lankan</option><option>Nepalese</option><option>Chinese</option><option>Japanese</option><option>South Korean</option><option>Taiwanese</option><option>Vietnamese</option><option>Cambodian</option><option>Laotian</option><option>Myanmar</option><option>Malaysian</option><option>Singaporean</option><option>Indonesian</option><option>Filipino</option><option>New Zealander</option><option>Mexican</option><option>Brazilian</option><option>Argentinian</option><option>Chilean</option><option>Colombian</option><option>Other</option>
-</select>
-<input id="nationality-other" name="nationality-other" type="text" placeholder="Please specify nationality" style="display:none;margin-top:8px">
 </div>
-<div class="field"><label for="passport">Passport number</label><input id="passport" name="passport" type="text"></div>
+
+<div class="panel">
+<div class="ec-row">
+<div class="ec-label">
+<h3>Secondary Contacts</h3>
+<p class="panel-desc">Additional contacts. Click to view / edit. Demo only.</p>
+<button type="button" class="btn-save" id="sc-new">+ New Contact</button>
 </div>
-<div class="field"><label for="current-th">Current address in Thailand</label><textarea id="current-th" name="current-th" rows="2"></textarea></div>
-<div class="field"><label for="prev-th">Previous address in Thailand (add dates if known)</label><textarea id="prev-th" name="prev-th" rows="2"></textarea></div>
-<div class="field"><label for="home-address">Home address in home country</label><textarea id="home-address" name="home-address" rows="2"></textarea></div>
-<fieldset class="share-box">
-<legend>Share personal info if requested (check all that apply)</legend>
-<label><input type="checkbox" name="share" value="embassy"> Embassy</label>
-<label><input type="checkbox" name="share" value="local"> Local authorities</label>
-<label><input type="checkbox" name="share" value="emergency"> Emergency contacts</label>
-</fieldset>
+<div class="thumb-grid" id="sc-thumbs"></div>
 </div>
-<div class="pi-dialog-actions">
-<button class="pi-cancel" id="cancel-personal-info" type="button">Cancel</button>
-<button type="button" class="btn-save">Save</button>
+</div>
+
+</div></main>
+
+<dialog id="ec-dialog">
+<div class="dlg-body">
+<h3 id="ec-title">Emergency contact</h3>
+<label>Name<input id="ec-name"></label>
+<label>Relationship<input id="ec-rel"></label>
+<label>Phone<input id="ec-phone"></label>
+<label>Email<input id="ec-email" type="email"></label>
+<label>Note<textarea id="ec-note"></textarea></label>
+<div class="action-row"><div class="action-main">
+<button type="button" class="btn-save" id="ec-save">Save</button>
+<button type="button" class="btn-add" id="ec-delete">Delete</button>
+<button type="button" class="btn-add" id="ec-close">Close</button>
+</div></div>
 </div>
 </dialog>
-<div class="panel">
-<h3><button class="section-title-button" id="open-emergency-contacts" type="button" aria-haspopup="dialog" aria-controls="emergency-contacts-dialog">Emergency Contacts</button></h3>
-</div>
-<dialog class="pi-dialog" id="emergency-contacts-dialog" aria-labelledby="emergency-contacts-dialog-title">
-<div class="pi-dialog-header">
-<h2 id="emergency-contacts-dialog-title">Emergency Contacts</h2>
-<button class="pi-dialog-close" id="close-emergency-contacts" type="button" aria-label="Close">×</button>
-</div>
-<p class="emergency-intro">The people listed here will be notified by email once your death has been verified.</p>
-<div class="emergency-list" id="emergency-contact-list"></div>
-<template id="emergency-contact-template">
-<section class="emergency-contact">
-<h3 class="emergency-contact-heading">Contact</h3>
-<div class="field-grid">
-<label>Full name<input type="text" data-field="name" autocomplete="name"></label>
-<label>Relationship<input type="text" data-field="relationship"></label>
-<label>Email address<input type="email" data-field="email" autocomplete="email"></label>
-</div>
-<div class="field-grid">
-<label>Country
-<select data-field="country"><option value="">Select a country</option></select>
-<input type="text" data-field="country-other" placeholder="Please specify country" hidden>
-</label>
-<label>Phone number<input type="tel" data-field="phone" autocomplete="tel"></label>
-<label class="address-field">Address<textarea data-field="address" rows="2" autocomplete="street-address"></textarea></label>
-</div>
-<div class="emergency-contact-actions">
-<button type="button" class="btn-delete emergency-delete">Delete</button>
-</div>
-</section>
-</template>
-<fieldset class="share-box emergency-share">
-<legend>Share emergency info if requested (check all that apply)</legend>
-<label><input type="checkbox" name="emergency-share" value="embassy"> Embassy</label>
-<label><input type="checkbox" name="emergency-share" value="local-authorities"> Local authorities</label>
-</fieldset>
-<div class="emergency-bottom-actions">
-<button type="button" class="btn-save" id="save-emergency-contacts">Save</button>
-<button type="button" class="btn-add" id="add-emergency-contact">Add Another</button>
-<button class="pi-cancel" id="cancel-emergency-contacts" type="button">Cancel</button>
-<p class="emergency-status" id="emergency-save-status" role="status" aria-live="polite"></p>
+
+<dialog id="sc-dialog">
+<div class="dlg-body">
+<h3 id="sc-title">Secondary contact</h3>
+<label>Name<input id="sc-name"></label>
+<label>Relationship<input id="sc-rel"></label>
+<label>Phone<input id="sc-phone"></label>
+<label>Email<input id="sc-email" type="email"></label>
+<label>Note<textarea id="sc-note"></textarea></label>
+<div class="action-row"><div class="action-main">
+<button type="button" class="btn-save" id="sc-save">Save</button>
+<button type="button" class="btn-add" id="sc-delete">Delete</button>
+<button type="button" class="btn-add" id="sc-close">Close</button>
+</div></div>
 </div>
 </dialog>
-<div class="panel">
-<h3><button class="section-title-button" id="open-secondary-contacts" type="button" aria-haspopup="dialog" aria-controls="secondary-contacts-dialog">Secondary Contacts</button></h3>
-</div>
-<dialog class="pi-dialog" id="secondary-contacts-dialog" aria-labelledby="secondary-contacts-dialog-title">
-<div class="pi-dialog-header">
-<h2 id="secondary-contacts-dialog-title">Secondary Contacts</h2>
-<button class="pi-dialog-close" id="close-secondary-contacts" type="button" aria-label="Close">×</button>
-</div>
-<p class="emergency-intro">The people listed here will be notified by email once your death has been verified.</p>
-<div class="emergency-list" id="secondary-contact-list"></div>
-<template id="secondary-contact-template">
-<section class="emergency-contact">
-<h3 class="emergency-contact-heading">Contact</h3>
-<div class="field-grid">
-<label>Full name<input type="text" data-field="name" autocomplete="name"></label>
-<label>Relationship<input type="text" data-field="relationship"></label>
-<label>Email address<input type="email" data-field="email" autocomplete="email"></label>
-</div>
-<div class="field-grid">
-<label>Country
-<select data-field="country"><option value="">Select a country</option></select>
-<input type="text" data-field="country-other" placeholder="Please specify country" hidden>
-</label>
-<label>Phone number<input type="tel" data-field="phone" autocomplete="tel"></label>
-<label class="address-field">Address<textarea data-field="address" rows="2" autocomplete="street-address"></textarea></label>
-</div>
-<div class="emergency-contact-actions">
-<button type="button" class="btn-delete emergency-delete">Delete</button>
-</div>
-</section>
-</template>
-<fieldset class="share-box emergency-share">
-<legend>Share secondary info if requested (check all that apply)</legend>
-<label><input type="checkbox" name="secondary-share" value="embassy"> Embassy</label>
-<label><input type="checkbox" name="secondary-share" value="local-authorities"> Local authorities</label>
-</fieldset>
-<div class="field secondary-notes">
-<label for="secondary-notes">Notes</label>
-<textarea id="secondary-notes" name="secondary-notes" rows="3"></textarea>
-</div>
-<div class="emergency-bottom-actions">
-<button type="button" class="btn-save" id="save-secondary-contacts">Save</button>
-<button type="button" class="btn-add" id="add-secondary-contact">Add Another</button>
-<button class="pi-cancel" id="cancel-secondary-contacts" type="button">Cancel</button>
-<p class="emergency-status" id="secondary-save-status" role="status" aria-live="polite"></p>
-</div>
-</dialog>
-</div>
-</main>
+
 <script>
-(() => {
-const personalDialog = document.getElementById('personal-info-dialog');
-document.getElementById('open-personal-info').addEventListener('click', () => personalDialog.showModal());
-document.getElementById('close-personal-info').addEventListener('click', () => personalDialog.close());
-document.getElementById('cancel-personal-info').addEventListener('click', () => personalDialog.close());
-const emergencyDialog = document.getElementById('emergency-contacts-dialog');
-const emergencyList = document.getElementById('emergency-contact-list');
-const emergencyTemplate = document.getElementById('emergency-contact-template');
-const emergencyStatus = document.getElementById('emergency-save-status');
-const secondaryDialog = document.getElementById('secondary-contacts-dialog');
-const secondaryList = document.getElementById('secondary-contact-list');
-const secondaryTemplate = document.getElementById('secondary-contact-template');
-const secondaryStatus = document.getElementById('secondary-save-status');
-let contactCount = 0;
-let secondaryCount = 0;
-const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Costa Rica","Croatia","Cuba","Cyprus","Czechia","Democratic Republic of the Congo","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Republic of the Congo","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Türkiye","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];
-function fillCountries(select){
-countries.forEach(country => { const option = document.createElement('option'); option.value = country; option.textContent = country; select.appendChild(option); });
-const otherOption = document.createElement('option'); otherOption.value = 'Other'; otherOption.textContent = 'Other'; select.appendChild(otherOption);
+const ecSamples = [
+{name:"Sarah Williams",rel:"Sister",phone:"+1-415-555-0142",email:"sarah.w@example.com",note:"Notify first. Has house key and family contacts."},
+{name:"Michael Williams",rel:"Brother",phone:"+1-415-555-0198",email:"michael.w@example.com",note:"Notify second if Sarah unavailable."}
+];
+let ecExtra = [];
+let ecEditing = -1;
+const ecThumbs = document.getElementById('ec-thumbs');
+const ecDlg = document.getElementById('ec-dialog');
+function ecAll(){ return [...ecSamples, ...ecExtra]; }
+function ecRender(){
+ecThumbs.innerHTML="";
+const list = ecAll();
+for(let i=0;i<6;i++){
+const b=document.createElement('button');
+if(i<list.length){b.className="thumb filled";b.innerHTML="<strong>"+list[i].name+"</strong><span>"+(list[i].rel||"View")+"</span>";b.onclick=()=>ecOpen(i);}
+else{b.className="thumb empty";b.innerHTML="<strong>&nbsp;</strong><span>Empty</span>";}
+ecThumbs.appendChild(b);
 }
-function addEmergencyContact() {
-contactCount += 1;
-const fragment = emergencyTemplate.content.cloneNode(true);
-const contact = fragment.querySelector('.emergency-contact');
-contact.querySelector('.emergency-contact-heading').textContent = `Contact ${contactCount}`;
-const countrySelect = contact.querySelector('[data-field="country"]');
-fillCountries(countrySelect);
-contact.querySelectorAll('[data-field]').forEach(field => {
-const key = field.dataset.field;
-field.name = `emergency-contact-${contactCount}-${key}`;
-if (key !== 'country-other') { const label = field.closest('label'); if (label) { field.id = `emergency-contact-${contactCount}-${key}`; label.htmlFor = field.id; } }
-});
-emergencyList.appendChild(fragment);
 }
-function addSecondaryContact() {
-secondaryCount += 1;
-const fragment = secondaryTemplate.content.cloneNode(true);
-const contact = fragment.querySelector('.emergency-contact');
-contact.querySelector('.emergency-contact-heading').textContent = `Contact ${secondaryCount}`;
-const countrySelect = contact.querySelector('[data-field="country"]');
-fillCountries(countrySelect);
-contact.querySelectorAll('[data-field]').forEach(field => {
-const key = field.dataset.field;
-field.name = `secondary-contact-${secondaryCount}-${key}`;
-if (key !== 'country-other') { const label = field.closest('label'); if (label) { field.id = `secondary-contact-${secondaryCount}-${key}`; label.htmlFor = field.id; } }
-});
-secondaryList.appendChild(fragment);
+function ecOpen(i){
+ecEditing=i;const m=ecAll()[i];
+document.getElementById('ec-title').textContent="Contact - "+m.name;
+document.getElementById('ec-name').value=m.name||"";
+document.getElementById('ec-rel').value=m.rel||"";
+document.getElementById('ec-phone').value=m.phone||"";
+document.getElementById('ec-email').value=m.email||"";
+document.getElementById('ec-note').value=m.note||"";
+ecDlg.showModal();
 }
-document.getElementById('open-emergency-contacts').addEventListener('click', () => emergencyDialog.showModal());
-document.getElementById('close-emergency-contacts').addEventListener('click', () => emergencyDialog.close());
-document.getElementById('cancel-emergency-contacts').addEventListener('click', () => emergencyDialog.close());
-document.getElementById('add-emergency-contact').addEventListener('click', addEmergencyContact);
-document.getElementById('open-secondary-contacts').addEventListener('click', () => secondaryDialog.showModal());
-document.getElementById('close-secondary-contacts').addEventListener('click', () => secondaryDialog.close());
-document.getElementById('cancel-secondary-contacts').addEventListener('click', () => secondaryDialog.close());
-document.getElementById('add-secondary-contact').addEventListener('click', addSecondaryContact);
-emergencyList.addEventListener('change', event => {
-if (event.target.matches('[data-field="country"]')) {
-const otherField = event.target.closest('.emergency-contact').querySelector('[data-field="country-other"]');
-otherField.hidden = event.target.value !== 'Other';
-otherField.required = event.target.value === 'Other';
+document.getElementById('ec-new').onclick=()=>{
+ecEditing=-1;
+document.getElementById('ec-title').textContent="New emergency contact";
+['ec-name','ec-rel','ec-phone','ec-email','ec-note'].forEach(id=>document.getElementById(id).value="");
+ecDlg.showModal();
+};
+document.getElementById('ec-close').onclick=()=>ecDlg.close();
+document.getElementById('ec-save').onclick=()=>{
+const m={name:document.getElementById('ec-name').value,rel:document.getElementById('ec-rel').value,phone:document.getElementById('ec-phone').value,email:document.getElementById('ec-email').value,note:document.getElementById('ec-note').value};
+if(ecEditing<0){ecExtra.push(m);}else if(ecEditing<2){ecSamples[ecEditing]=m;}else{ecExtra[ecEditing-2]=m;}
+ecRender();ecDlg.close();
+};
+document.getElementById('ec-delete').onclick=()=>{
+if(ecEditing>=2){ecExtra.splice(ecEditing-2,1);}else if(ecEditing>=0){ecSamples.splice(ecEditing,1);}
+ecRender();ecDlg.close();
+};
+ecRender();
+
+const scSamples = [
+{name:"David Lee",rel:"Friend",phone:"+1-212-555-0165",email:"david.l@example.com",note:"Secondary contact."},
+{name:"Anna Park",rel:"Neighbor",phone:"+1-212-555-0188",email:"anna.p@example.com",note:"Secondary contact."}
+];
+let scExtra = [];
+let scEditing = -1;
+const scThumbs = document.getElementById('sc-thumbs');
+const scDlg = document.getElementById('sc-dialog');
+function scAll(){ return [...scSamples, ...scExtra]; }
+function scRender(){
+scThumbs.innerHTML="";
+const list = scAll();
+for(let i=0;i<6;i++){
+const b=document.createElement('button');
+if(i<list.length){b.className="thumb filled";b.innerHTML="<strong>"+list[i].name+"</strong><span>"+(list[i].rel||"View")+"</span>";b.onclick=()=>scOpen(i);}
+else{b.className="thumb empty";b.innerHTML="<strong>&nbsp;</strong><span>Empty</span>";}
+scThumbs.appendChild(b);
 }
-});
-secondaryList.addEventListener('change', event => {
-if (event.target.matches('[data-field="country"]')) {
-const otherField = event.target.closest('.emergency-contact').querySelector('[data-field="country-other"]');
-otherField.hidden = event.target.value !== 'Other';
-otherField.required = event.target.value === 'Other';
 }
-});
-emergencyList.addEventListener('click', event => {
-if (!event.target.closest('.emergency-delete')) return;
-event.target.closest('.emergency-contact').remove();
-emergencyList.querySelectorAll('.emergency-contact-heading').forEach((heading, index) => { heading.textContent = `Contact ${index + 1}`; });
-});
-secondaryList.addEventListener('click', event => {
-if (!event.target.closest('.emergency-delete')) return;
-event.target.closest('.emergency-contact').remove();
-secondaryList.querySelectorAll('.emergency-contact-heading').forEach((heading, index) => { heading.textContent = `Contact ${index + 1}`; });
-});
-document.getElementById('save-emergency-contacts').addEventListener('click', () => { emergencyStatus.textContent = 'Save is not connected yet. Nothing was stored.'; });
-document.getElementById('save-secondary-contacts').addEventListener('click', () => { secondaryStatus.textContent = 'Save is not connected yet. Nothing was stored.'; });
-addEmergencyContact();
-addSecondaryContact();
-})();
+function scOpen(i){
+scEditing=i;const m=scAll()[i];
+document.getElementById('sc-title').textContent="Contact - "+m.name;
+document.getElementById('sc-name').value=m.name||"";
+document.getElementById('sc-rel').value=m.rel||"";
+document.getElementById('sc-phone').value=m.phone||"";
+document.getElementById('sc-email').value=m.email||"";
+document.getElementById('sc-note').value=m.note||"";
+scDlg.showModal();
+}
+document.getElementById('sc-new').onclick=()=>{
+scEditing=-1;
+document.getElementById('sc-title').textContent="New secondary contact";
+['sc-name','sc-rel','sc-phone','sc-email','sc-note'].forEach(id=>document.getElementById(id).value="");
+scDlg.showModal();
+};
+document.getElementById('sc-close').onclick=()=>scDlg.close();
+document.getElementById('sc-save').onclick=()=>{
+const m={name:document.getElementById('sc-name').value,rel:document.getElementById('sc-rel').value,phone:document.getElementById('sc-phone').value,email:document.getElementById('sc-email').value,note:document.getElementById('sc-note').value};
+if(scEditing<0){scExtra.push(m);}else if(scEditing<2){scSamples[scEditing]=m;}else{scExtra[scEditing-2]=m;}
+scRender();scDlg.close();
+};
+document.getElementById('sc-delete').onclick=()=>{
+if(scEditing>=2){scExtra.splice(scEditing-2,1);}else if(scEditing>=0){scSamples.splice(scEditing,1);}
+scRender();scDlg.close();
+};
+scRender();
 </script>
 </body>
 </html>
