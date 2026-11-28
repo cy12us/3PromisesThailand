@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#073B46">
+  <title>3PromisesThailand | Four-Slide Teal Homepage</title>
+  <meta name="description" content="Four rotating 3PromisesThailand homepage slides with interactive falling words and controls.">
+  <style>
+    :root {
+      --forest: #0c483b;
+      --forest-dark: #0a3b31;
+      --sage: #e1e9e1;
+      --cream: #faf3ed;
+      --warm: #f5e6d6;
+      --bg: #073B46;
+      --ivory-text: #F5F1E9;
+      --muted-ivory: #DCE6E1;
+      --radius: 22px;
+      --font: 'Helvetica Neue', 'Helvetica', 'Inter', 'Nimbus Sans', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: var(--bg); }
+    body {
+      position: relative; /* All falling text and dust use document coordinates. */
+      margin: 0;
+      color: var(--ivory-text);
+      font-family: var(--font);
+      font-weight: 300;
+      line-height: 1.35;
+      min-height: 100vh;
+      overflow-x: hidden;
+      /* Original-homepage inspired atmosphere: prominent teal high on the left,
+         amber/gold lifted into the upper center-right, and deep teal at the base.
+         Keep the light behind text soft for readable ivory headings. */
+      background:
+        radial-gradient(ellipse 67% 64% at 16% 22%, rgba(22, 146, 145, .64) 0%, rgba(15, 111, 117, .39) 43%, transparent 82%),
+        radial-gradient(ellipse 63% 67% at 74% 41%, rgba(200, 165, 107, .52) 0%, rgba(152, 142, 99, .34) 45%, transparent 85%),
+        radial-gradient(ellipse 45% 35% at 70% 17%, rgba(108, 158, 133, .20) 0%, transparent 82%),
+        radial-gradient(ellipse 59% 43% at 20% 92%, rgba(8, 81, 93, .27) 0%, transparent 86%),
+        linear-gradient(112deg, #073B46 0%, #104F53 43%, #173D45 100%);
+    }
+    .page {
+      width: min(100% - 64px, 1294px);
+      margin: 0 auto;
+      padding: 94px 0 76px;
+    }
+    .brand-lockup {
+      position: relative;
+      width: clamp(420px, 51vw, 680px);
+      max-width: 100%;
+    }
+    .brand {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      transform-origin: left center;
+      animation: rise-in 850ms ease-out both;
+    }
+    /* The headline and rotating detail animate together on every slide. */
+    .slide-headline {
+      margin-top: 63px;
+      animation: rise-in 950ms 130ms ease-out both;
+    }
+    .slide-headline h1 {
+      color: var(--ivory-text);
+      text-shadow: 0 1px 12px rgba(1, 29, 35, .16);
+      font-weight: 200;
+      font-size: clamp(29px, 3.25vw, 48px);
+      line-height: 1.23;
+      letter-spacing: -.045em;
+      margin: 0;
+      max-width: 1250px;
+    }
+    .changing {
+      margin-top: 18px;
+      height: 68px;
+      position: relative;
+      overflow: hidden;
+    }
+    .changing-word {
+      color: #F1F5EE;
+      text-shadow: 0 1px 10px rgba(1, 29, 35, .16);
+      position: absolute;
+      inset: 0 auto auto 0;
+      display: inline-block;
+      font-weight: 250;
+      font-size: clamp(24px, 2.36vw, 36px);
+      letter-spacing: -.035em;
+      line-height: 1.25;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(-28px);
+      transition: opacity 330ms ease,
+                  transform 410ms cubic-bezier(.2, .8, .2, 1);
+      will-change: opacity, transform;
+    }
+    /* State 1 uses the original subtle fade rotation; state 2 randomly
+       alternates this with the approved slow-fall and dust impact. */
+    .changing-word.enter-from-below { transform: translateY(28px); opacity: 0; }
+    .changing-word.is-current { transform: translateY(0); opacity: 1; cursor: pointer; }
+    .changing-word.is-current:focus-visible {
+      outline: 2px solid #bf9457;
+      outline-offset: 5px;
+      border-radius: 3px;
+    }
+    .changing-word.is-current.out { transform: translateY(-8px); opacity: 0; }
+    .closing-crash-phrase { cursor: pointer; transition: opacity .32s ease; }
+    .closing-crash-phrase:focus-visible { outline: 2px solid #EFCBA5; outline-offset: 4px; }
+    .closing-crash-phrase.is-falling { opacity: 0; }
+    .closing-crash-phrase.is-returning { animation: quiet-return 550ms ease both; }
+    @keyframes quiet-return { from { opacity: 0; } to { opacity: 1; } }
+    .falling-phrase {
+      position: absolute;
+      display: inline-block;
+      z-index: 30;
+      pointer-events: none;
+      color: #F1F5EE;
+      text-shadow: 0 1px 10px rgba(1, 29, 35, .16);
+      white-space: nowrap;
+      transform-origin: center center;
+      will-change: transform;
+      margin: 0;
+    }
+    /* The cloud is anchored to the collision in document coordinates, so it
+       scrolls with the bento rather than staying stuck to the viewport. */
+    .dust-cloud {
+      position: absolute;
+      width: 0;
+      height: 0;
+      z-index: 31;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .dust-particle {
+      position: absolute;
+      display: block;
+      border-radius: 50%;
+      pointer-events: none;
+      width: var(--size);
+      height: var(--size);
+      top: 0;
+      left: 0;
+      background: radial-gradient(circle at 43% 43%,
+        rgba(222, 208, 182, .90) 0%,
+        rgba(178, 160, 129, .64) 46%,
+        rgba(159, 148, 121, 0) 76%);
+      animation: dust-bloom var(--dust-duration, 950ms) ease-out both;
+      animation-delay: var(--delay, 0ms);
+    }
+    .dust-particle:nth-child(3n) {
+      background: radial-gradient(circle at 46% 46%,
+        rgba(203, 219, 200, .75), rgba(153, 180, 159, .48) 45%, transparent 76%);
+    }
+    .dust-particle:nth-child(4n) {
+      background: radial-gradient(circle,
+        rgba(245, 231, 205, .92), rgba(207, 186, 151, .5) 55%, transparent 80%);
+    }
+    @keyframes dust-bloom {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(.22); }
+      14% { opacity: .94; }
+      62% { opacity: .72; }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(var(--end-scale));
+      }
+    }
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 15px 18px;
+      margin: 187px 20px 0;
+    }
+    .tile {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: var(--radius);
+      width: 100%;
+      min-width: 0;
+      color: var(--forest-dark);
+      padding: 0 35px 0 46px;
+      min-height: 102px;
+      background: #fff;
+      cursor: pointer;
+      font-family: var(--font);
+      font-weight: 250;
+      font-size: clamp(19px, 1.65vw, 25px);
+      letter-spacing: -.033em;
+      box-shadow: 0 9px 28px rgba(2, 29, 35, .14);
+      transition: transform 270ms cubic-bezier(.2, .75, .2, 1),
+                  box-shadow 270ms ease, filter 270ms ease;
+      animation: tile-arrive 700ms cubic-bezier(.2,.75,.2,1) both;
+    }
+    .tile:focus-visible {
+      outline: 3px solid #bf9457;
+      outline-offset: 4px;
+    }
+    .tile:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 36px rgba(1, 25, 28, .27);
+      filter: saturate(1.05);
+    }
+    .tile:active { transform: translateY(-1px); }
+    .tile .arrow {
+      font-size: 37px;
+      line-height: 1;
+      font-weight: 250;
+      transition: transform 240ms ease;
+      margin-left: 8px;
+    }
+    .tile:hover .arrow { transform: translateX(6px); }
+    .tile:nth-child(1), .tile:nth-child(5) { grid-column: span 7; background: #e2eae1; }
+    .tile:nth-child(2), .tile:nth-child(6) { grid-column: span 5; background: #134C3F; color: #F8F7F0; border-color: rgba(226, 242, 233, .26); }
+    .tile:nth-child(3) { grid-column: span 5; background: #D9E8F0; color: #173F39; border-color: rgba(30, 76, 78, .08); }
+    .tile:nth-child(4) { grid-column: span 7; background: #f8e8d8; }
+    /* Refined bento palette: pale lavender enrollment, grey-sage contact. */
+    .tile:nth-child(5) {
+      background: #F2ECF7;
+      color: #163F35;
+      border-color: rgba(56, 62, 79, .07);
+    }
+    .tile:nth-child(6) {
+      background: #D7DDD7;
+      color: #163F35;
+      border-color: rgba(30, 66, 54, .09);
+    }
+    .tile:nth-child(1) { animation-delay: 380ms; }
+    .tile:nth-child(2) { animation-delay: 465ms; }
+    .tile:nth-child(3) { animation-delay: 550ms; }
+    .tile:nth-child(4) { animation-delay: 635ms; }
+    .tile:nth-child(5) { animation-delay: 720ms; }
+    .tile:nth-child(6) { animation-delay: 805ms; }
+    .tile:nth-child(n+3) { min-height: 91px; }
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes tile-arrive {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Informational modal for the design preview; real pages are not yet linked. */
+    dialog {
+      color: var(--forest-dark);
+      background: #fcfaf6;
+      width: min(430px, calc(100vw - 32px));
+      padding: 30px;
+      border: 1px solid rgba(30, 75, 56, .15);
+      border-radius: 20px;
+      box-shadow: 0 25px 90px rgba(12, 50, 40, .23);
+      font-family: var(--font);
+    }
+    dialog::backdrop { background: rgba(10, 35, 30, .38); backdrop-filter: blur(4px); }
+    dialog h2 { margin: 0 0 12px; font-weight: 300; font-size: 27px; }
+    dialog p { line-height: 1.6; font-size: 15px; color: #536760; }
+    .modal-close {
+      border: 0; border-radius: 100px; background: #0c5842;
+      color: white; padding: 11px 24px; cursor: pointer;
+      margin-top: 10px; font: 400 14px var(--font);
+    }
+    @media (min-width: 1000px) and (min-height: 1050px) {
+      .bento-grid { margin-top: 160px; }
+    }
+    @media (max-width: 800px) {
+      .page { width: calc(100% - 40px); padding-top: 64px; }
+      .brand-lockup { width: min(100%, 540px); }
+      .slide-headline { margin-top: 52px; }
+      .changing { margin-top: 18px; height: 52px; }
+      .bento-grid { margin: 110px 0 0; gap: 12px; }
+      .tile { border-radius: 19px; padding: 0 21px; min-height: 100px; }
+      .tile:nth-child(n+3) { min-height: 89px; }
+      .tile .arrow { font-size: 29px; }
+    }
+    @media (max-width: 500px) {
+      .page { padding: 42px 0 50px; }
+      .brand-lockup { width: 100%; }
+      .slide-headline { margin-top: 42px; }
+      .slide-headline h1 { font-size: clamp(29px, 7.4vw, 38px); }
+      .changing { margin-top: 17px; height: 56px; }
+      .changing-word { font-size: 25px; white-space: normal; }
+      .bento-grid { grid-template-columns: 1fr 1fr; margin-top: 90px; gap: 10px; }
+      .tile { grid-column: auto !important; min-height: 100px !important; padding: 19px 17px; align-items: flex-end; font-size: 16px; line-height: 1.25; }
+      .tile .arrow { font-size: 21px; align-self: flex-end; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important;
+        transition-duration: .01ms !important; }
+      .tile:hover { transform: none; }
+    }
+
+    /* Three rotating slides. Keep the existing layout and bento styling intact. */
+    .slide-headline { position: relative; cursor: pointer; }
+    .slide-copy {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 330ms ease, transform 330ms ease;
+    }
+    .slide-copy.is-switching {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    .slide-controls {
+      position: absolute;
+      right: 8px;
+      bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 2;
+    }
+    .slide-count {
+      color: #E0EAE4;
+      font: 400 11px var(--font);
+      letter-spacing: .12em;
+      margin-right: 10px;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .slide-dot {
+      display: grid;
+      place-items: center;
+      width: 24px;
+      height: 27px;
+      padding: 0;
+      border: 0;
+      border-radius: 100px;
+      background: transparent;
+      cursor: pointer;
+      transition: width 250ms ease;
+    }
+    .slide-dot::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 100px;
+      background: #BED6CE;
+      transition: background 250ms ease, width 250ms ease, height 250ms ease;
+    }
+    .slide-dot[aria-current='true'] { width: 37px; }
+    .slide-dot[aria-current='true']::before {
+      width: 27px;
+      height: 5px;
+      background: #F5F1E9;
+    }
+    .slide-dot:focus-visible { outline: 2px solid #bf9457; outline-offset: 2px; }
+    .slide-tap-hint {
+      position: absolute;
+      right: 12px;
+      bottom: -22px;
+      font: 400 10px var(--font);
+      letter-spacing: .03em;
+      color: #DDE9E5;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    @media (max-width: 800px) {
+      .slide-controls { right: 0; bottom: -16px; }
+      .slide-tap-hint { display: none; }
+    }
+    @media (max-width: 500px) {
+      .slide-controls { right: 0; bottom: -25px; }
+      .slide-count { font-size: 10px; }
+      .slide-dot { width: 26px; height: 26px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide-copy, .slide-dot::before, .changing-word { transition: none !important; }
+      .slide-tap-hint, .dust-cloud, .falling-phrase { display: none !important; }
+    }
+    /* The positioning follows the logo's SVG proportions: the tiny line sits
+       directly under the wordmark, with its bottom aligned to the oak leaves. */
+    .brand-caption {
+      position: absolute;
+      left: 26%;
+      bottom: 16.5%;
+      margin: 0;
+      color: #EFD2A5;
+      font: 400 12px/1.25 var(--font);
+      letter-spacing: .03em;
+      white-space: nowrap;
+      text-shadow: 0 1px 8px rgba(2, 30, 35, .25);
+      pointer-events: none;
+      animation: rise-in 850ms ease-out both;
+    }
+    /* A quiet closing statement, not another card or hero section. */
+    .brand-message {
+      margin: 70px 20px 0;
+      padding: 0 0 22px;
+      max-width: 875px;
+    }
+    .brand-message::before {
+      content: '';
+      display: block;
+      width: 86px;
+      height: 1px;
+      margin-bottom: 27px;
+      background: rgba(241, 209, 165, .48);
+    }
+    .brand-message h2 {
+      margin: 0;
+      color: #EFCBA5;
+      font: 200 clamp(25px, 2.55vw, 34px)/1.28 var(--font);
+      letter-spacing: -.035em;
+    }
+    .brand-message h2 span { display: block; }
+    .brand-message p {
+      color: #E4EAE4;
+      font: 300 clamp(14px, 1.2vw, 16px)/1.82 var(--font);
+      max-width: 740px;
+      margin: 30px 0 0;
+       letter-spacing: -.005em;
+    }
+    @media (max-width: 800px) {
+      .brand-message { margin: 61px 0 0; }
+    }
+    @media (max-width: 500px) {
+      .brand-caption {
+        font-size: 10px;
+         letter-spacing: 0;
+        left: 26%;
+        bottom: -7px; /* Mobile: caption below logo, not overlapping the wordmark. */
+      }
+      .brand-message { margin-top: 52px; }
+      .brand-message h2 { font-size: clamp(24px, 6vw, 30px); }
+      .brand-message p { font-size: 14px; }
+    }
+  </style>
+  <!-- 3PromisesThailand oak emblem favicon and Apple/Android icons -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+</head>
+<body>
+  <main class="page">
+    <div class="brand-lockup">
+      <img class="brand" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5ODAgMjQ1IiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0ibG9nby10aXRsZSBsb2dvLWRlc2MiIHZlcnNpb249IjEuMSIgaWQ9InN2ZzEiPgogIDxkZWZzIGlkPSJkZWZzMSIvPgogIDx0aXRsZSBpZD0ibG9nby10aXRsZSI+M1Byb21pc2VzVGhhaWxhbmQgaG9yaXpvbnRhbCBsb2dvPC90aXRsZT4KICA8ZGVzYyBpZD0ibG9nby1kZXNjIj5Ib3Jpem9udGFsIDNQcm9taXNlc1RoYWlsYW5kIHdvcmRtYXJrIHBhaXJlZCB3aXRoIGh1bWFuLWFuZC1vYWsgZW1ibGVtIGFuZCB0aHJlZSBhY29ybnMuPC9kZXNjPgogIDxnIGlkPSJob3Jpem9udGFsLWxvY2t1cCI+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTA4IC00Nikgc2NhbGUoMC4zNDgpIiBpZD0iZzEiPgogICAgICA8ZyBpZD0idGhyZWUtcHJvbWlzZXMtZW1ibGVtIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMzk3IDApIHNjYWxlKC0xIDEpIj4KICAgICAgICA8cGF0aCBpZD0ib2FrLWxlYWYtaHVtYW4tcHJvZmlsZS1hbmQtdGltZSIgZmlsbD0iI0NDODkzOCIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNIDg1NCw2NTQgTCA4NDcsNjYwIEwgODQ3LDY3MyBMIDg1NCw2OTUgTCA4NTksNzAzIEwgODcwLDcxNCBMIDg4NCw3MjEgTCA4OTAsNzI2IEwgODk1LDcyNiBMIDkwMCw3MjAgTCA5MDgsNzE2IEwgOTE5LDcwNSBMIDkyNCw2OTcgTCA5MzAsNjc5IEwgOTMwLDY1NiBMIDkxOCw2NDkgTCA5MDQsNjQ2IEwgODc1LDY0NyBaIE0gODIyLDYwMyBMIDgwNiw1OTcgTCA3OTUsNTk1IEwgNzc4LDU5NSBMIDc2Myw1OTkgTCA3NTksNjE2IEwgNzU5LDYzMSBMIDc2MSw2NDEgTCA3NjcsNjU0IEwgNzgzLDY3MiBMIDgwNiw2NjMgTCA4MTIsNjU5IEwgODI3LDY0MyBMIDgzNCw2MjggTCA4MzcsNjE1IFogTSA5MTAsNTcxIEwgOTA3LDU3NyBMIDkxMyw1ODkgTCA5MjYsNjA0IEwgOTQzLDYxNCBMIDk1OCw2MTggTCA5NzEsNjE4IEwgOTgwLDYyMCBMIDk5NCw1OTkgTCA5OTksNTg0IEwgOTk5LDU2NSBMIDk5Niw1NTQgTCA5OTAsNTQxIEwgOTgzLDUzOSBMIDk2MCw1NDEgTCA5NDAsNTQ4IEwgOTIzLDU1OCBaIE0gODIxLDE2MiBMIDgxMywxNjEgTCA4MDcsMTY1IEwgODA2LDE5MiBMIDgwMSwxOTkgTCA3OTYsMTk5IEwgNzg3LDE5MiBMIDc2OCwxNjkgTCA3NTMsMTU4IEwgNzQwLDE1MiBMIDcyOCwxNDkgTCA3MDksMTUwIEwgNzA0LDE1NCBMIDcwNSwxNjUgTCA3MTEsMTgxIEwgNzExLDE5MSBMIDcwOCwxOTUgTCA3MDQsMTk3IEwgNjk0LDE5NyBMIDY2MSwxODkgTCA2MjIsMTg4IEwgNjA2LDE5MSBMIDU4OCwxOTcgTCA1NjAsMjEzIEwgNTQzLDIyOSBMIDUyOCwyNTAgTCA1MTYsMjc3IEwgNTE0LDI4NiBMIDU0MCwyNjYgTCA1NTcsMjU4IEwgNTc5LDI1MiBMIDYxMywyNTEgTCA2MzQsMjU2IEwgNjIxLDI3NyBMIDYxNiwyOTMgTCA2MTUsMzEwIEwgNjE4LDMyMSBMIDYxOCwzMzAgTCA1ODYsMzc4IEwgNTg3LDM4NCBMIDU5MiwzOTAgTCA2MDUsMzk1IEwgNjA5LDM5OSBMIDYwOSw0MDUgTCA2MDQsNDE0IEwgNjA0LDQxOCBMIDYxMCw0MjYgTCA2MDYsNDM3IEwgNjE0LDQ1MSBMIDYwOCw0NzIgTCA2MDksNDgxIEwgNjE3LDQ5MyBMIDYyOSw0OTkgTCA2MzksNTAxIEwgNjgwLDUwMSBMIDY5Miw1MDYgTCA3MDEsNTE0IEwgNzA3LDUyNSBMIDcwOSw1MzIgTCA3MDksNTQ1IEwgNzE5LDU0MSBMIDcyNiw1MzAgTCA3MjYsNTE1IEwgNzIzLDUwNyBMIDcxNSw0OTcgTCA3MDUsNDkxIEwgNjkzLDQ4OCBMIDY0NCw0OTAgTCA2MzYsNDg4IEwgNjI2LDQ4MSBMIDYyMyw0NzAgTCA2MjksNDU1IEwgNjI5LDQ0NyBMIDYyMSw0MzggTCA2MjEsNDMyIEwgNjI4LDQyNSBMIDYyMyw0MjMgTCA2MTgsNDE3IEwgNjE4LDQxMyBMIDYyNCw0MDMgTCA2MjQsMzk2IEwgNjE4LDM5MSBMIDYwNywzODggTCA2MDEsMzgzIEwgNjAwLDM4MCBMIDYwMiwzNzQgTCA2MzMsMzM1IEwgNjM2LDMyNSBMIDYzNiwzMTAgTCA2NTAsMjgwIEwgNjYyLDI2MyBMIDY3OCwyNTAgTCA2NzgsMjgwIEwgNjg0LDI5NCBMIDY5NSwzMDYgTCA3MTEsMzEzIEwgNzU1LDMxMiBMIDc2NCwzMTUgTCA3NjgsMzE5IEwgNzY5LDMyNSBMIDc2MiwzMzMgTCA3MzgsMzQzIEwgNzM1LDM0NyBMIDczNywzNTYgTCA3NDYsMzY2IEwgNzU2LDM3MiBMIDc2OSwzNzYgTCA4MTcsMzc2IEwgODI3LDM4MCBMIDgzMCwzODMgTCA4MzAsMzkwIEwgODI0LDM5NiBMIDgwNyw0MDMgTCA4MDMsNDA3IEwgODAzLDQxMiBMIDgxMiw0MjIgTCA4MjQsNDI4IEwgODQwLDQzMSBMIDkwMiw0MzEgTCA5NDgsNDQzIEwgOTMwLDQzMSBMIDkxMyw0MTQgTCA4NjEsMzM4IEwgODM4LDMxMCBMIDgwOCwyODIgTCA3ODMsMjY0IEwgNzQ4LDI0NiBMIDcxMywyMzUgTCA2ODEsMjMwIEwgNjQwLDIzMCBMIDYyOCwyMzIgTCA2MjgsMjMwIEwgNjYxLDIyNSBMIDY4NCwyMjUgTCA3MTEsMjI4IEwgNzUwLDIzOSBMIDc3NiwyNTEgTCA3OTYsMjYzIEwgODIxLDI4MiBMIDg0OCwzMDggTCA4NzMsMzM5IEwgOTA3LDM5MCBMIDkyMyw0MTEgTCA5NDIsNDI4IEwgOTU5LDQzNyBMIDkzOCw0MTcgTCA5MzEsNDA1IEwgOTI2LDM4OCBMIDkyNSwzNjIgTCA5MzUsMzEzIEwgOTM2LDI5NSBMIDkzMywyNzYgTCA5MjUsMjU3IEwgOTEzLDI0NCBMIDkwOCwyNDEgTCA5MDIsMjQxIEwgODk1LDI1MSBMIDg4OSwyNjkgTCA4ODMsMjc0IEwgODc2LDI3MyBMIDg3MSwyNjggTCA4NjcsMjU2IEwgODY1LDIyMiBMIDg1OSwxOTkgTCA4NDksMTgyIEwgODM5LDE3MiBMIDgyOSwxNjUgWiIvPgogICAgICAgIDxwYXRoIGlkPSJvYWstYnJhbmNoLWxlYXZlcy1hbmQtYWNvcm4tY2FwcyIgZmlsbD0iIzY3QjQ5RiIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNIDEwMzUsNDI2IEwgMTAyMCw0MzUgTCA5OTQsNDQ3IEwgOTc0LDQ1MyBMIDkzMCw0NjIgTCA4ODIsNDc3IEwgODM1LDQ5OSBMIDc1MCw1NDggTCA3MjIsNTU4IEwgNzAxLDU2MiBMIDY2OSw1NjIgTCA2NDIsNTU0IEwgNjEzLDUzNyBMIDU3MSw1MDEgTCA1NDUsNDg3IEwgNTI1LDQ4MiBMIDUwNiw0ODIgTCA0OTcsNDg0IEwgNDkwLDQ4OCBMIDQ5MCw0OTIgTCA1MDksNTE2IEwgNTEwLDUyNiBMIDUwNiw1MzAgTCA0OTQsNTMxIEwgNDU5LDUyMSBMIDQzMSw1MjEgTCA0MTcsNTI1IEwgNDAzLDUzMiBMIDM5NSw1MzggTCAzODYsNTQ5IEwgMzg1LDU1NCBMIDM4Nyw1NTYgTCA0MDUsNTYxIEwgNDE1LDU2NiBMIDQyNiw1NzYgTCA0MjcsNTgwIEwgNDI1LDU4NSBMIDQxOSw1OTAgTCAzOTUsNTk4IEwgMzg0LDYwNSBMIDM3Miw2MTkgTCAzNjUsNjM1IEwgMzYyLDY1MCBMIDM2Miw2NzAgTCAzNjUsNjg1IEwgMzY5LDY4NiBMIDM4MCw2NzMgTCAzOTIsNjY2IEwgNDE0LDY2MSBMIDQzNiw2NTIgTCA0NDEsNjUzIEwgNDQ1LDY1NyBMIDQ0NSw2NjIgTCA0NDEsNjczIEwgNDQyLDY4MCBMIDQ0OCw2ODIgTCA0NjEsNjgxIEwgNDc3LDY3NCBMIDUwNiw2NDkgTCA1MTQsNjQ1IEwgNTI1LDY0NCBMIDUzMiw2NTAgTCA1MzMsNjU4IEwgNTIxLDY4MSBMIDUxOCw2OTEgTCA1MDgsNzA4IEwgNTA4LDcxMiBMIDUxNSw3MTYgTCA1MzQsNzIwIEwgNTU1LDcxOSBMIDU3Miw3MTQgTCA1OTIsNzAyIEwgNjA0LDY5MCBMIDYyMCw2NjcgTCA2MjgsNjYxIEwgNjMzLDY2MSBMIDYzNyw2NjUgTCA2MzksNjgxIEwgNjQyLDY4NSBMIDY0NSw2ODYgTCA2NTQsNjgyIEwgNjY0LDY3MiBMIDY3MSw2NTkgTCA2NzksNjI5IEwgNjg3LDYxMiBMIDcwMyw1OTMgTCA3MjcsNTc2IEwgNzcyLDU1MyBMIDgyNSw1MjMgTCA4MjYsNTI1IEwgODE3LDUzOCBMIDgwOSw1NTUgTCA4MDYsNTU3IEwgNzkyLDU1NyBMIDc4NCw1NTkgTCA3NzQsNTY0IEwgNzY0LDU3MyBMIDc1OCw1ODQgTCA3NTgsNTkyIEwgNzYwLDU5MyBMIDc2OCw1ODggTCA3NzgsNTg2IEwgODAzLDU4NyBMIDgxNyw1OTEgTCA4MjksNTk3IEwgODM3LDYwMyBMIDg0Myw2MTEgTCA4NDUsNjExIEwgODQ5LDYwMyBMIDg0OSw1OTMgTCA4NDYsNTgzIEwgODQxLDU3NSBMIDgzMyw1NjcgTCA4MTksNTU5IEwgODE5LDU1MSBMIDgyNSw1MzggTCA4MzksNTIzIEwgODQxLDUzNiBMIDg0Niw1NDcgTCA4NjcsNTcxIEwgODc3LDU5MSBMIDg3Niw2MDQgTCA4NTQsNjE1IEwgODQ0LDYyNiBMIDgzOCw2MzkgTCA4MzksNjUzIEwgODQxLDY1NCBMIDg0OSw2NDcgTCA4NTksNjQyIEwgODg3LDYzNiBMIDkxNiw2MzkgTCA5MjgsNjQ0IEwgOTM2LDY1MCBMIDkzOSw2NDUgTCA5MzksNjM4IEwgOTM3LDYzMSBMIDkzMCw2MjAgTCA5MTMsNjA4IEwgODk5LDYwNCBMIDg5Miw2MDQgTCA4ODgsNjAwIEwgODc4LDU3NSBMIDg1Niw1NDkgTCA4NDksNTM3IEwgODQ3LDUzMCBMIDg0OSw1MTUgTCA4NTUsNTA4IEwgODgxLDQ5NyBMIDg5Nyw0OTggTCA5MDcsNTAyIEwgOTE0LDUwOSBMIDkxNCw1MTQgTCA4OTksNTI3IEwgODkwLDU0NiBMIDg5MCw1NjMgTCA4OTYsNTczIEwgOTAwLDU3MyBMIDkwMSw1NjkgTCA5MDcsNTYxIEwgOTE5LDU1MCBMIDk0Miw1MzcgTCA5NjgsNTMwIEwgOTg0LDUzMCBMIDk5Myw1MzMgTCA5OTQsNTI2IEwgOTg5LDUxNyBMIDk4MSw1MTAgTCA5NzEsNTA1IEwgOTU5LDUwMiBMIDk0NSw1MDIgTCA5MjcsNTA3IEwgOTE4LDQ5OSBMIDkwNCw0OTIgTCA5MDMsNDkwIEwgOTEyLDQ4NiBMIDk2NCw0NzUgTCA5ODksNDY3IEwgMTAxMyw0NTMgTCAxMDI3LDQzOSBaIE0gNDQ0LDYyMiBMIDQ3NSw2MDUgTCA0OTYsNTk3IEwgNTI1LDU4OSBMIDU1OSw1ODQgTCA1MTksNTczIEwgNDg2LDU2MSBMIDQ4NCw1NTkgTCA0ODUsNTU4IEwgNTQxLDU3NSBMIDU5MCw1ODIgTCA2MjksNTgyIEwgNjQ5LDU4MCBMIDY4NSw1NzMgTCA3MTcsNTYyIEwgNzE5LDU2NCBMIDcxOSw1NjggTCA3MTAsNTc0IEwgNjgwLDU4NSBMIDY1MSw2MDIgTCA2MTQsNjM3IEwgNTg5LDY2NSBMIDU4Nyw2NjQgTCA2MjQsNjE5IEwgNjQ0LDYwMCBMIDY2MSw1ODggTCA2MzAsNTkyIEwgNTY0LDU5MiBMIDUzMyw1OTUgTCA0OTMsNjA0IEwgNDU5LDYxNiBMIDQ0Niw2MjMgWiIvPgogICAgICA8L2c+CiAgICA8L2c+CiAgICA8cGF0aCBkPSJtIDM5My41MTU2MiwxODAuNzgxMjUgYyAxMC4xOTUzMiwwIDE3LjI2NTYzLC02Ljk1MzEzIDE3LjI2NTYzLC0xNS44NTkzOCAwLC03LjQyMTg3IC00Ljg4MjgxLC0xMy4wMDc4MSAtMTIuNSwtMTQuOTIxODcgdiAtMC4yMzQzOCBjIDYuNjAxNTYsLTEuODc1IDEwLjc4MTI1LC03LjAzMTI1IDEwLjc4MTI1LC0xMy44MjgxMiAwLC04LjU1NDY5IC02LjUyMzQ0LC0xNC45MjE4NyAtMTUuNjI1LC0xNC45MjE4NyAtOS4xNzk2OSwwIC0xNS44MjAzMSw2LjM2NzE4IC0xNS44NTkzOCwxNS4zMTI0OSBoIDEuODc1IGMgMCwtNy45Mjk2OCA1LjgyMDMyLC0xMy41MTU2MiAxMy45ODQzOCwtMTMuNTE1NjIgOC4xNjQwNiwwIDEzLjgyODEyLDUuNjI1IDEzLjgyODEyLDEzLjEyNSAwLDguMDQ2ODcgLTYuNzE4NzUsMTMuMTY0MDYgLTE1LjQ2ODc1LDEzLjEyNSBoIC0wLjg1OTM3IHYgMS44NzUgaCAwLjg1OTM3IGMgOS45NjA5NCwwIDE3LjE4NzUsNS41ODU5NCAxNy4xODc1LDEzLjk4NDM3IDAsNy43MzQzOCAtNi4yMTA5MywxNC4wNjI1IC0xNS40Njg3NSwxNC4wNjI1IC04LjcxMDkzLDAgLTE1LjQyOTY4LC01LjcwMzEyIC0xNS40Njg3NSwtMTMuNTE1NjIgSCAzNzYuMjUgYyAwLDguODY3MTkgNy40NjA5NCwxNS4zMTI1IDE3LjI2NTYyLDE1LjMxMjUgeiBNIDQyNS42MjUsMTgwIGggMS43OTY4NyB2IC0yNC4yMTg3NSBoIDE1LjMxMjUgYyA5LjcyNjU3LDAgMTYuNjQwNjMsLTYuOTkyMTkgMTYuNjQwNjMsLTE2Ljk1MzEzIDAsLTkuOTIxODcgLTYuOTE0MDYsLTE3LjAzMTI0IC0xNi42NDA2MywtMTcuMDMxMjQgSCA0MjUuNjI1IFogbSAxLjc5Njg3LC0yNi4wMTU2MyB2IC0zMC4zOTA2MiBoIDE1LjMxMjUgYyA4LjY3MTg4LDAgMTQuODQzNzUsNi4zNjcxOSAxNC44NDM3NSwxNS4yMzQzNyAwLDguOTA2MjUgLTYuMTcxODcsMTUuMTU2MjUgLTE0Ljg0Mzc1LDE1LjE1NjI1IHogTSA0NzIuODEyNSwxODAgaCAxLjc5Njg3IHYgLTI5LjI5Njg4IGMgMCwtNy42MTcxOCA1LjU4NTk0LC0xMy4xMjUgMTMuMjgxMjUsLTEzLjEyNSBoIDAuOTM3NSB2IC0xLjc5Njg3IGggLTAuOTM3NSBjIC01Ljk3NjU2LDAgLTEwLjk3NjU2LDIuOTY4NzUgLTEzLjA0Njg3LDcuNSBoIC0wLjIzNDM4IHYgLTYuOTUzMTMgaCAtMS43OTY4NyB6IG0gNDAuMTU2MjUsMC45Mzc1IGMgMTAuMjczNDQsMCAxOC4wNDY4NywtOS43NjU2MyAxOC4wNDY4NywtMjIuNjU2MjUgMCwtMTIuODEyNSAtNy44MTI1LC0yMi41NzgxMyAtMTguMDQ2ODcsLTIyLjU3ODEzIC0xMC4zMTI1LDAgLTE4LjEyNSw5LjcyNjU3IC0xOC4xMjUsMjIuNTc4MTMgMCwxMi44OTA2MiA3LjgxMjUsMjIuNjU2MjUgMTguMTI1LDIyLjY1NjI1IHogbSAwLC0xLjc5Njg4IGMgLTkuMjk2ODgsMCAtMTYuMzI4MTMsLTguOTg0MzcgLTE2LjMyODEzLC0yMC44NTkzNyAwLC0xMS43NTc4MSA3LjEwOTM4LC0yMC43ODEyNSAxNi4zMjgxMywtMjAuNzgxMjUgOS4yMTg3NSwwIDE2LjI1LDguOTg0MzcgMTYuMjUsMjAuNzgxMjUgMCwxMS44NzUgLTYuOTkyMTksMjAuODU5MzcgLTE2LjI1LDIwLjg1OTM3IHogTSA1NDMuODI4MTIsMTgwIGggMS43OTY4OCB2IC0yOS4yOTY4OCBjIDAsLTcuNjk1MzEgNS42MjUsLTEzLjIwMzEyIDEyLjk2ODc1LC0xMy4yMDMxMiA2LjgzNTk0LDAgMTEuMjUsNC43NjU2MiAxMS4yNSwxMy4yMDMxMiBWIDE4MCBoIDEuNzk2ODcgdiAtMjkuMjk2ODggYyAwLC04LjQzNzUgNS42NjQwNywtMTMuMjAzMTIgMTIuNzM0MzgsLTEzLjIwMzEyIDcuMDMxMjUsMCAxMS40ODQzNyw0Ljc2NTYyIDExLjQ4NDM3LDEzLjIwMzEyIFYgMTgwIGggMS43OTY4OCB2IC0yOS4yOTY4OCBjIDAsLTkuMjU3ODEgLTUuMTE3MTksLTE1IC0xMy4yODEyNSwtMTUgLTYuMzY3MTksMCAtMTEuNjQwNjMsMy42NzE4OCAtMTMuNTU0NjksMTAgLTEuNTYyNSwtNi4zMjgxMiAtNi4yNSwtMTAgLTEyLjIyNjU2LC0xMCAtNS4yMzQzOCwwIC0xMC42NjQwNiwyLjY1NjI1IC0xMi45Njg3NSw4Ljg2NzE5IHYgLTguMjQyMTkgaCAtMS43OTY4OCB6IG0gNjkuMjk2ODgsMCBoIDEuNzk2ODcgViAxMzYuMzI4MTIgSCA2MTMuMTI1IFogbSAwLjg1OTM3LC01My42MzI4MSBjIDEuMDE1NjMsMCAxLjgzNTk0LC0wLjgyMDMxIDEuODM1OTQsLTEuODM1OTQgMCwtMS4wMTU2MiAtMC44MjAzMSwtMS44MzU5NCAtMS44MzU5NCwtMS44MzU5NCAtMS4wMTU2MiwwIC0xLjgzNTkzLDAuODIwMzIgLTEuODM1OTMsMS44MzU5NCAwLDEuMDE1NjMgMC44MjAzMSwxLjgzNTk0IDEuODM1OTMsMS44MzU5NCB6IG0gMjguMzU5MzgsNTQuNTcwMzEgYyA4LjUxNTYyLDAgMTQuNTMxMjUsLTQuODQzNzUgMTQuNTMxMjUsLTExLjk1MzEzIDAsLTUuMzkwNjIgLTMuNDc2NTYsLTkuMjE4NzUgLTkuODQzNzUsLTEwLjgyMDMxIGwgLTYuODc1LC0xLjcxODc1IGMgLTUuODk4NDQsLTEuNDg0MzcgLTguNzUsLTQuNzI2NTYgLTguNzUsLTkuMjU3ODEgMCwtNS44MjAzMSA0LjcyNjU2LC05LjY4NzUgMTEuNzE4NzUsLTkuNjg3NSA1Ljk3NjU2LDAgOS44MDQ2OSwyLjg1MTU2IDExLjU2MjUsOC41MTU2MiBsIDEuNzk2ODcsLTAuNDY4NzUgYyAtMi4xMDkzNywtNi41MjM0MyAtNi42NDA2MiwtOS44NDM3NSAtMTMuMzU5MzcsLTkuODQzNzUgLTcuOTY4NzUsMCAtMTMuNTE1NjMsNC42MDkzOCAtMTMuNTE1NjMsMTEuNDg0MzggMCw1LjQyOTY5IDMuNTE1NjMsOS4zMzU5NCAxMC4yMzQzOCwxMS4wMTU2MiBsIDYuNzk2ODcsMS43MTg3NSBjIDUuNTg1OTQsMS40MDYyNSA4LjQzNzUsNC41MzEyNSA4LjQzNzUsOS4wNjI1IDAsNi4wNTQ2OSAtNS4xOTUzMSwxMC4xNTYyNSAtMTIuNzM0MzcsMTAuMTU2MjUgLTYuOTUzMTMsMCAtMTEuMjg5MDYsLTMuMzU5MzcgLTEyLjU3ODEzLC05LjU3MDMxIEwgNjI3Ljk2ODc1LDE3MCBjIDEuNTIzNDQsNi45NTMxMiA2LjYwMTU2LDEwLjkzNzUgMTQuMzc1LDEwLjkzNzUgeiBtIDQzLjgyODEyLDAgYyA4LjUxNTYzLDAgMTMuMjAzMTMsLTUuMzUxNTYgMTUuMTU2MjUsLTguNjcxODggTCA2OTkuODQzNzUsMTcxLjI1IGMgLTEuNjAxNTYsMi42MTcxOSAtNS41ODU5NCw3Ljg5MDYyIC0xMy42NzE4OCw3Ljg5MDYyIC0xMC45Mzc1LDAgLTE3LjE0ODQzLC05LjUzMTI1IC0xNy4xODc1LC0yMC45Mzc1IEggNzAzLjEyNSB2IC0xLjAxNTYyIGMgMCwtMTIuMjY1NjMgLTcuNjE3MTksLTIxLjQ4NDM4IC0xNy44MTI1LC0yMS40ODQzOCAtMTAuMzUxNTYsMCAtMTguMTI1LDkuNzY1NjMgLTE4LjEyNSwyMi41NzgxMyAwLDEyLjg1MTU2IDcuNTc4MTIsMjIuNjU2MjUgMTguOTg0MzcsMjIuNjU2MjUgeiBNIDY2OS4wMjM0NCwxNTYuNDA2MjUgQyA2NjkuNTcwMzEsMTQ1LjU0Njg3IDY3Ni42Nzk2OSwxMzcuNSA2ODUuMzEyNSwxMzcuNSBjIDkuMDIzNDQsMCAxNS43NDIxOSw4LjMyMDMxIDE2LjA1NDY5LDE4LjkwNjI1IHogbSA1OC41NTQ2OCwyNC41MzEyNSBjIDguNTE1NjMsMCAxNC41MzEyNSwtNC44NDM3NSAxNC41MzEyNSwtMTEuOTUzMTMgMCwtNS4zOTA2MiAtMy40NzY1NiwtOS4yMTg3NSAtOS44NDM3NSwtMTAuODIwMzEgbCAtNi44NzUsLTEuNzE4NzUgYyAtNS44OTg0MywtMS40ODQzNyAtOC43NSwtNC43MjY1NiAtOC43NSwtOS4yNTc4MSAwLC01LjgyMDMxIDQuNzI2NTcsLTkuNjg3NSAxMS43MTg3NSwtOS42ODc1IDUuOTc2NTcsMCA5LjgwNDY5LDIuODUxNTYgMTEuNTYyNSw4LjUxNTYyIGwgMS43OTY4OCwtMC40Njg3NSBjIC0yLjEwOTM4LC02LjUyMzQzIC02LjY0MDYzLC05Ljg0Mzc1IC0xMy4zNTkzOCwtOS44NDM3NSAtNy45Njg3NSwwIC0xMy41MTU2Miw0LjYwOTM4IC0xMy41MTU2MiwxMS40ODQzOCAwLDUuNDI5NjkgMy41MTU2Miw5LjMzNTk0IDEwLjIzNDM3LDExLjAxNTYyIGwgNi43OTY4OCwxLjcxODc1IGMgNS41ODU5NCwxLjQwNjI1IDguNDM3NSw0LjUzMTI1IDguNDM3NSw5LjA2MjUgMCw2LjA1NDY5IC01LjE5NTMxLDEwLjE1NjI1IC0xMi43MzQzOCwxMC4xNTYyNSAtNi45NTMxMiwwIC0xMS4yODkwNiwtMy4zNTkzNyAtMTIuNTc4MTIsLTkuNTcwMzEgTCA3MTMuMjAzMTIsMTcwIGMgMS41MjM0NCw2Ljk1MzEyIDYuNjAxNTcsMTAuOTM3NSAxNC4zNzUsMTAuOTM3NSB6IG0gMTguODY3MTksLTU3LjM0Mzc1IGggMTguNzUgViAxODAgaCAxLjc5Njg4IHYgLTU2LjQwNjI1IGggMTguNzUgdiAtMS43OTY4NyBoIC0zOS4yOTY4OCB6IG0gNTMuODI4MTMsMjcuMTA5MzcgYyAwLC03LjY1NjI1IDYuMDkzNzUsLTEzLjIwMzEyIDE0LjIxODc1LC0xMy4yMDMxMiA3LjkyOTY4LDAgMTMuNDM3NSw1LjI3MzQ0IDEzLjQzNzUsMTMuMjAzMTIgViAxODAgaCAxLjc5Njg3IHYgLTI5LjI5Njg4IGMgMCwtOC45NDUzMSAtNi4yODkwNiwtMTUgLTE1LjIzNDM3LC0xNSAtNi4xNzE4OCwwIC0xMS45MTQwNywyLjg1MTU3IC0xNC4yMTg3NSw4LjYzMjgyIHYgLTIyLjUzOTA2IGggLTEuNzk2ODggViAxODAgaCAxLjc5Njg4IHogbSA1NC44NDM3NSwzMC4yMzQzOCBjIDYuNTYyNSwwIDExLjkxNDA2LC0zLjkwNjI1IDE0LjYwOTM3LC05Ljc2NTYzIGggMC4yMzQzOCBWIDE4MCBoIDEuNzk2ODcgdiAtMzEuMzI4MTMgYyAwLC03LjQyMTg3IC01LjMxMjUsLTEyLjk2ODc1IC0xNC4xNDA2MiwtMTIuOTY4NzUgLTYuODM1OTQsMCAtMTIuNTM5MDcsMy4zOTg0NCAtMTQuNjA5MzgsOC44MjgxMyBsIDEuNzE4NzUsMC43MDMxMiBjIDEuODM1OTQsLTQuODgyODEgNi43MTg3NSwtNy43MzQzNyAxMi44OTA2MywtNy43MzQzNyA3LjQ2MDkzLDAgMTIuMzQzNzUsNC40MTQwNiAxMi4zNDM3NSwxMS4xNzE4NyBWIDE1MS4yNSBjIDAsMy4zOTg0NCAtNS42NjQwNyw0LjEwMTU2IC0xMS43MTg3NSw0Ljc2NTYyIC0xMy4zOTg0NCwxLjYwMTU3IC0xNi40ODQzOCw2LjI1IC0xNi40ODQzOCwxMi4xODc1IDAsOC4xNjQwNyA2LjE3MTg4LDEyLjczNDM4IDEzLjM1OTM4LDEyLjczNDM4IHogbSAwLC0xLjc5Njg4IGMgLTYuNTIzNDQsMCAtMTEuNTYyNSwtNC4zNzUgLTExLjU2MjUsLTEwLjkzNzUgMCwtNS41ODU5MyAzLjY3MTg3LC05LjEwMTU2IDE1LjM5MDYyLC0xMC40Njg3NSA1LC0wLjU4NTkzIDguODY3MTksLTEuMzY3MTggMTEuMDE1NjMsLTIuOTY4NzUgdiA2LjU2MjUgYyAwLDEwLjU4NTk0IC02LjYwMTU3LDE3LjgxMjUgLTE0Ljg0Mzc1LDE3LjgxMjUgeiBNIDg4Ny4yMjY1NiwxODAgaCAxLjc5Njg4IHYgLTQzLjY3MTg4IGggLTEuNzk2ODggeiBtIDAuODU5MzgsLTUzLjYzMjgxIGMgMS4wMTU2MiwwIDEuODM1OTMsLTAuODIwMzEgMS44MzU5MywtMS44MzU5NCAwLC0xLjAxNTYyIC0wLjgyMDMxLC0xLjgzNTk0IC0xLjgzNTkzLC0xLjgzNTk0IC0xLjAxNTYzLDAgLTEuODM1OTQsMC44MjAzMiAtMS44MzU5NCwxLjgzNTk0IDAsMS4wMTU2MyAwLjgyMDMxLDEuODM1OTQgMS44MzU5NCwxLjgzNTk0IHogbSAxOC4yMDMxMiwtNC41NzAzMSBoIC0xLjc5Njg3IFYgMTgwIGggMS43OTY4NyB6IG0gMjUuMzkwNjMsNTkuMTQwNjIgYyA2LjU2MjUsMCAxMS45MTQwNiwtMy45MDYyNSAxNC42MDkzNywtOS43NjU2MyBoIDAuMjM0MzggViAxODAgaCAxLjc5Njg3IHYgLTMxLjMyODEzIGMgMCwtNy40MjE4NyAtNS4zMTI1LC0xMi45Njg3NSAtMTQuMTQwNjIsLTEyLjk2ODc1IC02LjgzNTk0LDAgLTEyLjUzOTA3LDMuMzk4NDQgLTE0LjYwOTM4LDguODI4MTMgbCAxLjcxODc1LDAuNzAzMTIgYyAxLjgzNTk0LC00Ljg4MjgxIDYuNzE4NzUsLTcuNzM0MzcgMTIuODkwNjMsLTcuNzM0MzcgNy40NjA5MywwIDEyLjM0Mzc1LDQuNDE0MDYgMTIuMzQzNzUsMTEuMTcxODcgViAxNTEuMjUgYyAwLDMuMzk4NDQgLTUuNjY0MDcsNC4xMDE1NiAtMTEuNzE4NzUsNC43NjU2MiAtMTMuMzk4NDQsMS42MDE1NyAtMTYuNDg0MzgsNi4yNSAtMTYuNDg0MzgsMTIuMTg3NSAwLDguMTY0MDcgNi4xNzE4OCwxMi43MzQzOCAxMy4zNTkzOCwxMi43MzQzOCB6IG0gMCwtMS43OTY4OCBjIC02LjUyMzQ0LDAgLTExLjU2MjUsLTQuMzc1IC0xMS41NjI1LC0xMC45Mzc1IDAsLTUuNTg1OTMgMy42NzE4NywtOS4xMDE1NiAxNS4zOTA2MiwtMTAuNDY4NzUgNSwtMC41ODU5MyA4Ljg2NzE5LC0xLjM2NzE4IDExLjAxNTYzLC0yLjk2ODc1IHYgNi41NjI1IGMgMCwxMC41ODU5NCAtNi42MDE1NywxNy44MTI1IC0xNC44NDM3NSwxNy44MTI1IHogbSAzMy45MDYyNSwtMjguNDM3NSBjIDAsLTcuNjU2MjUgNi4wOTM3NSwtMTMuMjAzMTIgMTQuMjE4NzUsLTEzLjIwMzEyIDcuOTI5NjgsMCAxMy40Mzc1LDUuMjczNDQgMTMuNDM3NSwxMy4yMDMxMiBWIDE4MCBoIDEuNzk2ODcgdiAtMjkuMjk2ODggYyAwLC04Ljk0NTMxIC02LjI4OTA2LC0xNSAtMTUuMjM0MzcsLTE1IC02LjE3MTg4LDAgLTExLjkxNDA3LDIuODUxNTcgLTE0LjIxODc1LDguNjMyODIgdiAtOC4wMDc4MiBoIC0xLjc5Njg4IFYgMTgwIGggMS43OTY4OCB6IG0gNTkuMDYyNDYsMzAuMjM0MzggYyA3LjAzMTMsMCAxMi41MzkxLC00LjYwOTM4IDE0Ljg0MzgsLTExLjg3NSBoIDAuMjM0NCBWIDE4MCBoIDEuNzk2OCB2IC01OC4yMDMxMiBoIC0xLjc5NjggViAxNDcuNSBoIC0wLjIzNDQgYyAtMi4yMjY2LC03LjI2NTYzIC03Ljg5MDYsLTExLjc5Njg4IC0xNC44NDM4LC0xMS43OTY4OCAtMTAuMTk1MywwIC0xNi43OTY4LDkuNzY1NjMgLTE2Ljc5NjgsMjIuNTc4MTMgMCwxMi45Mjk2OSA2LjUyMzQsMjIuNjU2MjUgMTYuNzk2OCwyMi42NTYyNSB6IG0gMCwtMS43OTY4OCBjIC05LjIxODcsMCAtMTUsLTkuMDIzNDMgLTE1LC0yMC44NTkzNyAwLC0xMS43OTY4OCA1LjgyMDMsLTIwLjc4MTI1IDE1LC0yMC43ODEyNSA5LjIxODgsMCAxNS4wNzgyLDguOTg0MzcgMTUuMDc4MiwyMC43ODEyNSAwLDExLjgzNTk0IC01Ljc4MTMsMjAuODU5MzcgLTE1LjA3ODIsMjAuODU5MzcgeiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTg3IDApIiBpZD0iYnJhbmQtbmFtZSIgc3R5bGU9ImZvbnQtd2VpZ2h0OjEwMDtmb250LXNpemU6ODBweDtmb250LWZhbWlseTpJbnRlciwgJ0hlbHZldGljYSBOZXVlJywgc2Fucy1zZXJpZjtsZXR0ZXItc3BhY2luZzowO2ZpbGw6I0Y1RjFFOSIgYXJpYS1sYWJlbD0iM1Byb21pc2VzVGhhaWxhbmQiLz4KICA8L2c+Cjwvc3ZnPg=="
+         alt="3PromisesThailand — oak emblem and wordmark" width="680" height="170">
+      <p class="brand-caption">US-owned. Serving expats in Thailand.</p>
+    </div>
+    <section class="slide-headline" id="rotating-slide" aria-label="Slide One" title="Click to advance to the next slide">
+      <div class="slide-copy" id="slide-copy">
+        <h1 id="slide-heading" aria-live="polite">Living abroad means your life is constantly changing.</h1>
+        <div class="changing" aria-label="Information examples: address, phone number, friends, emergency contacts, insurance, banking, important documents and wishes">
+          <span class="changing-word" id="changing-word" aria-hidden="true">your address</span>
+        </div>
+      </div>
+      <div class="slide-controls" role="group" aria-label="Choose a slide">
+        <span class="slide-count" id="slide-count" aria-live="off">01 / 04</span>
+        <button class="slide-dot" type="button" aria-label="Show Slide One" aria-current="true" data-slide="0"></button>
+        <button class="slide-dot" type="button" aria-label="Show Slide Two" aria-current="false" data-slide="1"></button>
+        <button class="slide-dot" type="button" aria-label="Show Slide Three" aria-current="false" data-slide="2"></button>
+        <button class="slide-dot" type="button" aria-label="Show Slide Four" aria-current="false" data-slide="3"></button>
+      </div>
+      <span class="slide-tap-hint" aria-hidden="true">Click a phrase to drop it · elsewhere to advance</span>
+    </section>
+    <nav class="bento-grid" aria-label="Explore 3PromisesThailand">
+      <button class="tile" type="button" data-title="The Three Promises" data-href="three-promises.html"><span>The Three Promises</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="tile" type="button" data-title="Try the demo free" data-href="try-demo-free.html"><span>Try the demo free</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="tile" type="button" data-title="How it works" data-href="how-it-works.html"><span>How it works</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="tile" type="button" data-title="Pricing" data-href="pricing.html"><span>Pricing</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="tile" type="button" data-title="Sign up now" data-href="signup.html"><span>Sign up now</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="tile" type="button" data-title="Contact us" data-href="contact.html"><span>Contact us</span><span class="arrow" aria-hidden="true">→</span></button>
+    </nav>
+    <section class="brand-message" aria-label="Our approach">
+      <h2><span>American roots. International understanding.</span><span>Professional stewardship.</span></h2>
+      <p>We understand where you came from, where you are today, and the challenges of building a life far from home. We provide English-language service, clear communication, and the professionalism and accountability you expect—wherever life takes you.</p>
+    </section>
+  </main>
+  <dialog id="preview-dialog" aria-labelledby="preview-title">
+    <h2 id="preview-title"></h2>
+    <p>This is an animated homepage design preview. Each bento card can be linked to its own page when those pages are ready.</p>
+    <form method="dialog"><button class="modal-close">Close</button></form>
+  </dialog>
+  <script>
+    (() => {
+      'use strict';
+      // Alternate full four-slide rounds: State One has no automatic crashes;
+      // State Two selects exactly THREE different slides for one random crash each.
+      // The closing statement on Slide Four can participate without rotating words.
+      const NORMAL = 'normal';
+      const RANDOM_CRASHES = 'random-crashes';
+      const SLIDE_DURATION_MS = [20000, 20000, 20000, 12000];  // Closing slide is shorter.
+      const ORIGINAL_WORD_HOLD_MS = 2740;   // State One: approved original rotation.
+      const ORIGINAL_FADE_MS = 330;
+      const CRASH_WORD_HOLD_MS = 1000;     // State Two: keep each word for 1 second.
+      // Non-crashing phrases use exactly the same hold and fade as State One.
+      const CRASH_ENTER_DELAY_MS = 100;
+      const WORD_FALL_MS = 3100;          // Approved slow fall (unchanged).
+      const IMPACT_LIFT_PX = 55;          // Approved raised impact (unchanged).
+      const DUST_DURATION_MS = 1050;      // Approved dust cloud (unchanged).
+      const SLIDE_FADE_MS = 330;
+      const RANDOM_CRASHES_PER_CYCLE = 3;
+      const FOURTH_SLIDE_CRASH_DELAY_MS = 2700;
+
+      const slides = [
+        { name: 'Slide One', heading: 'Living abroad means your life is constantly changing.', prefix: 'your ', staticOnly: false },
+        { name: 'Slide Two', heading: 'If something happens to you, who will know', prefix: 'your ', staticOnly: false },
+        { name: 'Slide Three', heading: '3PromisesThailand keeps a record of', prefix: 'your ', staticOnly: false },
+        { name: 'Slide Four', heading: 'We deliver what you choose to who you choose.', prefix: '', staticOnly: true }
+      ];
+      const phrases = [
+        'address', 'phone number', 'friends', 'emergency contacts',
+        'insurance', 'banking', 'important documents', 'wishes'
+      ];
+
+      const heading = document.getElementById('slide-heading');
+      const changing = document.querySelector('.changing');
+      const copy = document.getElementById('slide-copy');
+      const region = document.getElementById('rotating-slide');
+      const dots = [...document.querySelectorAll('.slide-dot')];
+      const counter = document.getElementById('slide-count');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const firstBento = document.querySelector('.bento-grid .tile');
+      let word = document.getElementById('changing-word');
+      let slideIndex = 0;
+      let wordIndex = 0;
+      let phraseSlot = 0;
+      let mode = NORMAL;
+      let crashSlots = new Set();
+      let crashSlides = new Set();     // Three randomly chosen slides, one automatic fall each.
+      let automaticCrashesInRound = 0;
+      let crashesCompleted = 0;
+      let closingCrashTimer = null;
+      let headingIsFalling = false;
+      let slideTimer = null;
+      let wordTimer = null;
+      let transitionTimer = null;
+      let isChanging = false;
+      let generation = 0;
+      let activeFall = null;
+      let fallingElement = null;
+      let dustElement = null;
+      let dustTimer = null;
+      let slideDeadline = 0;
+      let manualCrashes = 0;
+
+      function currentPhrase() {
+        if (slides[slideIndex].staticOnly) return '';
+        return slides[slideIndex].prefix + phrases[wordIndex];
+      }
+
+      function makeWord(text, className = 'changing-word is-current') {
+        const span = document.createElement('span');
+        span.className = className;
+        span.textContent = text;
+        span.setAttribute('role', 'button');
+        span.setAttribute('tabindex', '0');
+        span.setAttribute('aria-label', `Make ${text} fall`);
+        span.title = 'Click to make this phrase fall';
+        return span;
+      }
+
+      // Choose exactly three of four slides, never repeating a slide within a
+      // State Two round. Each chosen slide gets one randomly scheduled impact.
+      function chooseCrashSlides() {
+        const shuffled = slides.map((_, index) => index);
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return new Set(shuffled.slice(0, RANDOM_CRASHES_PER_CYCLE));
+      }
+
+      function chooseCrashSlots() {
+        // The first four positions fit a single 3.1s fall within a 20s slide.
+        if (!crashSlides.has(slideIndex) || slides[slideIndex].staticOnly) return new Set();
+        return new Set([Math.floor(Math.random() * 4)]);
+      }
+
+      // Slide Four retains a complete static headline (no rotating words).
+      // If chosen for one of the three auto crashes, only 'what you choose'
+      // falls; the surrounding sentence stays in place.
+      function insertHeading() {
+        heading.replaceChildren();
+        if (!slides[slideIndex].staticOnly) {
+          heading.textContent = slides[slideIndex].heading;
+          return;
+        }
+        heading.append('We deliver ');
+        const chosen = document.createElement('span');
+        chosen.className = 'closing-crash-phrase';
+        chosen.textContent = 'what you choose';
+        chosen.setAttribute('role', 'button');
+        chosen.setAttribute('tabindex', '0');
+        chosen.setAttribute('aria-label', 'Make what you choose fall');
+        chosen.title = 'Click to make this phrase fall';
+        heading.append(chosen, ' to who you choose.');
+      }
+
+      function prepareSlideWords() {
+        phraseSlot = 0;
+        crashesCompleted = 0;
+        manualCrashes = 0;
+        if (mode === RANDOM_CRASHES) {
+          crashSlots = chooseCrashSlots();
+          wordIndex = Math.floor(Math.random() * phrases.length);
+        } else {
+          crashSlots.clear();
+          // State One keeps the original continuous word order between slides.
+        }
+        region.dataset.effectState = mode;
+        region.dataset.plannedCrashes = String(mode === RANDOM_CRASHES && crashSlides.has(slideIndex) ? 1 : 0);
+        region.dataset.completedCrashes = '0';
+        region.dataset.manualCrashes = '0';
+      }
+
+      function stopWordEffects() {
+        generation++;
+        clearTimeout(wordTimer);
+        clearTimeout(dustTimer);
+        clearTimeout(closingCrashTimer);
+        headingIsFalling = false;
+        const closingSpan = heading.querySelector('.closing-crash-phrase');
+        if (closingSpan) closingSpan.classList.remove('is-falling', 'is-returning');
+        if (activeFall) { activeFall.cancel(); activeFall = null; }
+        if (fallingElement) { fallingElement.remove(); fallingElement = null; }
+        if (dustElement) { dustElement.remove(); dustElement = null; }
+      }
+
+      function resetWord() {
+        stopWordEffects();
+        const isStatic = slides[slideIndex].staticOnly;
+        changing.style.visibility = isStatic ? 'hidden' : 'visible';
+        changing.setAttribute('aria-hidden', isStatic ? 'true' : 'false');
+        word = makeWord(currentPhrase());
+        changing.replaceChildren(word);
+      }
+
+      // Preserve the original raised dust collision and its particle styling.
+      function burstDust(x, y, id, manual = false) {
+        if (id !== generation || reduceMotion.matches) return;
+        if (dustElement) dustElement.remove();
+        const cloud = document.createElement('div');
+        cloud.className = 'dust-cloud';
+        cloud.setAttribute('aria-hidden', 'true');
+        cloud.style.left = `${x.toFixed(1)}px`;
+        cloud.style.top = `${y.toFixed(1)}px`;
+        dustElement = cloud;
+        const count = 25;
+        for (let i = 0; i < count; i++) {
+          const particle = document.createElement('i');
+          particle.className = 'dust-particle';
+          const t = i / count;
+          const angle = Math.PI * (1.08 + 1.85 * t);
+          const radius = 36 + ((i * 31) % 73);
+          const dx = Math.cos(angle) * radius;
+          const dy = -12 + Math.sin(angle) * radius * .66;
+          const size = 19 + ((i * 19) % 49);
+          particle.style.setProperty('--size', `${size}px`);
+          particle.style.setProperty('--dx', `${dx.toFixed(1)}px`);
+          particle.style.setProperty('--dy', `${dy.toFixed(1)}px`);
+          particle.style.setProperty('--end-scale', String(1.15 + ((i * 7) % 9) / 10));
+          particle.style.setProperty('--delay', `${(i % 5) * 25}ms`);
+          particle.style.setProperty('--dust-duration', `${DUST_DURATION_MS}ms`);
+          cloud.appendChild(particle);
+        }
+        document.body.appendChild(cloud);
+        if (manual) {
+          manualCrashes++;
+          region.dataset.manualCrashes = String(manualCrashes);
+        } else {
+          crashesCompleted++;
+          automaticCrashesInRound++;
+          region.dataset.completedCrashes = String(crashesCompleted);
+          document.body.dataset.automaticCrashesInRound = String(automaticCrashesInRound);
+        }
+        dustTimer = setTimeout(() => {
+          if (id !== generation) return;
+          cloud.remove();
+          if (dustElement === cloud) dustElement = null;
+        }, DUST_DURATION_MS + 180);
+      }
+
+      function advancePhrase(id, fromCrash = false) {
+        if (id !== generation || isChanging || document.hidden) return;
+        phraseSlot++;
+        wordIndex = (wordIndex + 1) % phrases.length;
+        const incoming = makeWord(currentPhrase(), 'changing-word enter-from-below');
+        changing.replaceChildren(incoming);
+        word = incoming;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          if (id !== generation) return;
+          incoming.classList.remove('enter-from-below');
+          incoming.classList.add('is-current');
+        }));
+        scheduleWord(fromCrash && mode === RANDOM_CRASHES ? CRASH_ENTER_DELAY_MS : 0);
+      }
+
+      function beginNormalAdvance() {
+        if (isChanging || reduceMotion.matches || document.hidden) return;
+        const id = generation;
+        word.classList.add('out');
+        wordTimer = setTimeout(() => advancePhrase(id), ORIGINAL_FADE_MS);
+      }
+
+      function beginSlowFall(manual = false) {
+        if (isChanging || reduceMotion.matches || document.hidden ||
+            slides[slideIndex].staticOnly || activeFall || fallingElement ||
+            word.classList.contains('out')) return;
+        clearTimeout(wordTimer);
+        if (manual) {
+          // Preserve the automatic 2/3/3 quota: if this phrase was selected for
+          // an automatic crash, move that selection to a later phrase slot.
+          if (mode === RANDOM_CRASHES && crashSlots.has(phraseSlot)) {
+            crashSlots.delete(phraseSlot);
+            const lastPlanned = Math.max(phraseSlot, ...crashSlots);
+            crashSlots.add(lastPlanned + 1);
+          }
+          // Never cut off a user-triggered fall just because a slide expires.
+          slideDeadline = Math.max(slideDeadline, performance.now() + WORD_FALL_MS + 750);
+          // Allow extra time for the planned automatic crashes after user input.
+          if (mode === RANDOM_CRASHES) slideDeadline += WORD_FALL_MS + 750;
+          scheduleSlide(false);
+        }
+        const id = generation;
+        const wordRect = word.getBoundingClientRect();
+        const tileRect = firstBento.getBoundingClientRect();
+        const computed = getComputedStyle(word);
+        // Same 3.1-second fall, 45-degree turn and raised collision as approved.
+        const rotatedHalfHeight = (wordRect.width + wordRect.height) * Math.SQRT1_2 / 2;
+        const destination = Math.max(45,
+          tileRect.top - wordRect.top - wordRect.height / 2 - rotatedHalfHeight + 2 - IMPACT_LIFT_PX);
+        const impactX = Math.max(tileRect.left + 28,
+          Math.min(tileRect.right - 28,
+            wordRect.left + wordRect.width / 2 +
+            (wordRect.width - wordRect.height) * Math.SQRT1_2 / 2));
+        const impactY = tileRect.top + 2 - IMPACT_LIFT_PX;
+        // Geometry above is viewport-relative; convert the rendered effects
+        // to document positions so ordinary scrolling moves them together.
+        const pageScrollX = window.scrollX;
+        const pageScrollY = window.scrollY;
+        const impactPageX = impactX + pageScrollX;
+        const impactPageY = impactY + pageScrollY;
+        const falling = document.createElement('span');
+        falling.className = 'falling-phrase';
+        falling.setAttribute('aria-hidden', 'true');
+        falling.textContent = word.textContent;
+        Object.assign(falling.style, {
+          left: `${wordRect.left + pageScrollX}px`, top: `${wordRect.top + pageScrollY}px`,
+          width: `${wordRect.width}px`, height: `${wordRect.height}px`,
+          fontFamily: computed.fontFamily,
+          fontSize: computed.fontSize,
+          fontWeight: computed.fontWeight,
+          letterSpacing: computed.letterSpacing,
+          lineHeight: computed.lineHeight,
+          whiteSpace: computed.whiteSpace,
+          textAlign: computed.textAlign
+        });
+        document.body.appendChild(falling);
+        fallingElement = falling;
+        word.style.transition = 'none';
+        word.style.opacity = '0';
+        activeFall = falling.animate([
+          { offset: 0, transform: 'translate3d(0,0,0) rotate(0deg)', opacity: 1 },
+          { offset: .30, transform: `translate3d(0,${(destination * .11).toFixed(1)}px,0) rotate(8deg)`, opacity: 1 },
+          { offset: .70, transform: `translate3d(0,${(destination * .51).toFixed(1)}px,0) rotate(28deg)`, opacity: 1 },
+          { offset: 1, transform: `translate3d(0,${destination.toFixed(1)}px,0) rotate(45deg)`, opacity: 1 }
+        ], {
+          duration: WORD_FALL_MS,
+          easing: 'cubic-bezier(.32, .05, .63, .96)',
+          fill: 'forwards'
+        });
+        activeFall.finished.then(() => {
+          if (id !== generation) return;
+          falling.remove();
+          fallingElement = null;
+          activeFall = null;
+          burstDust(impactPageX, impactPageY, id, manual);
+          advancePhrase(id, true);
+        }).catch(() => {});
+      }
+
+      function beginClosingFall(manual = false) {
+        if (!slides[slideIndex].staticOnly || isChanging || reduceMotion.matches || document.hidden) return;
+        if (headingIsFalling || activeFall || fallingElement) {
+          // Defer the one scheduled crash if someone just triggered a manual one.
+          if (!manual && mode === RANDOM_CRASHES && crashSlides.has(slideIndex)) {
+            closingCrashTimer = setTimeout(() => beginClosingFall(false), 650);
+          }
+          return;
+        }
+        const chosen = heading.querySelector('.closing-crash-phrase');
+        if (!chosen) return;
+        clearTimeout(closingCrashTimer);
+        if (manual) {
+          slideDeadline = Math.max(slideDeadline, performance.now() + WORD_FALL_MS + 1200);
+          scheduleSlide(false);
+        }
+        headingIsFalling = true;
+        const id = generation;
+        const rect = chosen.getBoundingClientRect();
+        const tile = firstBento.getBoundingClientRect();
+        const computed = getComputedStyle(chosen);
+        const rotatedHalfHeight = (rect.width + rect.height) * Math.SQRT1_2 / 2;
+        const destination = Math.max(45,
+          tile.top - rect.top - rect.height / 2 - rotatedHalfHeight + 2 - IMPACT_LIFT_PX);
+        const impactX = Math.max(tile.left + 28, Math.min(tile.right - 28,
+          rect.left + rect.width / 2 + (rect.width - rect.height) * Math.SQRT1_2 / 2));
+        const impactY = tile.top + 2 - IMPACT_LIFT_PX;
+        const falling = document.createElement('span');
+        falling.className = 'falling-phrase';
+        falling.setAttribute('aria-hidden', 'true');
+        falling.textContent = chosen.textContent;
+        Object.assign(falling.style, {
+          left: `${rect.left + window.scrollX}px`, top: `${rect.top + window.scrollY}px`,
+          width: `${rect.width}px`, height: `${rect.height}px`,
+          fontFamily: computed.fontFamily, fontSize: computed.fontSize,
+          fontWeight: computed.fontWeight, letterSpacing: computed.letterSpacing,
+          lineHeight: computed.lineHeight, whiteSpace: computed.whiteSpace,
+          textAlign: computed.textAlign
+        });
+        document.body.appendChild(falling);
+        fallingElement = falling;
+        chosen.classList.add('is-falling');
+        activeFall = falling.animate([
+          { offset: 0, transform: 'translate3d(0,0,0) rotate(0deg)', opacity: 1 },
+          { offset: .30, transform: `translate3d(0,${(destination * .11).toFixed(1)}px,0) rotate(8deg)`, opacity: 1 },
+          { offset: .70, transform: `translate3d(0,${(destination * .51).toFixed(1)}px,0) rotate(28deg)`, opacity: 1 },
+          { offset: 1, transform: `translate3d(0,${destination.toFixed(1)}px,0) rotate(45deg)`, opacity: 1 }
+        ], {
+          duration: WORD_FALL_MS, easing: 'cubic-bezier(.32, .05, .63, .96)', fill: 'forwards'
+        });
+        activeFall.finished.then(() => {
+          if (id !== generation) return;
+          falling.remove();
+          fallingElement = null;
+          activeFall = null;
+          headingIsFalling = false;
+          chosen.classList.remove('is-falling');
+          chosen.classList.add('is-returning');
+          setTimeout(() => chosen.classList.remove('is-returning'), 600);
+          burstDust(impactX + window.scrollX, impactY + window.scrollY, id, manual);
+        }).catch(() => {});
+      }
+
+      function scheduleClosingFall() {
+        clearTimeout(closingCrashTimer);
+        if (mode !== RANDOM_CRASHES || !crashSlides.has(slideIndex) ||
+            !slides[slideIndex].staticOnly || reduceMotion.matches || document.hidden) return;
+        closingCrashTimer = setTimeout(() => beginClosingFall(false), FOURTH_SLIDE_CRASH_DELAY_MS);
+      }
+
+      function scheduleWord(enterDelay = 0) {
+        clearTimeout(wordTimer);
+        if (slides[slideIndex].staticOnly) return;
+        if (document.hidden || reduceMotion.matches) return;
+        const crash = mode === RANDOM_CRASHES && crashSlots.has(phraseSlot);
+        const holdMs = crash ? CRASH_WORD_HOLD_MS : ORIGINAL_WORD_HOLD_MS;
+        wordTimer = setTimeout(crash ? () => beginSlowFall(false) : beginNormalAdvance,
+          holdMs + enterDelay);
+      }
+
+      function setSlide(next, forced = false) {
+        if (isChanging || next === slideIndex) {
+          if (forced) scheduleSlide();
+          return;
+        }
+        isChanging = true;
+        clearTimeout(transitionTimer);
+        clearTimeout(slideTimer);
+        stopWordEffects();
+        const update = () => {
+          const oldSlideIndex = slideIndex;
+          slideIndex = (next + slides.length) % slides.length;
+          // Alternate states only after completing all four slides.
+          if (oldSlideIndex === 3 && slideIndex === 0) {
+            mode = mode === NORMAL ? RANDOM_CRASHES : NORMAL;
+            if (mode === RANDOM_CRASHES) {
+              crashSlides = chooseCrashSlides();
+              automaticCrashesInRound = 0;
+              document.body.dataset.automaticCrashesInRound = '0';
+              document.body.dataset.selectedCrashSlides = [...crashSlides].sort().join(',');
+            } else {
+              crashSlides.clear();
+            }
+          }
+          insertHeading();
+          prepareSlideWords();
+          resetWord();
+          region.setAttribute('aria-label', slides[slideIndex].name);
+          dots.forEach((dot, index) => dot.setAttribute('aria-current', String(index === slideIndex)));
+          counter.textContent = String(slideIndex + 1).padStart(2, '0') + ' / 04';
+          copy.classList.remove('is-switching');
+          isChanging = false;
+          scheduleWord();
+          scheduleClosingFall();
+          scheduleSlide();
+        };
+        if (reduceMotion.matches) update();
+        else {
+          copy.classList.add('is-switching');
+          transitionTimer = setTimeout(update, SLIDE_FADE_MS);
+        }
+      }
+
+      function nextSlide() {
+        setSlide((slideIndex + 1) % slides.length, true);
+      }
+      function scheduleSlide(resetDeadline = true) {
+        clearTimeout(slideTimer);
+        if (resetDeadline || !slideDeadline) {
+          slideDeadline = performance.now() + SLIDE_DURATION_MS[slideIndex];
+        }
+        if (!document.hidden && !reduceMotion.matches) {
+          slideTimer = setTimeout(nextSlide, Math.max(50, slideDeadline - performance.now()));
+        }
+      }
+
+      prepareSlideWords();
+      // Initial word enters once, then State One rotates normally.
+      if (reduceMotion.matches) word.classList.add('is-current');
+      else requestAnimationFrame(() => requestAnimationFrame(() => {
+        word.classList.add('is-current');
+        scheduleWord();
+      }));
+
+      // Words are interactive in both states; normal click-to-advance still
+      // works everywhere else in the headline area.
+      changing.addEventListener('click', (event) => {
+        const selected = event.target.closest('.changing-word');
+        if (!selected || selected !== word || slides[slideIndex].staticOnly) return;
+        event.stopPropagation();
+        beginSlowFall(true);
+      });
+      heading.addEventListener('click', (event) => {
+        if (event.target.closest('.closing-crash-phrase')) {
+          event.stopPropagation();
+          beginClosingFall(true);
+        }
+      });
+      heading.addEventListener('keydown', (event) => {
+        if (event.target.closest('.closing-crash-phrase') &&
+            (event.key === 'Enter' || event.key === ' ')) {
+          event.preventDefault();
+          event.stopPropagation();
+          beginClosingFall(true);
+        }
+      });
+      changing.addEventListener('keydown', (event) => {
+        if (event.target.closest('.changing-word') &&
+            (event.key === 'Enter' || event.key === ' ')) {
+          event.preventDefault();
+          event.stopPropagation();
+          beginSlowFall(true);
+        }
+      });
+      document.addEventListener('click', (event) => {
+        if (document.getElementById('preview-dialog').open) return;
+        if (event.target.closest('button, a, dialog, input, select, textarea')) return;
+        nextSlide();
+      });
+      region.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+          event.preventDefault();
+          setSlide(slideIndex + (event.key === 'ArrowRight' ? 1 : -1), true);
+        }
+      });
+      dots.forEach(dot => dot.addEventListener('click', (event) => {
+        event.stopPropagation();
+        setSlide(Number(dot.dataset.slide), true);
+      }));
+      document.addEventListener('keydown', (event) => {
+        if (document.getElementById('preview-dialog').open) return;
+        if (event.target.closest('button, input, textarea, select')) return;
+        if (event.key === 'ArrowRight') setSlide(slideIndex + 1, true);
+        if (event.key === 'ArrowLeft') setSlide(slideIndex - 1, true);
+      });
+      document.addEventListener('visibilitychange', () => {
+        clearTimeout(slideTimer);
+        stopWordEffects();
+        if (!document.hidden) { resetWord(); scheduleSlide(); scheduleWord(); scheduleClosingFall(); }
+      });
+      if (reduceMotion.addEventListener) {
+        reduceMotion.addEventListener('change', () => {
+          clearTimeout(slideTimer);
+          resetWord();
+          if (!reduceMotion.matches) { scheduleSlide(); scheduleWord(); scheduleClosingFall(); }
+        });
+      }
+      scheduleSlide();
+
+      // Navigate to the six completed public design pages.
+      // Their production integrations still require review before launch.
+      document.querySelectorAll('.tile').forEach(tile => {
+        tile.addEventListener('click', () => {
+          if (tile.dataset.href) window.location.href = tile.dataset.href;
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
