@@ -1,4 +1,4 @@
-<!-- demo/personal-information.html -->
+<!-- personal-information.html -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,7 +13,7 @@ header.app { background: #E0E8E1; }
 .brand-home{display:inline-flex;align-items:center;text-decoration:none}
 .page-logo{display:block;width:clamp(228px,30vw,355px);height:auto}
 .dashboard-return{display:inline-flex;gap:10px;align-items:center;justify-content:center;white-space:nowrap;border:1px solid #c8d7cd;border-radius:999px;padding:13px 23px;min-height:46px;color:#264a3e;text-decoration:none;font-size:14px;font-weight:600;background:#fff}
-.thumb-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:14px}
+.thumb-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:0}
 .thumb{background:#F4F3F0;border:1px solid #E1E4DE;border-radius:10px;min-height:84px;padding:8px 7px;cursor:pointer;text-align:left;font-family:inherit;display:flex;flex-direction:column;justify-content:center;gap:4px}
 .thumb.filled{background:#fff}
 .thumb.empty{border-style:dashed;color:#717B75;cursor:default}
@@ -22,11 +22,16 @@ header.app { background: #E0E8E1; }
 .ec-row{display:flex;gap:18px;align-items:flex-start}
 .ec-label{flex:0 0 190px}
 .ec-label h3{margin:0 0 8px}
-.ec-row .thumb-grid{flex:1;margin-top:0}
-@media(max-width:700px){.thumb-grid{grid-template-columns:repeat(3,1fr)}.ec-row{flex-direction:column}.ec-label{flex:none}}
+.ec-row .thumb-grid{flex:1}
+.ec-spacer{flex:1}
+@media(max-width:700px){
+.ec-row{flex-direction:column}
+.ec-label{flex:none}
+#ec-thumbs,#sc-thumbs{grid-template-columns:repeat(3,1fr)}
+}
 dialog{border:1px solid #E1E4DE;border-radius:20px;padding:0;max-width:620px;width:calc(100% - 40px)}
 dialog .dlg-body{padding:24px}
-dialog .fld{display:block;margin:18px 0 8px;font-size:13px;font-weight:600;color:#223E35;padding-top:2px}
+dialog .fld{display:block;margin:22px 0 8px;font-size:13px;font-weight:600;color:#223E35;padding-top:4px}
 dialog .fld:first-of-type{margin-top:8px}
 dialog input[type=text],dialog input[type=email],dialog input[type=date],dialog textarea{display:block;width:100%;padding:12px;border:1px solid #E1E4DE;border-radius:12px;font-size:15px;margin:0;background:#fff}
 dialog textarea{min-height:80px}
@@ -54,7 +59,7 @@ dialog .row2{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
 <p class="panel-desc">Your profile details. Click to view / edit. Demo only.</p>
 <button type="button" class="btn-save" id="yi-new">+ Edit Info</button>
 </div>
-<div class="thumb-grid" id="yi-thumbs"></div>
+<div class="ec-spacer"></div>
 </div>
 </div>
 
@@ -144,19 +149,7 @@ dialog .row2{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
 
 <script>
 let yiData={first:"",middle:"",nick:"",last:"",dob:"",nat:"",pass:"",cur:"",prev:"",home:""};
-const yiThumbs=document.getElementById('yi-thumbs');
 const yiDlg=document.getElementById('yi-dialog');
-function yiRender(){
-yiThumbs.innerHTML="";
-const has=yiData.first||yiData.last;
-for(let i=0;i<6;i++){
-const b=document.createElement('button');
-if(i===0&&has){b.className="thumb filled";b.innerHTML="<strong>"+(yiData.first+" "+yiData.last)+"</strong><span>View</span>";b.onclick=yiOpen;}
-else if(i===0){b.className="thumb empty";b.innerHTML="<strong>&nbsp;</strong><span>Empty</span>";b.onclick=yiOpen;}
-else{b.className="thumb empty";b.innerHTML="<strong>&nbsp;</strong><span>Empty</span>";}
-yiThumbs.appendChild(b);
-}
-}
 function yiOpen(){
 ['first','middle','nick','last','dob','nat','pass','cur','prev','home'].forEach(k=>document.getElementById('yi-'+k).value=yiData[k]||"");
 yiDlg.showModal();
@@ -165,9 +158,8 @@ document.getElementById('yi-new').onclick=yiOpen;
 document.getElementById('yi-close').onclick=()=>yiDlg.close();
 document.getElementById('yi-save').onclick=()=>{
 ['first','middle','nick','last','dob','nat','pass','cur','prev','home'].forEach(k=>yiData[k]=document.getElementById('yi-'+k).value);
-yiRender();yiDlg.close();
+yiDlg.close();
 };
-yiRender();
 
 const ecSamples = [
 {name:"Sarah Williams",rel:"Sister",phone:"+1-415-555-0142",email:"sarah.w@example.com",note:"Notify first. Has house key and family contacts."},
