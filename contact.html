@@ -1,0 +1,241 @@
+<!-- contact.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Contact 3PromisesThailand by email or Facebook. Live chat and telephone support are being prepared.">
+<title>Contact Us | 3PromisesThailand</title>
+<style>
+:root {
+  --ink:#203f35;
+  --quiet:#526c60;
+  --sage:#e3ece4;
+  --forest:#315448;
+  --forest-strong:#24483b;
+  --paper:#fbfaf7;
+  --sand:#f7eddf;
+  --line:rgba(44,82,63,.16);
+  --font:'Helvetica Neue',Helvetica,Inter,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{min-height:100%;background:#e4efed;scroll-behavior:smooth}
+body{
+  margin:0; min-height:100vh; color:var(--ink);
+  font-family:var(--font); font-weight:300;
+  -webkit-font-smoothing:antialiased;
+  background:
+        radial-gradient(ellipse 35% 24% at 93% 22%, rgba(216, 155, 75, 0.30), transparent 77%),
+        radial-gradient(ellipse 39% 40% at 98% 8%, rgba(50, 179, 166, .53), transparent 78%),
+        radial-gradient(ellipse 24% 20% at 77% 19%, rgba(162, 222, 211, .25), transparent 88%),
+        radial-gradient(ellipse 67% 58% at 30% 78%, rgba(247, 243, 242, .82), transparent 89%),
+        #e4efed;}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid #b27c47;outline-offset:4px}
+.wrap{max-width:1190px;width:min(calc(100% - 72px),1190px);margin:auto;padding:36px 0 61px}
+header{display:flex;align-items:center;justify-content:space-between;gap:22px}
+.brand{display:block;width:min(440px,65vw);flex:0 1 440px;margin-left:-8px}
+.brand img{width:100%;height:auto;display:block}
+.quiet-link{
+  display:inline-flex;align-items:center;gap:9px;justify-content:center;
+  flex:0 0 auto;border-radius:999px;padding:12px 18px;
+  border:1px solid rgba(32,63,53,.22);background:rgba(255,255,255,.57);
+  text-decoration:none;font:400 13px/1.2 var(--font);
+  box-shadow:0 3px 16px rgba(32,63,53,.04);backdrop-filter:blur(8px);
+  transition:background .25s,transform .25s,border-color .25s,box-shadow .25s
+}
+.quiet-link:hover{background:#fff;transform:translateY(-2px);border-color:rgba(32,63,53,.35);box-shadow:0 8px 26px rgba(32,63,53,.07)}
+.quiet-link svg{width:15px;height:15px;stroke:currentColor;transition:transform .25s}
+.quiet-link:hover svg{transform:translateX(-3px)}
+.intro{padding:66px 0 32px}
+.eyebrow{font:450 11px/1.5 var(--font);letter-spacing:.20em;color:#416454;text-transform:uppercase;margin:0 0 18px}
+h1{font-weight:250;letter-spacing:-.04em;font-size:clamp(26px,2.75vw,38px);line-height:1.16;margin:0}
+.subtitle{font-size:clamp(17px,1.5vw,20px);font-weight:300;color:#4d685b;margin:17px 0 0;line-height:1.52;max-width:810px}
+.rule{height:1px;background:var(--line);margin:29px 0 31px}
+ .grid{display:grid;grid-template-columns:minmax(0,1.13fr) minmax(0,.87fr);gap:17px}
+.contact-card{border-radius:28px;min-width:0;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.email-card{background:rgba(252,251,248,.96);border:1px solid rgba(45,82,63,.075);box-shadow:0 14px 45px rgba(31,66,48,.035);padding:35px 39px 36px;min-height:310px}
+.facebook-card{background:var(--forest-strong);color:#f7f5ec;border:1px solid rgba(28,69,45,.16);padding:35px 36px 36px;min-height:310px}
+.contact-label{font:500 10.5px/1.5 var(--font);letter-spacing:.17em;text-transform:uppercase;margin:0 0 22px;color:#708474}
+.facebook-card .contact-label{color:#d2e1d4}
+.contact-card h2{font:250 clamp(24px,2.4vw,32px)/1.19 var(--font);letter-spacing:-.036em;margin:0 0 13px}
+.contact-card p{font-size:15px;line-height:1.66;color:#526c60;margin:0;max-width:460px}
+.facebook-card p{color:#dce6df}
+.email-address{display:block;overflow-wrap:anywhere;font:300 clamp(20px,2.14vw,28px)/1.28 var(--font);letter-spacing:-.023em;margin-top:25px;text-decoration:none;max-width:100%}
+.email-address:hover{text-decoration:underline;text-underline-offset:4px}
+.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:30px}
+.primary{display:inline-flex;align-items:center;justify-content:center;gap:19px;border-radius:999px;min-height:51px;padding:13px 24px;text-decoration:none;font:400 14px/1.2 var(--font);cursor:pointer;border:1px solid #2e5145;background:#2e5145;color:#fff;box-shadow:0 8px 20px rgba(36,72,59,.12);transition:background .25s,transform .25s,box-shadow .25s}
+.primary:hover{background:#234638;transform:translateY(-3px);box-shadow:0 13px 27px rgba(36,72,59,.18)}
+.primary svg,.on-dark svg{width:18px;height:18px;stroke:currentColor;transition:transform .2s}
+.primary:hover svg,.on-dark:hover svg{transform:translateX(4px)}
+.on-dark{display:inline-flex;align-items:center;justify-content:center;gap:16px;padding:12px 21px;min-height:51px;color:#fafaf4;border:1px solid rgba(247,245,236,.58);border-radius:999px;text-decoration:none;font:400 14px/1.2 var(--font);transition:background .25s,transform .25s}
+.on-dark:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+.small-card{border-radius:24px;padding:29px 33px;min-height:192px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:18px;border:1px solid rgba(45,82,63,.055)}
+.chat-card{background:rgba(225,235,225,.92)}
+.phone-card{background:rgba(247,237,223,.86)}
+.small-card .contact-label{margin:0 0 9px}
+.small-card h2{font:250 clamp(19px,1.8vw,24px)/1.3 var(--font);letter-spacing:-.025em;margin:0 0 9px;color:#254638}
+.small-card p:not(.contact-label){font:300 14px/1.55 var(--font);color:#5b7165;margin:0}
+.phone-card p:not(.contact-label){color:#786c5c}
+.inline-action{display:inline-flex;align-items:center;gap:9px;border-radius:999px;text-decoration:none;padding:9px 14px;border:1px solid rgba(42,82,59,.22);background:rgba(255,255,255,.47);color:#254638;font:400 12px/1.3 var(--font)}
+.chat-action{cursor:pointer;font-family:var(--font);transition:background .25s,transform .25s}
+.chat-action:hover{background:#fff;transform:translateY(-2px)}
+.chat-action svg{width:15px;height:15px;stroke:currentColor}
+.small-status{font:400 12px/1.4 var(--font);color:#746854}
+.small-status::before{content:'·';font-size:22px;vertical-align:middle;margin-right:5px;color:#b98444}
+.bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:28px 2px 0;flex-wrap:wrap}
+.bottom p{font:300 14px/1.5 var(--font);color:#637b6e;margin:0}
+.bottom nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bottom a{font:400 13px/1.5 var(--font);color:#36594b;text-decoration:none;border-bottom:1px solid rgba(49,84,72,.25);padding-bottom:2px}
+.bottom a:hover{border-bottom-color:#36594b}
+dialog{
+  color:var(--ink);background:var(--paper);width:min(470px,calc(100vw - 34px));
+  border:1px solid rgba(32,63,53,.14);border-radius:24px;padding:34px;
+  box-shadow:0 24px 80px rgba(10,35,26,.23);font-family:var(--font)
+}
+dialog::backdrop{background:rgba(10,35,30,.35);backdrop-filter:blur(4px)}
+dialog .contact-label{margin-bottom:14px}
+dialog h2{font:250 29px/1.18 var(--font);letter-spacing:-.03em;margin:0 0 13px}
+dialog p{font-size:15px;line-height:1.65;color:#526c60}
+.dialog-actions{margin:24px 0 0;display:flex;gap:12px;flex-wrap:wrap}
+.dialog-close{border:1px solid rgba(32,63,53,.22);border-radius:999px;padding:12px 20px;cursor:pointer;
+  background:white;color:var(--ink);font:400 13px/1.2 var(--font)}
+@media (max-width:830px){
+  .wrap{width:min(calc(100% - 44px),720px);padding-top:24px}
+  .intro{padding-top:47px}
+  .grid{grid-template-columns:1fr}
+  .email-card,.facebook-card{min-height:265px;padding:31px}
+}
+@media (max-width:540px){
+  .wrap{width:calc(100% - 34px);padding:18px 0 42px}
+  header{gap:12px}
+  .brand{width:min(65vw,300px)}
+  .quiet-link{font-size:12px;padding:10px 13px;gap:6px}
+  .quiet-link svg{width:14px;height:14px}
+  .intro{padding:43px 0 24px}
+  .subtitle{font-size:16px}
+  .rule{margin:21px 0 23px}
+  .grid{gap:12px}
+  .email-card,.facebook-card{min-height:262px;padding:26px 23px;border-radius:22px}
+  .contact-card h2{font-size:25px}
+  .email-address{font-size:21px}
+  .small-card{padding:25px 23px;border-radius:22px;min-height:175px}
+  .bottom{align-items:start;gap:12px}
+  .bottom nav{gap:13px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+</style>
+  <!-- 3PromisesThailand oak emblem favicon and Apple/Android icons -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <a class="brand" href="index.html" aria-label="3PromisesThailand home">
+      <img src="logo-v26-dark.svg" alt="3PromisesThailand oak emblem and wordmark" width="440" height="110">
+    </a>
+    <a class="quiet-link" href="index.html" aria-label="Back to Home">
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 6.5-6 5.5 6 5.5"/><path d="M9 12h11"/></svg>
+      Back to Home
+    </a>
+  </header>
+
+  <section class="intro" aria-labelledby="page-title">
+    <p class="eyebrow">3PromisesThailand · Support</p>
+    <h1 id="page-title">Contact us.</h1>
+    <p class="subtitle">Questions about our service or getting started? We're here to help you find the right answers.</p>
+  </section>
+  <div class="rule" aria-hidden="true"></div>
+
+  <section class="grid" aria-label="Contact methods">
+    <article class="contact-card email-card">
+      <div>
+        <p class="contact-label">01 &nbsp;·&nbsp; Email</p>
+        <h2>Write to us.</h2>
+        <p>For questions about our service, your membership, or getting started with 3PromisesThailand.</p>
+        <a class="email-address" href="mailto:info@3promisesthailand.com">info@3promisesthailand.com</a>
+      </div>
+      <div class="actions">
+        <a class="primary" href="mailto:info@3promisesthailand.com?subject=Question%20about%203PromisesThailand">
+          Send an email
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <article class="contact-card facebook-card">
+      <div>
+        <p class="contact-label">02 &nbsp;·&nbsp; Facebook</p>
+        <h2>Find us on<br>Facebook.</h2>
+        <p>Visit our official 3PromisesThailand Facebook page for updates, information, and a way to reach out.</p>
+      </div>
+      <div class="actions">
+        <a class="on-dark" href="https://www.facebook.com/profile.php?id=61596771873801" target="_blank" rel="noopener noreferrer" aria-label="Visit 3PromisesThailand on Facebook (opens in a new tab)">
+          Visit our Facebook page
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <article class="small-card chat-card">
+      <div>
+        <p class="contact-label">03 &nbsp;·&nbsp; Live chat</p>
+        <h2>Chat with us.</h2>
+        <p>We're preparing live chat. Until it opens, please contact us by email.</p>
+      </div>
+      <button class="inline-action chat-action" type="button" id="chat-link" aria-haspopup="dialog" aria-controls="chat-dialog">Live chat details <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></button>
+    </article>
+
+    <article class="small-card phone-card">
+      <div>
+        <p class="contact-label">04 &nbsp;·&nbsp; Telephone</p>
+        <h2>Prefer to speak with someone?</h2>
+        <p>Our telephone contact number will be added when available.</p>
+      </div>
+      <span class="small-status">Phone number: TBD</span>
+    </article>
+  </section>
+
+  <footer class="bottom">
+    <p>Three promises. One mission: Peace of mind.</p>
+    <nav aria-label="More options">
+      <a href="try-demo-free.html">Try the demo free</a>
+      <a href="pricing.html">View pricing</a>
+    </nav>
+  </footer>
+</main>
+
+<dialog id="chat-dialog" aria-labelledby="chat-dialog-title">
+  <p class="contact-label">Live chat</p>
+  <h2 id="chat-dialog-title">We're preparing live chat.</h2>
+  <p>Live chat isn't connected yet. Once it's available, you'll be able to start a conversation here.</p>
+  <p>For now, contact us at <a href="mailto:info@3promisesthailand.com">info@3promisesthailand.com</a>.</p>
+  <div class="dialog-actions">
+    <a class="primary" href="mailto:info@3promisesthailand.com">Email us <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></a>
+    <button class="dialog-close" type="button" id="close-chat-dialog">Close</button>
+  </div>
+</dialog>
+
+<script>
+(() => {
+  const chat = document.getElementById('chat-dialog');
+  document.getElementById('chat-link').addEventListener('click', () => {
+    if (typeof chat.showModal === 'function') chat.showModal();
+    else chat.setAttribute('open', '');
+  });
+  document.getElementById('close-chat-dialog').addEventListener('click', () => chat.close());
+  chat.addEventListener('click', (event) => {
+    if (event.target === chat) chat.close();
+  });
+})();
+</script>
+</body>
+</html>
