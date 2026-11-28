@@ -1,0 +1,133 @@
+<!-- demo/personal-messages.html -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personal Messages - Customer Dashboard</title>
+<link rel="stylesheet" href="app.css">
+<style>
+body { background: #E0E8E1; }
+header.app { background: #E0E8E1; }
+.page-topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:112px;padding:20px 0 22px;margin-bottom:35px;border-bottom:1px solid #e6e6e1}
+.brand-home{display:inline-flex;align-items:center;text-decoration:none}
+.page-logo{display:block;width:clamp(228px,30vw,355px);height:auto}
+.dashboard-return{display:inline-flex;gap:10px;align-items:center;justify-content:center;white-space:nowrap;border:1px solid #c8d7cd;border-radius:999px;padding:13px 23px;min-height:46px;color:#264a3e;text-decoration:none;font-size:14px;font-weight:600;background:#fff}
+.thumb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+@media(max-width:700px){.thumb-grid{grid-template-columns:repeat(2,1fr)}}
+.thumb{background:#F4F3F0;border:1px solid #E1E4DE;border-radius:14px;min-height:120px;padding:16px;cursor:pointer;text-align:left;font-family:inherit}
+.thumb.filled{background:#fff}
+.thumb.empty{border-style:dashed;color:#717B75;cursor:default}
+.thumb strong{display:block;color:#223E35;font-size:14px}
+.thumb span{font-size:12px;color:#717B75}
+dialog{border:1px solid #E1E4DE;border-radius:20px;padding:0;max-width:560px;width:calc(100% - 40px)}
+dialog .dlg-body{padding:24px}
+dialog label{display:block;margin:12px 0 4px;font-size:13px;color:#223E35}
+dialog input,dialog textarea,dialog select{width:100%;padding:12px;border:1px solid #E1E4DE;border-radius:12px;font-size:15px}
+dialog textarea{min-height:110px}
+</style>
+</head>
+<body>
+<main class="page"><div class="wrap">
+<header class="app">
+<div class="page-topbar">
+<a class="brand-home" href="/"><img class="page-logo" alt="3PromisesUS" src="../logo-v26-dark.svg"></a>
+<a class="dashboard-return" href="dashboard.html">← Back to Dashboard</a>
+</div>
+</header>
+<p class="crumb">Customer Dashboard / Personal Messages</p>
+<h1>Personal Messages</h1>
+
+<div class="panel">
+<h3>Enter your personal message</h3>
+<p class="panel-desc">Leave personal messages for loved ones, friends, or anyone you choose.</p>
+<button type="button" class="btn-save" id="open-new">+ New Message</button>
+</div>
+
+<div class="panel">
+<h3>Saved Messages</h3>
+<p class="panel-desc">Click a thumbnail to view, edit, save, or delete. Demo only — nothing is sent.</p>
+<div class="thumb-grid" id="thumbs"></div>
+</div>
+
+<div class="panel">
+<h3>&nbsp;</h3>
+<p class="panel-desc"></p>
+</div>
+
+</div></main>
+
+<dialog id="msg-dialog">
+<div class="dlg-body">
+<h3 id="dlg-title">Personal message</h3>
+<label>Recipient's name<input id="f-name"></label>
+<label>Recipient email<input id="f-email" type="email"></label>
+<label>Recipient LINE / contact<input id="f-line"></label>
+<label>Delivery method<select id="f-method"><option value="email">Email</option><option value="line">LINE, where supported</option></select></label>
+<label>Days after verification<input id="f-days" type="number" min="0"></label>
+<label>Future occasion (optional)<input id="f-occasion"></label>
+<label>Your message<textarea id="f-message"></textarea></label>
+<div class="action-row"><div class="action-main">
+<button type="button" class="btn-save" id="dlg-save">Save</button>
+<button type="button" class="btn-add" id="dlg-delete">Delete</button>
+<button type="button" class="btn-add" id="dlg-close">Close</button>
+</div></div>
+</div>
+</dialog>
+
+<script>
+const samples = [
+{name:"Sarah Williams",email:"sarah.w@example.com",line:"",method:"email",days:"3",occasion:"",message:"My dearest Sarah, thank you for a lifetime of love and patience. If you are reading this, please know I loved you completely. Be kind to yourself, lean on family, and know I am at peace."},
+{name:"Maya",email:"",line:"",method:"email",days:"7",occasion:"",message:"Dear Maya, I broke your heart and I have regretted hurting you ever since. You deserved more patience and kindness than I gave. I am truly sorry, and I wish you only love and happiness."},
+{name:"Daniel Kim",email:"",line:"",method:"email",days:"7",occasion:"",message:"Dear Daniel, my old classmate and friend. I always wished we had kept in touch after school. You made those years better. I hope life was good to you."},
+{name:"James Carter",email:"",line:"",method:"email",days:"14",occasion:"",message:"Dear James, I was really bad to you and I am sorry. There is no excuse. I hope you can forgive me, and I wish you and your family well."}
+];
+let extra = [];
+let editing = -1;
+const thumbs = document.getElementById('thumbs');
+const dlg = document.getElementById('msg-dialog');
+function all(){ return [...samples, ...extra]; }
+function render(){
+thumbs.innerHTML="";
+const list = all();
+for(let i=0;i<8;i++){
+const b=document.createElement('button');
+if(i<list.length){b.className="thumb filled";b.innerHTML="<strong>"+list[i].name+"</strong><span>View message</span>";b.onclick=()=>openEdit(i);}
+else{b.className="thumb empty";b.innerHTML="<strong>&nbsp;</strong><span>Empty</span>";}
+thumbs.appendChild(b);
+}
+}
+function openEdit(i){
+editing=i;const m=all()[i];
+document.getElementById('dlg-title').textContent="Message to "+m.name;
+document.getElementById('f-name').value=m.name||"";
+document.getElementById('f-email').value=m.email||"";
+document.getElementById('f-line').value=m.line||"";
+document.getElementById('f-method').value=m.method||"email";
+document.getElementById('f-days').value=m.days||"";
+document.getElementById('f-occasion').value=m.occasion||"";
+document.getElementById('f-message').value=m.message||"";
+dlg.showModal();
+}
+document.getElementById('open-new').onclick=()=>{
+editing=-1;
+document.getElementById('dlg-title').textContent="New personal message";
+['f-name','f-email','f-line','f-days','f-occasion','f-message'].forEach(id=>document.getElementById(id).value="");
+document.getElementById('f-method').value="email";
+dlg.showModal();
+};
+document.getElementById('dlg-close').onclick=()=>dlg.close();
+document.getElementById('dlg-save').onclick=()=>{
+const m={name:document.getElementById('f-name').value,email:document.getElementById('f-email').value,line:document.getElementById('f-line').value,method:document.getElementById('f-method').value,days:document.getElementById('f-days').value,occasion:document.getElementById('f-occasion').value,message:document.getElementById('f-message').value};
+if(editing<0){extra.push(m);}else if(editing<4){samples[editing]=m;}else{extra[editing-4]=m;}
+render();dlg.close();
+};
+document.getElementById('dlg-delete').onclick=()=>{
+if(editing>=4){extra.splice(editing-4,1);}
+else if(editing>=0){samples.splice(editing,1);}
+render();dlg.close();
+};
+render();
+</script>
+</body>
+</html>
